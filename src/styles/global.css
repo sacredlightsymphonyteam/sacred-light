@@ -1,0 +1,107 @@
+/* ============================================================
+   Sacred Light Symphony — Global design tokens & resets
+   "If in doubt, simplify."
+   ============================================================ */
+
+:root {
+  /* --- Surfaces --- */
+  --ivory: #f0ebe1; /* soft ivory, never pure white */
+  --ivory-deep: #e9e3d6; /* faint recessed panels */
+  --banner-bg: #0e0f0d; /* deep charcoal / near black */
+  --stage-bg: #06080d; /* video stage backdrop */
+
+  /* --- Ink (text) --- */
+  --ink: #2b2620; /* charcoal body text */
+  --ink-soft: rgba(60, 48, 30, 0.78);
+  --ink-quiet: rgba(60, 48, 30, 0.55); /* gratitude line, the page's voice */
+
+  /* --- Gold (used sparingly, never dominant) --- */
+  --gold: #9c7b3a; /* brand accent */
+  --gold-line: rgba(150, 122, 55, 0.45); /* thin dividers / borders */
+  --gold-line-faint: rgba(150, 122, 55, 0.2);
+  --gold-bright: #c8a84b; /* legible gold on the dark banner only */
+  --gold-on-dark: rgba(200, 168, 75, 0.55);
+
+  /* --- Light overlays on video stage --- */
+  --quote-light: #ede0c4;
+
+  /* --- Type --- */
+  --font-display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* --- Rhythm --- */
+  --frame-pad-x: 56px; /* generous horizontal framing */
+  --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--ivory);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-weight: 300;
+  line-height: 1.7;
+  min-height: 100dvh;
+}
+
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Quiet, refined focus ring — visible for keyboard users, never garish */
+:focus-visible {
+  outline: 1px solid var(--gold-line);
+  outline-offset: 4px;
+}
+
+/* Screen-reader-only utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Honour visitors who prefer stillness */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

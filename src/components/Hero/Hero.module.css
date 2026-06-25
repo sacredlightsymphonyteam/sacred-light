@@ -1,0 +1,150 @@
+/* The content sits within a refined frame rather than stretching edge-to-edge. */
+.stage {
+  padding: 40px var(--frame-pad-x) 0;
+  background: var(--ivory);
+}
+
+.frame {
+  position: relative;
+  width: 100%;
+  padding-bottom: 52%; /* cinematic, generously framed */
+  overflow: hidden;
+  background: var(--stage-bg);
+
+  /* Graceful stand-in if the poster artwork is absent: a quiet swirl of
+     gold light on near-black, so the stage reads as intentional, not broken. */
+  background-image:
+    radial-gradient(
+      ellipse 70% 90% at 70% 35%,
+      rgba(200, 168, 75, 0.22) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 90% 120% at 30% 80%,
+      rgba(156, 123, 58, 0.18) 0%,
+      transparent 55%
+    );
+}
+
+.poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 35%;
+  opacity: 0.95;
+}
+
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Light shaping — darker at the edges to seat the quote. */
+.veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(6, 8, 13, 0.5) 0%,
+    rgba(6, 8, 13, 0.05) 50%,
+    rgba(6, 8, 13, 0.35) 100%
+  );
+}
+
+.bottomFade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 40%;
+  background: linear-gradient(to top, rgba(6, 8, 13, 0.65) 0%, transparent 100%);
+}
+
+/* The quote, low and to the left — part of the image, not a caption. */
+.quoteBlock {
+  position: absolute;
+  bottom: 32px;
+  left: 40px;
+  max-width: 300px;
+}
+
+.quoteText {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1.85;
+  letter-spacing: 0.02em;
+  color: var(--quote-light);
+  margin-bottom: 10px;
+}
+
+.quoteAttr {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold-on-dark);
+}
+
+/* Play affordance — quiet, discoverable, never demanding. */
+.play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  border: 0.5px solid rgba(237, 224, 196, 0.6);
+  background: rgba(6, 8, 13, 0.25);
+  backdrop-filter: blur(2px);
+  display: grid;
+  place-items: center;
+  transition:
+    border-color 0.4s var(--ease),
+    background 0.4s var(--ease),
+    transform 0.4s var(--ease);
+}
+
+.play:hover {
+  border-color: rgba(237, 224, 196, 0.95);
+  background: rgba(6, 8, 13, 0.35);
+  transform: translate(-50%, -50%) scale(1.04);
+}
+
+.playGlyph {
+  width: 0;
+  height: 0;
+  margin-left: 4px;
+  border-top: 9px solid transparent;
+  border-bottom: 9px solid transparent;
+  border-left: 15px solid var(--quote-light);
+}
+
+@media (max-width: 760px) {
+  .stage {
+    padding: 28px 24px 0;
+  }
+  .frame {
+    padding-bottom: 64%;
+  }
+  .quoteBlock {
+    bottom: 22px;
+    left: 22px;
+    max-width: 220px;
+  }
+  .quoteText {
+    font-size: 13px;
+  }
+  .play {
+    width: 62px;
+    height: 62px;
+  }
+}

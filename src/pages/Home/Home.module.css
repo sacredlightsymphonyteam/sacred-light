@@ -1,0 +1,82 @@
+.page {
+  background: var(--ivory);
+  min-height: 100dvh;
+}
+
+.belowStage {
+  padding: 52px var(--frame-pad-x) 72px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* --- Three stacked words --- */
+.wordStack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 36px;
+}
+
+.word {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: rgba(150, 122, 55, 0.6);
+  line-height: 2.6;
+}
+
+.rule {
+  width: 1px;
+  height: 14px;
+  background: var(--gold-line-faint);
+}
+
+/* --- Gratitude line: the page's voice --- */
+.gratitude {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  line-height: 1.7;
+  text-align: center;
+  color: var(--ink-quiet);
+  margin-bottom: 44px;
+  max-width: 30ch;
+}
+
+/* --- CTA: spare, borderline invisible. Discovered, not announced. --- */
+.cta {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 0.5px solid var(--gold-line);
+  border-radius: 999px; /* rounded corners, as requested */
+  padding: 13px 40px;
+  background: transparent;
+  transition:
+    border-color 0.35s var(--ease),
+    background 0.35s var(--ease),
+    letter-spacing 0.35s var(--ease);
+}
+
+.cta:hover {
+  border-color: rgba(150, 122, 55, 0.9);
+  background: rgba(150, 122, 55, 0.05);
+  letter-spacing: 0.38em;
+}
+
+@media (max-width: 760px) {
+  .belowStage {
+    padding: 44px 24px 60px;
+  }
+  .gratitude {
+    font-size: 16px;
+  }
+}
