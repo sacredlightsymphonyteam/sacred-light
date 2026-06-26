@@ -57,7 +57,7 @@ export default function Hero() {
                 <br />
                 and conversations to be symphonies.”
               </blockquote>
-              <figcaption className={styles.quoteAttr}>— Tina Turner</figcaption>
+              <figcaption className={styles.quoteAttr}>~ Tina Turner</figcaption>
             </figure>
 
             {canPlay && (

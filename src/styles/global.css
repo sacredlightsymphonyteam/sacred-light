@@ -17,8 +17,10 @@
 
   /* --- Gold (used sparingly, never dominant) --- */
   --gold: #9c7b3a; /* brand accent */
+  --gold-warm: #b79a63; /* warmer gold matching the Claude reference, for larger display elements */
   --gold-line: rgba(150, 122, 55, 0.45); /* thin dividers / borders */
   --gold-line-faint: rgba(150, 122, 55, 0.2);
+  --gold-rule: rgba(156, 123, 58, 0.55); /* more pronounced gold for the word-stack rules */
   --gold-bright: #c8a84b; /* legible gold on the dark banner only */
   --gold-on-dark: rgba(200, 168, 75, 0.55);
 
@@ -26,7 +28,7 @@
   --quote-light: #ede0c4;
 
   /* --- Type --- */
-  --font-display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
   /* --- Rhythm --- */

@@ -10,7 +10,7 @@ export default function TopBanner() {
       <p className={styles.title}>
         Sacred&nbsp;&nbsp;·&nbsp;&nbsp;Light&nbsp;&nbsp;·&nbsp;&nbsp;Symphony
       </p>
-      <p className={styles.sub}>where light, sound and stillness meet</p>
+      <p className={styles.sub}>Where light, sound and stillness meet.</p>
     </header>
   )
 }

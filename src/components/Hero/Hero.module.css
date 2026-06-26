@@ -1,6 +1,8 @@
-/* The content sits within a refined frame rather than stretching edge-to-edge. */
+/* The content sits within a refined frame rather than stretching edge-to-edge.
+   Top frame now equals the left/right frames for a balanced composition
+   (review point 3). */
 .stage {
-  padding: 40px var(--frame-pad-x) 0;
+  padding: var(--frame-pad-x) var(--frame-pad-x) 0;
   background: var(--ivory);
 }
 
@@ -65,29 +67,36 @@
   background: linear-gradient(to top, rgba(6, 8, 13, 0.65) 0%, transparent 100%);
 }
 
-/* The quote, low and to the left — part of the image, not a caption. */
+/* The quote, low and to the left — part of the image, not a caption.
+   Enlarged toward the scale of the reference's "Multiple small gatherings"
+   (review point 4). */
 .quoteBlock {
   position: absolute;
-  bottom: 32px;
-  left: 40px;
-  max-width: 300px;
+  bottom: 40px;
+  left: 48px;
+  max-width: 460px;
 }
 
 .quoteText {
   font-family: var(--font-display);
-  font-size: 15px;
+  font-size: clamp(16px, 1.9vw, 23px);
   font-style: italic;
-  font-weight: 300;
-  line-height: 1.85;
-  letter-spacing: 0.02em;
+  font-weight: 400;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
   color: var(--quote-light);
-  margin-bottom: 10px;
+  margin-bottom: 14px;
 }
 
+/* Signature right-aligned to the quote block so the final "R" in TURNER
+   falls beneath the period after "symphonies." (review point 4).
+   Exact alignment is refined against the final baked-in artwork. */
 .quoteAttr {
-  font-family: var(--font-display);
-  font-size: 10px;
-  font-weight: 300;
+  display: block;
+  text-align: right;
+  font-family: var(--font-body);
+  font-size: clamp(11px, 1vw, 13px);
+  font-weight: 400;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--gold-on-dark);
@@ -130,18 +139,20 @@
 
 @media (max-width: 760px) {
   .stage {
-    padding: 28px 24px 0;
+    padding: 24px 24px 0; /* keep top frame = side frames on mobile too */
   }
   .frame {
     padding-bottom: 64%;
   }
   .quoteBlock {
-    bottom: 22px;
-    left: 22px;
-    max-width: 220px;
+    bottom: 24px;
+    left: 24px;
+    max-width: 64%;
   }
   .quoteText {
-    font-size: 13px;
+    font-size: clamp(13px, 3.4vw, 17px);
+    line-height: 1.6;
+    margin-bottom: 10px;
   }
   .play {
     width: 62px;
