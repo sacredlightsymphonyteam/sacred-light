@@ -4,14 +4,14 @@ import styles from './Hero.module.css'
 /**
  * The Threshold.
  *
- * Not a header — a doorway. The visitor should feel they are entering a space.
- * A framed video stage shows the poster artwork; the Vimeo film loads only on
- * a deliberate play. The sacred should not be rushed into.
+ * Not a header — a doorway. A framed video stage shows the poster artwork clean
+ * (no overlay); the Vimeo film loads only on a deliberate play.
  *
- * Placeholders until final assets arrive (next week):
+ * Placeholders until final assets arrive:
  *   - VIMEO_ID:  set once Jonell uploads the final film to Vimeo.
- *   - /hero-poster.jpg: drop the final artwork (Tina Turner quote integrated)
- *     into /public. Until then, a soft gold-on-dark stage stands in gracefully.
+ *   - /hero-poster.jpg: the Bob Gruen artwork (no quote). The final artwork with
+ *     the quote integrated will replace it. Until then a soft gold-on-dark stage
+ *     stands in gracefully if the image is missing.
  */
 const VIMEO_ID = '' // e.g. '123456789' — supplied next week
 const POSTER_SRC = '/hero-poster.jpg'
@@ -43,22 +43,6 @@ export default function Hero() {
                 onError={() => setPosterFailed(true)}
               />
             )}
-
-            {/* Soft light shaping over the stage */}
-            <div className={styles.veil} aria-hidden="true" />
-            <div className={styles.bottomFade} aria-hidden="true" />
-
-            {/* The quote becomes part of the artwork — left, low. */}
-            <figure className={styles.quoteBlock}>
-              <blockquote className={styles.quoteText}>
-                “This is what I want in heaven…
-                <br />
-                words to become notes
-                <br />
-                and conversations to be symphonies.”
-              </blockquote>
-              <figcaption className={styles.quoteAttr}>~ Tina Turner</figcaption>
-            </figure>
 
             {canPlay && (
               <button
