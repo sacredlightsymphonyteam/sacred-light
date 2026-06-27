@@ -1,6 +1,5 @@
 .page {
   background: var(--ivory);
-  min-height: 100dvh;
 }
 
 /* ============================================================
@@ -92,12 +91,44 @@
 }
 
 /* ============================================================
-   FOLD 2 — ivory again. Placeholder until Book of Gratitude lands.
+   FOLD 2 — ivory again. The Book of Gratitude opens (intro for now).
    ============================================================ */
 .fold2 {
   background: var(--ivory);
-  min-height: 60vh;
-  padding: 96px var(--frame-pad-x);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 96px var(--frame-pad-x) 120px;
+}
+
+.foldEyebrow {
+  font-family: var(--font-body);
+  font-size: clamp(11px, 1.2vw, 13px);
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--gold-warm);
+  margin-bottom: 32px;
+}
+
+.foldTitle {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(30px, 4vw, 44px);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0 0 26px;
+}
+
+.foldSub {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(18px, 2vw, 24px);
+  line-height: 1.5;
+  color: var(--ink-quiet);
 }
 
 /* ============================================================
@@ -118,6 +149,6 @@
     margin-bottom: 28px;
   }
   .fold2 {
-    padding: 72px 24px;
+    padding: 64px 24px 80px;
   }
 }

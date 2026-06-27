@@ -35,8 +35,17 @@ export default function Home() {
         </section>
       </div>
 
-      {/* FOLD 2 — ivory again. Content to come (Book of Gratitude). */}
-      <section className={styles.fold2} aria-label="Fold 2" />
+      {/* FOLD 2 — ivory again. The gentle handoff: the Book of Gratitude opens.
+          A quiet intro for now; the contribution funnel builds out from here. */}
+      <section className={styles.fold2} aria-label="The Book of Gratitude">
+        <p className={styles.foldEyebrow}>The Book of Gratitude</p>
+        <h2 className={styles.foldTitle}>A space for gratitude.</h2>
+        <p className={styles.foldSub}>
+          Not spoken,
+          <br />
+          but held.
+        </p>
+      </section>
     </main>
   )
 }
