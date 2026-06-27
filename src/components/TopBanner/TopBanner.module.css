@@ -3,7 +3,7 @@
 .banner {
   background: var(--banner-bg);
   text-align: center;
-  padding: 36px 24px 36px;
+  padding: 30px 24px 30px;
   border-bottom: 0.5px solid var(--gold-line-faint);
 }
 
@@ -16,7 +16,7 @@
   letter-spacing: 0.26em;
   text-transform: uppercase;
   color: var(--gold-bright);
-  margin-bottom: 16px;
+  margin-bottom: 8px; /* subtitle sits closer to the title */
 }
 
 /* Subtitle — a single serif line, capital "Where", scaled to ~"Choirs". */
@@ -32,9 +32,10 @@
 
 @media (max-width: 520px) {
   .banner {
-    padding: 28px 20px 28px;
+    padding: 22px 20px 22px;
   }
   .title {
     letter-spacing: 0.2em;
+    margin-bottom: 6px;
   }
 }

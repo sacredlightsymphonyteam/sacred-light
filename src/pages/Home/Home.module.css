@@ -3,25 +3,30 @@
   min-height: 100dvh;
 }
 
-/* Even vertical rhythm: the image->Presence gap, the Light->gratitude gap, and
-   the gratitude->CTA gap are all equal (52px). Everything shifts up; the
-   Presence/Power/Light block itself is left untouched. */
-.belowStage {
-  padding: 52px var(--frame-pad-x) 96px;
+/* ============================================================
+   FOLD 1 — banner (black) -> image + words (ivory) -> closing (black)
+   On mobile this fills exactly one screen so the CTA is always visible.
+   ============================================================ */
+.fold1 {
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Ivory: the three stacked words. Gold tracked caps; block untouched. --- */
+.words {
+  background: var(--ivory);
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* top = image->Presence gap; bottom = half of the Light->gratitude gap */
+  padding: 52px var(--frame-pad-x) 26px;
 }
 
-/* --- Three stacked words --- gold tracked caps at the scale of the
-   reference's "THE BOOK OF GRATITUDE", more spaced, with longer and more
-   pronounced gold rules between them (review point 6). */
 .wordStack {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 18px;
-  margin-bottom: 52px;
 }
 
 .word {
@@ -39,8 +44,17 @@
   background: var(--gold-rule);
 }
 
-/* --- Gratitude line: the page's voice --- gold italic Playfair at the scale
-   of the reference's "A living archive of appreciation." (review point 5). */
+/* --- Black: gratitude line + CTA. Closes Fold 1. --- */
+.closing {
+  background: var(--banner-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* top = other half of the Light->gratitude gap */
+  padding: 26px var(--frame-pad-x) 64px;
+}
+
+/* Gratitude line — the page's voice, gold italic on black. */
 .gratitude {
   font-family: var(--font-display);
   font-size: clamp(21px, 2.5vw, 30px);
@@ -50,36 +64,60 @@
   line-height: 1.5;
   text-align: center;
   color: var(--gold-warm);
-  margin-bottom: 52px;
+  margin-bottom: 52px; /* gratitude -> CTA gap */
   max-width: 24ch;
 }
 
-/* --- CTA: reference pill — gold tracked caps, thin gold border (review point 5). */
+/* CTA on black — ivory text, thin gold border pill
+   (matching the "Enter the Global Moment" reference). */
 .cta {
   font-family: var(--font-body);
   font-size: clamp(12px, 1.2vw, 14px);
   font-weight: 500;
-  letter-spacing: 0.14em; /* matches the reference .btn */
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--gold);
-  border: 1px solid var(--gold-rule);
+  color: var(--ivory);
+  border: 1px solid rgba(183, 154, 99, 0.55);
   border-radius: 999px;
-  padding: 18px 34px; /* matches the reference .btn */
+  padding: 18px 34px;
   background: transparent;
   transition:
-    color 0.35s var(--ease),
     border-color 0.35s var(--ease),
     background 0.35s var(--ease);
 }
 
 .cta:hover {
-  color: var(--gold-warm);
-  border-color: var(--gold-warm);
-  background: rgba(183, 154, 99, 0.06);
+  border-color: var(--gold-bright);
+  background: rgba(200, 168, 75, 0.08);
 }
 
+/* ============================================================
+   FOLD 2 — ivory again. Placeholder until Book of Gratitude lands.
+   ============================================================ */
+.fold2 {
+  background: var(--ivory);
+  min-height: 60vh;
+  padding: 96px var(--frame-pad-x);
+}
+
+/* ============================================================
+   Mobile — Fold 1 fits one screen; the image flexes to fill the
+   leftover space so the CTA is always visible without scrolling.
+   ============================================================ */
 @media (max-width: 760px) {
-  .belowStage {
-    padding: 64px 24px 76px;
+  .fold1 {
+    min-height: 100svh;
+  }
+  .words {
+    padding: 28px 24px 16px;
+  }
+  .closing {
+    padding: 16px 24px 32px;
+  }
+  .gratitude {
+    margin-bottom: 28px;
+  }
+  .fold2 {
+    padding: 72px 24px;
   }
 }
