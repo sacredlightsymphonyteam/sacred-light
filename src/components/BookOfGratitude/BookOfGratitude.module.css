@@ -1,0 +1,202 @@
+/* ============================================================
+   Section 2 — The Book of Gratitude
+   "Charcoal Reflection" — like entering a quiet gallery.
+   All sizes/colours/spacing per the 28 June brief.
+   ============================================================ */
+
+.section {
+  position: relative;
+  background: var(--charcoal);
+  padding-inline: clamp(24px, 6vw, 56px);
+  padding-bottom: 120px;
+}
+
+/* Gentle dissolve into the gallery — the dark closing of Section 1 (#0e0f0d)
+   settles into charcoal (#1a1a18) with no hard line. */
+.topFade {
+  height: 160px;
+  margin-inline: clamp(-56px, -6vw, -24px); /* bleed past the section padding */
+  background: linear-gradient(to bottom, var(--banner-bg), var(--charcoal));
+}
+
+/* Reading column — never full-screen text. */
+.measure {
+  max-width: var(--text-max);
+  margin-inline: auto;
+  text-align: center;
+}
+
+/* --- Hero lines --- */
+.heroLine1 {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: var(--w-light);
+  font-size: clamp(26px, 3.4vw, 34px);
+  line-height: 1.3;
+  color: var(--quote-light);
+}
+
+.heroLine2 {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: var(--w-light);
+  font-size: clamp(22px, 2.8vw, 28px);
+  line-height: 1.3;
+  color: var(--warm-grey);
+  margin-top: 32px;
+}
+
+/* --- Four poetic lines --- */
+.poeticList {
+  margin-top: 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.poeticLine {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: var(--w-light);
+  font-size: clamp(18px, 2vw, 20px);
+  line-height: 1.3;
+  color: var(--warm-grey);
+}
+
+/* --- Introduction paragraphs --- */
+.intro {
+  margin-top: 56px;
+  text-align: left;
+}
+
+.para {
+  font-family: var(--font-display);
+  font-weight: var(--w-light);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--quote-light);
+}
+.para + .para {
+  margin-top: 28px;
+}
+
+/* The italic closing line of a paragraph group, in warm grey. */
+.paraClosing {
+  font-style: italic;
+  color: var(--warm-grey);
+}
+
+/* --- Image: Bob Gruen — Tina in Blue. Full width, no frame, floats in dark. --- */
+.imageWrap {
+  max-width: 960px;
+  margin: var(--space-image) auto;
+}
+
+/* Placeholder until the artwork arrives — a quiet swirl of light on deep media,
+   so the space reads as intentional, not broken. Swap for an <img> when ready. */
+.imagePlaceholder {
+  position: relative;
+  width: 100%;
+  padding-bottom: 60%; /* landscape */
+  background-color: var(--stage-bg);
+  background-image:
+    radial-gradient(
+      ellipse 70% 90% at 60% 40%,
+      rgba(74, 102, 150, 0.28) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 90% 120% at 35% 80%,
+      rgba(156, 123, 58, 0.12) 0%,
+      transparent 55%
+    );
+}
+
+.imageLabel {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-body);
+  font-size: var(--fs-quote-attr);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--warm-grey);
+  opacity: 0.7;
+}
+
+/* --- Tina Turner quote — the emotional heart --- */
+.quote {
+  margin: 48px auto 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: var(--w-light);
+  font-size: clamp(20px, 2.6vw, 24px);
+  line-height: 1.5;
+  color: var(--gold-bright);
+}
+
+.quoteAttr {
+  display: block;
+  margin-top: 20px;
+  margin-bottom: 56px;
+  font-family: var(--font-body);
+  font-style: normal;
+  font-weight: var(--w-light);
+  font-size: var(--fs-quote-attr);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--warm-grey);
+}
+
+/* --- Invitation paragraphs (centred) --- */
+.invitation {
+  text-align: center;
+}
+
+/* --- Poetic bridge --- */
+.bridge {
+  margin: 56px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.bridgeLine {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: var(--w-light);
+  font-size: clamp(18px, 2vw, 20px);
+  line-height: 1.3;
+  color: var(--warm-grey);
+}
+
+.bridgeFinal {
+  color: var(--gold-bright);
+}
+
+/* --- CTA block --- */
+.ctaBlock {
+  text-align: center;
+}
+
+.ctaLine {
+  font-family: var(--font-display);
+  font-weight: var(--w-light);
+  font-size: clamp(20px, 2.6vw, 24px);
+  line-height: 1.4;
+  color: var(--quote-light);
+}
+
+.ctaButtonWrap {
+  margin-top: 48px;
+}
+
+.ctaSubtitle {
+  margin-top: 24px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: var(--w-light);
+  font-size: var(--fs-gratitude);
+  color: var(--warm-grey);
+}

@@ -1,11 +1,48 @@
 import { Link } from 'react-router-dom'
 import TopBanner from '../../components/TopBanner/TopBanner'
 import Hero from '../../components/Hero/Hero'
+import BookOfGratitude from '../../components/BookOfGratitude/BookOfGratitude'
+import Seo from '../../components/Seo/Seo'
+import { SITE_NAME, SITE_URL } from '../../lib/site'
 import styles from './Home.module.css'
+
+// The homepage "fact sheets" Google reads. Marie's list also includes Event,
+// Video, Book, FAQ, etc. — those get added on the pages where they belong.
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: SITE_NAME,
+  url: SITE_URL,
+  description:
+    'A participatory cultural initiative of gratitude, presence and light, inspired by the legacy of Tina Turner.',
+  location: {
+    '@type': 'Place',
+    name: 'Küsnacht, Switzerland',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Küsnacht',
+      addressCountry: 'CH',
+    },
+  },
+}
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Tina Turner',
+  description:
+    'Singer and artist whose spiritual journey and legacy of gratitude and presence inspire Sacred Light Symphony.',
+}
 
 export default function Home() {
   return (
     <main className={styles.page}>
+      <Seo
+        title="Sacred Light Symphony — Gratitude, Presence & Light"
+        description="A participatory experience of gratitude, presence and light — inspired by the legacy of Tina Turner, rooted in Küsnacht, Switzerland."
+        path="/"
+        jsonLd={[organizationSchema, personSchema]}
+      />
       {/* FOLD 1 — fills one screen on mobile; ends on a black section. */}
       <div className={styles.fold1}>
         <TopBanner />
@@ -29,23 +66,15 @@ export default function Home() {
           <p className={styles.gratitude}>
             With gratitude for a life that still moves through us.
           </p>
-          <Link to="/gratitude" className={styles.cta}>
+          <Link to="/gratitude" className="sls-cta">
             Express Your Gratitude
           </Link>
         </section>
       </div>
 
-      {/* FOLD 2 — ivory again. The gentle handoff: the Book of Gratitude opens.
-          A quiet intro for now; the contribution funnel builds out from here. */}
-      <section className={styles.fold2} aria-label="The Book of Gratitude">
-        <p className={styles.foldEyebrow}>The Book of Gratitude</p>
-        <h2 className={styles.foldTitle}>A space for gratitude.</h2>
-        <p className={styles.foldSub}>
-          Not spoken,
-          <br />
-          but held.
-        </p>
-      </section>
+      {/* SECTION 2 — The Book of Gratitude (charcoal). Flows from the dark
+          closing of Fold 1 into the quiet gallery. */}
+      <BookOfGratitude />
     </main>
   )
 }

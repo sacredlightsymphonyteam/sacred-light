@@ -31,10 +31,10 @@
 .word {
   font-family: var(--font-body);
   font-size: clamp(16px, 1.9vw, 22px);
-  font-weight: 400;
+  font-weight: var(--w-regular);
   letter-spacing: 0.34em;
   text-transform: uppercase;
-  color: var(--gold-warm);
+  color: var(--gold-60); /* brief: stacked words Presence/Power/Light at gold 60% */
 }
 
 .rule {
@@ -53,83 +53,23 @@
   padding: 26px var(--frame-pad-x) 64px;
 }
 
-/* Gratitude line — the page's voice, gold italic on black. */
+/* Gratitude line — the page's voice, gold italic on black. A large poetic
+   line (brief: Cormorant italic 300, 28–34px); sized up for Cormorant's
+   lighter face vs the previous Playfair. */
 .gratitude {
   font-family: var(--font-display);
-  font-size: clamp(21px, 2.5vw, 30px);
+  font-size: clamp(24px, 3vw, 34px);
   font-style: italic;
-  font-weight: 400;
+  font-weight: var(--w-light);
   letter-spacing: 0.01em;
-  line-height: 1.5;
+  line-height: 1.45;
   text-align: center;
   color: var(--gold-warm);
-  margin-bottom: 52px; /* gratitude -> CTA gap */
+  margin-bottom: var(--space-cta); /* gratitude -> CTA gap */
   max-width: 24ch;
 }
 
-/* CTA on black — ivory text, thin gold border pill
-   (matching the "Enter the Global Moment" reference). */
-.cta {
-  font-family: var(--font-body);
-  font-size: clamp(12px, 1.2vw, 14px);
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ivory);
-  border: 1px solid rgba(183, 154, 99, 0.55);
-  border-radius: 999px;
-  padding: 18px 34px;
-  background: transparent;
-  transition:
-    border-color 0.35s var(--ease),
-    background 0.35s var(--ease);
-}
-
-.cta:hover {
-  border-color: var(--gold-bright);
-  background: rgba(200, 168, 75, 0.08);
-}
-
-/* ============================================================
-   FOLD 2 — ivory again. The Book of Gratitude opens (intro for now).
-   ============================================================ */
-.fold2 {
-  background: var(--ivory);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 96px var(--frame-pad-x) 120px;
-}
-
-.foldEyebrow {
-  font-family: var(--font-body);
-  font-size: clamp(11px, 1.2vw, 13px);
-  font-weight: 500;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--gold-warm);
-  margin-bottom: 32px;
-}
-
-.foldTitle {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(30px, 4vw, 44px);
-  line-height: 1.15;
-  letter-spacing: -0.01em;
-  color: var(--ink);
-  margin: 0 0 26px;
-}
-
-.foldSub {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 400;
-  font-size: clamp(18px, 2vw, 24px);
-  line-height: 1.5;
-  color: var(--ink-quiet);
-}
+/* CTA uses the shared .sls-cta button (brief spec: 6px, not a pill) — see global.css. */
 
 /* ============================================================
    Mobile — Fold 1 fits one screen; the image flexes to fill the
@@ -147,8 +87,5 @@
   }
   .gratitude {
     margin-bottom: 28px;
-  }
-  .fold2 {
-    padding: 64px 24px 80px;
   }
 }
