@@ -3,36 +3,91 @@
    "If in doubt, simplify."
    ============================================================ */
 
+/* ------------------------------------------------------------
+   Design tokens — the single source of truth, encoding the
+   28 June Complete Design & Copy Brief. Two fonts only; gold
+   used sparingly; spacing is "the silence between the notes."
+   ------------------------------------------------------------ */
 :root {
-  /* --- Surfaces --- */
-  --ivory: #f0ebe1; /* soft ivory, never pure white */
+  /* === SURFACES — the four emotional movements ===
+     Ivory Arrival → Charcoal Reflection → Midnight Wonder → Ivory Return */
+  --ivory: #f0ebe1; /* page background — warm, never pure white */
+  --charcoal: #1a1a18; /* Section 2 dark bg — warm, never #000 */
+  --midnight: #0e1018; /* Section 3 — subtle deepening toward blue-black */
+  --banner-bg: #0e0f0d; /* top banner near-black — a thin frame, not a bar */
+  --stage-bg: #06080d; /* deep media background — video / image frames */
   --ivory-deep: #e9e3d6; /* faint recessed panels */
-  --banner-bg: #0e0f0d; /* deep charcoal / near black */
-  --stage-bg: #06080d; /* video stage backdrop */
 
-  /* --- Ink (text) --- */
-  --ink: #2b2620; /* charcoal body text */
+  /* === INK (text) === */
+  --ink: #2c2c2c; /* charcoal body text */
+  --ink-body: #5c5648; /* mid grey — body paragraphs on ivory */
+  --warm-grey: #8a8070; /* supporting text, attributions, dimmed lines */
+  --quote-light: #ede0c4; /* warm ivory — text on dark backgrounds */
   --ink-soft: rgba(60, 48, 30, 0.78);
-  --ink-quiet: rgba(60, 48, 30, 0.55); /* gratitude line, the page's voice */
+  --ink-quiet: rgba(60, 48, 30, 0.55); /* gratitude line, the page's quiet voice */
 
-  /* --- Gold (used sparingly, never dominant) --- */
-  --gold: #9c7b3a; /* brand accent */
-  --gold-warm: #b79a63; /* warmer gold matching the Claude reference, for larger display elements */
-  --gold-line: rgba(150, 122, 55, 0.45); /* thin dividers / borders */
+  /* === GOLD (used sparingly, never dominant) === */
+  --gold: #9c7b3a; /* primary gold — buttons, primary accents */
+  --gold-bright: #c8a84b; /* light gold — labels, quote text, dividers */
+  --gold-warm: #b79a63; /* warmer gold for larger display elements */
+  --gold-40: rgba(180, 148, 72, 0.4); /* banner subtitle */
+  --gold-55: rgba(200, 168, 75, 0.55); /* quote attribution */
+  --gold-60: rgba(150, 122, 55, 0.6); /* stacked words Presence/Power/Light */
+  --gold-line: rgba(150, 122, 55, 0.45); /* CTA border / thin dividers */
+  --gold-line-strong: rgba(150, 122, 55, 0.9); /* CTA border on hover */
   --gold-line-faint: rgba(150, 122, 55, 0.2);
-  --gold-rule: rgba(156, 123, 58, 0.55); /* more pronounced gold for the word-stack rules */
-  --gold-bright: #c8a84b; /* legible gold on the dark banner only */
-  --gold-on-dark: rgba(200, 168, 75, 0.55);
+  --gold-rule: rgba(156, 123, 58, 0.55); /* word-stack rules */
+  --gold-on-dark: rgba(200, 168, 75, 0.55); /* alias of --gold-55 */
 
-  /* --- Light overlays on video stage --- */
-  --quote-light: #ede0c4;
+  /* === TYPE — two fonts only, weights 300/400, never bold === */
+  --font-display: 'Cormorant Garamond', Georgia, serif; /* serif — body, hero, quotes, titles */
+  --font-body: 'Inter', Arial, sans-serif; /* sans — labels, buttons, metadata (uppercase + tracked) */
+  --w-light: 300;
+  --w-regular: 400;
 
-  /* --- Type --- */
-  --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
-  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  /* Font sizes — calibrated per the brief (px). Ranges resolved to a default. */
+  --fs-banner-name: 11px; /* Inter · uppercase · ls 0.38em · gold-bright */
+  --fs-banner-sub: 10px; /* Inter · lowercase · ls 0.2em · gold-40 */
+  --fs-label: 11px; /* section labels · Inter · uppercase · ls 0.22em */
+  --fs-section-title: 38px; /* Cormorant 300 (36–42) */
+  --fs-hero-line: 30px; /* Cormorant italic 300 (28–34) */
+  --fs-poetic: 20px; /* Cormorant italic 300 · warm grey */
+  --fs-body: 19px; /* Cormorant 300 · lh 1.8 (18–20) */
+  --fs-quote: 23px; /* Tina quote · Cormorant italic 300 (22–24) */
+  --fs-quote-attr: 11px; /* Inter · uppercase · ls 0.22em */
+  --fs-cta: 11px; /* Inter · uppercase · ls 0.32em (10–11) */
+  --fs-gratitude: 17px; /* Cormorant italic · dimmed */
+  --fs-footer: 16px; /* Cormorant italic · warm grey */
 
-  /* --- Rhythm --- */
-  --frame-pad-x: 56px; /* generous horizontal framing */
+  /* Letter-spacing for tracked Inter labels/buttons */
+  --ls-banner-name: 0.38em;
+  --ls-banner-sub: 0.2em;
+  --ls-label: 0.22em;
+  --ls-cta: 0.32em;
+  --lh-body: 1.8;
+
+  /* === SPACING — every section must breathe === */
+  --space-section: 80px; /* min vertical space between sections */
+  --space-title-top: 72px; /* above a section title (60–80) */
+  --space-title-bottom: 40px; /* below a section title */
+  --space-paragraph: 28px; /* between body paragraphs (24–32) */
+  --space-poetic: 14px; /* between poetic lines (12–16) */
+  --space-cta: 52px; /* above & below a CTA (48–60) */
+  --space-image: 48px; /* image breathing room */
+  --space-image-key: 80px; /* the constellation / hero key images */
+
+  /* === LAYOUT === */
+  --frame-pad-x: 56px; /* desktop page margins / framing */
+  --frame-pad-x-mobile: 24px; /* mobile page margins */
+  --content-max: 800px; /* max content width — never full-screen text */
+  --text-max: 720px; /* max width for reading paragraphs */
+
+  /* === CTA button — quiet; it does not announce itself === */
+  --cta-radius: 6px; /* gently rounded, NOT pill-shaped */
+  --cta-pad-y: 13px;
+  --cta-pad-x: 40px;
+
+  /* === Motion === */
   --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
@@ -51,9 +106,9 @@ html {
 body {
   background: var(--ivory);
   color: var(--ink);
-  font-family: var(--font-body);
-  font-weight: 300;
-  line-height: 1.7;
+  font-family: var(--font-display); /* Cormorant is the reading font */
+  font-weight: var(--w-light);
+  line-height: var(--lh-body);
   min-height: 100dvh;
 }
 
@@ -94,6 +149,120 @@ a {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* ============================================================
+   Design-system building blocks
+   Reusable classes that encode the brief's typographic and CTA
+   specs. Sections 2–4 compose these so the register stays exact.
+   Pair with CSS Modules for section-specific layout.
+   ============================================================ */
+
+/* Centred reading column — never full-screen text */
+.sls-container {
+  width: 100%;
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding-inline: var(--frame-pad-x);
+}
+.sls-measure {
+  max-width: var(--text-max);
+  margin-inline: auto;
+}
+
+/* Section label — Inter, uppercase, tracked, gold (e.g. SECTION 2) */
+.sls-label {
+  font-family: var(--font-body);
+  font-weight: var(--w-light);
+  font-size: var(--fs-label);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--gold-bright);
+}
+
+/* Section title — Cormorant 300, charcoal (warm ivory on dark sections) */
+.sls-title {
+  font-family: var(--font-display);
+  font-weight: var(--w-light);
+  font-size: var(--fs-section-title);
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+/* Large poetic / hero line — Cormorant italic 300 */
+.sls-hero-line {
+  font-family: var(--font-display);
+  font-weight: var(--w-light);
+  font-style: italic;
+  font-size: var(--fs-hero-line);
+  line-height: 1.3;
+}
+
+/* Supporting poetic line — Cormorant italic 300, warm grey */
+.sls-poetic {
+  font-family: var(--font-display);
+  font-weight: var(--w-light);
+  font-style: italic;
+  font-size: var(--fs-poetic);
+  color: var(--warm-grey);
+}
+
+/* Body paragraph — Cormorant 300, generous line-height, never justified */
+.sls-body {
+  font-family: var(--font-display);
+  font-weight: var(--w-light);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--ink-body);
+}
+
+/* Tina quote — Cormorant italic, light gold */
+.sls-quote {
+  font-family: var(--font-display);
+  font-weight: var(--w-light);
+  font-style: italic;
+  font-size: var(--fs-quote);
+  line-height: 1.45;
+  color: var(--gold-bright);
+}
+.sls-quote-attr {
+  font-family: var(--font-body);
+  font-weight: var(--w-light);
+  font-size: var(--fs-quote-attr);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--warm-grey);
+}
+
+/* On dark sections (charcoal / midnight), text turns to warm ivory */
+.sls-on-dark {
+  color: var(--quote-light);
+}
+.sls-on-dark .sls-title,
+.sls-on-dark .sls-hero-line,
+.sls-on-dark .sls-body {
+  color: var(--quote-light);
+}
+
+/* CTA — quiet; it waits. The visitor who is ready will find it. */
+.sls-cta {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-weight: var(--w-light);
+  font-size: var(--fs-cta);
+  letter-spacing: var(--ls-cta);
+  text-transform: uppercase;
+  color: var(--gold);
+  background: transparent;
+  border: 0.5px solid var(--gold-line);
+  border-radius: var(--cta-radius);
+  padding: var(--cta-pad-y) var(--cta-pad-x);
+  transition: all 0.35s var(--ease);
+}
+.sls-cta:hover {
+  border-color: var(--gold-line-strong);
+  background: rgba(150, 122, 55, 0.05);
+  letter-spacing: 0.38em;
 }
 
 /* Honour visitors who prefer stillness */
