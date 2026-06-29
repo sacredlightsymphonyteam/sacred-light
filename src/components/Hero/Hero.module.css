@@ -1,7 +1,8 @@
 /* The content sits within a refined frame rather than stretching edge-to-edge.
    Top frame equals the left/right frames for a balanced composition. */
 .stage {
-  padding: var(--frame-pad-x) var(--frame-pad-x) 0;
+  /* Brief: ivory padding around the video frame — 40px top, 56px sides. */
+  padding: 40px var(--frame-pad-x) 0;
   background: var(--ivory);
 }
 

@@ -14,8 +14,6 @@ import styles from './BookOfGratitude.module.css'
 export default function BookOfGratitude() {
   return (
     <section className={styles.section} aria-label="The Book of Gratitude">
-      <div className={styles.topFade} aria-hidden="true" />
-
       {/* Hero lines */}
       <div className={styles.measure}>
         <h2 className={styles.heroLine1}>A space for gratitude.</h2>

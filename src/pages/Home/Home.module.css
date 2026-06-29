@@ -43,14 +43,17 @@
   background: var(--gold-rule);
 }
 
-/* --- Black: gratitude line + CTA. Closes Fold 1. --- */
+/* --- Closing: gratitude line + CTA, then the descent into the gallery. ---
+   No hard line (brief Part 2): ivory dissolves to charcoal over ~200px —
+   daylight becoming twilight — and Section 2 continues seamlessly in the
+   same charcoal. The whole dark region uses --charcoal so the journey is
+   one continuous darkening, never a step. */
 .closing {
-  background: var(--banner-bg);
+  background: linear-gradient(to bottom, var(--ivory), var(--charcoal) 200px);
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* top = other half of the Light->gratitude gap */
-  padding: 26px var(--frame-pad-x) 64px;
+  padding: 200px var(--frame-pad-x) 72px; /* top = the dissolve depth */
 }
 
 /* Gratitude line — the page's voice, gold italic on black. A large poetic
@@ -83,7 +86,9 @@
     padding: 28px 24px 16px;
   }
   .closing {
-    padding: 16px 24px 32px;
+    /* Shorter dissolve on mobile so Fold 1 still settles within a screen. */
+    background: linear-gradient(to bottom, var(--ivory), var(--charcoal) 120px);
+    padding: 120px 24px 32px;
   }
   .gratitude {
     margin-bottom: 28px;
