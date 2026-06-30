@@ -1,0 +1,198 @@
+/* ============================================================
+   Share Your Light — contribution form.
+   Quiet-luxury fields on charcoal: hairline borders, gold focus,
+   Cormorant input text, Inter tracked labels.
+   ============================================================ */
+
+.form {
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.field {
+  margin-bottom: 30px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 10px;
+  font-family: var(--font-body);
+  font-weight: var(--w-light);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--warm-grey);
+}
+
+.req {
+  color: var(--gold-bright);
+}
+
+.input,
+.textarea {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--gold-line-faint);
+  border-radius: 6px;
+  padding: 14px 16px;
+  font-family: var(--font-display);
+  font-weight: var(--w-light);
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--quote-light);
+  transition:
+    border-color 0.3s var(--ease),
+    background 0.3s var(--ease);
+}
+
+.textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--warm-grey);
+  opacity: 0.55;
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: var(--gold-line-strong);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.counter {
+  margin-top: 6px;
+  text-align: right;
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--warm-grey);
+}
+
+.hint {
+  margin-top: 8px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--warm-grey);
+}
+
+/* File drop zone */
+.drop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 26px;
+  border: 1px dashed var(--gold-line);
+  border-radius: 6px;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    border-color 0.3s var(--ease),
+    background 0.3s var(--ease);
+}
+
+.drop:hover,
+.dropActive {
+  border-color: var(--gold-line-strong);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.dropText {
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--warm-grey);
+}
+
+.dropSub {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--warm-grey);
+  opacity: 0.8;
+}
+
+.fileName {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--font-display);
+  font-size: 16px;
+  color: var(--quote-light);
+}
+
+.fileRemove {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--gold-line);
+  cursor: pointer;
+}
+
+/* Consent */
+.consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--quote-light);
+}
+
+.checkbox {
+  flex: 0 0 auto;
+  margin-top: 4px;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--gold);
+  cursor: pointer;
+}
+
+/* A gentle alert that stays within the warm palette (no harsh red). */
+.error {
+  margin-bottom: 20px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 16px;
+  color: #c98b7a;
+}
+
+.actions {
+  margin-top: 8px;
+  text-align: center;
+}
+
+/* Success state — replaces the form */
+.success {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 40px 0;
+  text-align: center;
+}
+
+.successHeading {
+  margin-bottom: 18px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: var(--w-light);
+  font-size: clamp(28px, 3.4vw, 36px);
+  color: var(--gold-bright);
+}
+
+.successNote {
+  font-family: var(--font-display);
+  font-size: 16px;
+  color: var(--warm-grey);
+}

@@ -1,5 +1,6 @@
 import type { RouteRecord } from 'vite-react-ssg'
 import Home from './pages/Home/Home'
+import Gratitude from './pages/Gratitude/Gratitude'
 
 /**
  * Route table consumed by vite-react-ssg.
@@ -12,5 +13,9 @@ export const routes: RouteRecord[] = [
   {
     path: '/',
     element: <Home />,
+  },
+  {
+    path: '/gratitude',
+    element: <Gratitude />,
   },
 ]

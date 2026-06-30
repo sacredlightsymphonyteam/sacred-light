@@ -1,0 +1,44 @@
+.page {
+  background: var(--charcoal);
+  min-height: 100dvh;
+  padding-bottom: 120px;
+}
+
+.intro {
+  max-width: var(--text-max);
+  margin: 0 auto;
+  padding: clamp(56px, 8vw, 96px) clamp(24px, 6vw, 56px) 56px;
+  text-align: center;
+}
+
+.tagline {
+  margin-bottom: 22px;
+  font-family: var(--font-body);
+  font-weight: var(--w-light);
+  font-size: var(--fs-label);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--gold-bright);
+}
+
+.heading {
+  margin-bottom: 22px;
+  font-family: var(--font-display);
+  font-weight: var(--w-light);
+  font-size: clamp(40px, 5.4vw, 54px);
+  line-height: 1.1;
+  color: var(--quote-light);
+}
+
+.lead {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: var(--w-light);
+  font-size: clamp(20px, 2.6vw, 24px);
+  line-height: 1.4;
+  color: var(--warm-grey);
+}
+
+.formWrap {
+  padding-inline: clamp(24px, 6vw, 56px);
+}

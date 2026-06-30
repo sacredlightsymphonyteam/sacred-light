@@ -264,6 +264,10 @@ a {
   background: rgba(150, 122, 55, 0.05);
   letter-spacing: 0.38em;
 }
+.sls-cta:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
 
 /* Honour visitors who prefer stillness */
 @media (prefers-reduced-motion: reduce) {
