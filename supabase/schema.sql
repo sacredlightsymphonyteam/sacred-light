@@ -56,6 +56,11 @@ drop policy if exists "admins can update" on public.contributions;
 create policy "admins can update"
   on public.contributions for update to authenticated using (true) with check (true);
 
+-- Table-level privileges. Required because "Automatically expose new tables"
+-- is OFF, so grants must be explicit. RLS (above) still governs which rows.
+grant insert on public.contributions to anon, authenticated;
+grant select, update on public.contributions to authenticated;
+
 -- 4) Storage bucket for uploads ---------------------------------------------
 -- Public-read so approved artwork can appear in the book/constellation; file
 -- names are random + unguessable. Anyone may upload (the form does).
@@ -88,3 +93,6 @@ create policy "anyone can read settings"
 drop policy if exists "admins manage settings" on public.app_settings;
 create policy "admins manage settings"
   on public.app_settings for all to authenticated using (true) with check (true);
+
+grant select on public.app_settings to anon, authenticated;
+grant insert, update on public.app_settings to authenticated;
