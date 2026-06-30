@@ -84,7 +84,7 @@
   text-transform: uppercase;
   color: var(--quote-light);
   border: 1px solid rgba(183, 154, 99, 0.55);
-  border-radius: 999px; /* totally rounded (pill) — see note; flip to 6px for rectangle */
+  border-radius: 6px; /* slightly-rounded rectangle */
   padding: 18px 34px;
   background: transparent;
   transition:
