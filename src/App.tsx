@@ -1,6 +1,9 @@
 import type { RouteRecord } from 'vite-react-ssg'
 import Home from './pages/Home/Home'
 import Gratitude from './pages/Gratitude/Gratitude'
+import AdminLogin from './pages/Admin/AdminLogin'
+import AdminDashboard from './pages/Admin/AdminDashboard'
+import RequireAuth from './components/RequireAuth'
 
 /**
  * Route table consumed by vite-react-ssg.
@@ -17,5 +20,17 @@ export const routes: RouteRecord[] = [
   {
     path: '/gratitude',
     element: <Gratitude />,
+  },
+  {
+    path: '/admin/login',
+    element: <AdminLogin />,
+  },
+  {
+    path: '/admin',
+    element: (
+      <RequireAuth>
+        <AdminDashboard />
+      </RequireAuth>
+    ),
   },
 ]

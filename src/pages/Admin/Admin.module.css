@@ -1,0 +1,331 @@
+/* ============================================================
+   Admin — moderation page. A functional, on-brand utility view:
+   charcoal surface, gold accents, Cormorant headings, Inter UI.
+   Not public-facing; kept clean and legible over ceremonial.
+   ============================================================ */
+
+/* --- Sign in --- */
+.authWrap {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  background: var(--charcoal);
+  padding: 24px;
+}
+
+.authCard {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 40px 32px;
+  border: 1px solid var(--gold-line-faint);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--gold-bright);
+  margin-bottom: 14px;
+}
+
+.authTitle {
+  font-family: var(--font-display);
+  font-weight: var(--w-light);
+  font-size: 34px;
+  color: var(--quote-light);
+  margin-bottom: 8px;
+}
+
+.authSub {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 16px;
+  color: var(--warm-grey);
+  margin-bottom: 28px;
+}
+
+.field {
+  display: block;
+  text-align: left;
+  margin-bottom: 18px;
+}
+.field span {
+  display: block;
+  margin-bottom: 8px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--warm-grey);
+}
+.field input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--gold-line-faint);
+  border-radius: 6px;
+  padding: 12px 14px;
+  font-family: var(--font-display);
+  font-size: 17px;
+  color: var(--quote-light);
+}
+.field input:focus {
+  outline: none;
+  border-color: var(--gold-line-strong);
+}
+
+.notice {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--warm-grey);
+  margin-bottom: 18px;
+}
+
+.error {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 15px;
+  color: #c98b7a;
+  margin: 4px 0 16px;
+}
+
+/* --- Dashboard --- */
+.dashWrap {
+  min-height: 100dvh;
+  background: var(--charcoal);
+  padding: clamp(24px, 5vw, 56px);
+}
+
+.dashHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.dashTitle {
+  font-family: var(--font-display);
+  font-weight: var(--w-light);
+  font-size: clamp(28px, 4vw, 40px);
+  color: var(--quote-light);
+}
+
+.ghostBtn {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--warm-grey);
+  background: none;
+  border: 1px solid var(--gold-line-faint);
+  border-radius: 6px;
+  padding: 10px 18px;
+  cursor: pointer;
+  transition: border-color 0.3s var(--ease);
+}
+.ghostBtn:hover {
+  border-color: var(--gold-line-strong);
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.tab {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--warm-grey);
+  background: none;
+  border: 1px solid var(--gold-line-faint);
+  border-radius: 999px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.25s var(--ease);
+}
+.tabActive {
+  color: var(--charcoal);
+  background: var(--gold-bright);
+  border-color: var(--gold-bright);
+}
+.refresh {
+  margin-left: auto;
+  font-size: 16px;
+  color: var(--warm-grey);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.muted {
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--warm-grey);
+  padding: 24px 0;
+}
+
+.list {
+  display: grid;
+  gap: 16px;
+  max-width: 760px;
+}
+
+.card {
+  padding: 22px 24px;
+  border: 1px solid var(--gold-line-faint);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.badge {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+.pending {
+  color: #1a1a18;
+  background: var(--gold-bright);
+}
+.approved {
+  color: #1a1a18;
+  background: #8aa97a;
+}
+.rejected {
+  color: var(--quote-light);
+  background: #c98b7a;
+}
+
+.starId {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--gold-bright);
+}
+.inBookTag {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--warm-grey);
+  border: 1px solid var(--gold-line-faint);
+  border-radius: 999px;
+  padding: 3px 9px;
+}
+.date {
+  margin-left: auto;
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--warm-grey);
+}
+
+.message {
+  font-family: var(--font-display);
+  font-size: 19px;
+  line-height: 1.6;
+  color: var(--quote-light);
+  margin-bottom: 14px;
+}
+
+.meta {
+  font-family: var(--font-display);
+  font-size: 15px;
+  color: var(--warm-grey);
+}
+.meta strong {
+  color: var(--quote-light);
+  font-weight: var(--w-regular);
+}
+.email {
+  opacity: 0.8;
+}
+
+.attachments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+.attachments img {
+  width: 84px;
+  height: 84px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--gold-line-faint);
+}
+.fileLink {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--gold-bright);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+.approveBtn,
+.rejectBtn,
+.inBookBtn,
+.inBookActive {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 9px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid var(--gold-line);
+  background: none;
+  transition: all 0.25s var(--ease);
+}
+.approveBtn {
+  color: #8aa97a;
+  border-color: rgba(138, 169, 122, 0.5);
+}
+.approveBtn:hover {
+  background: rgba(138, 169, 122, 0.1);
+}
+.rejectBtn {
+  color: #c98b7a;
+  border-color: rgba(201, 139, 122, 0.5);
+}
+.rejectBtn:hover {
+  background: rgba(201, 139, 122, 0.1);
+}
+.inBookBtn {
+  color: var(--gold);
+}
+.inBookActive {
+  color: var(--charcoal);
+  background: var(--gold-bright);
+  border-color: var(--gold-bright);
+}
+.approveBtn:disabled,
+.rejectBtn:disabled,
+.inBookBtn:disabled,
+.inBookActive:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
