@@ -1,4 +1,4 @@
-import { supabase, isSupabaseConfigured, UPLOADS_BUCKET } from './supabase'
+import { supabase, isSupabaseConfigured, UPLOADS_BUCKET, CONTRIBUTIONS_TABLE } from './supabase'
 
 /**
  * The single seam between the contribution form and the backend.
@@ -66,9 +66,9 @@ export async function submitContribution(data: Contribution): Promise<SubmitResu
     }
   }
 
-  // Live mode — upload any file, then insert the row.
+  // Live mode — upload any file (→ public URL), then insert a pending row.
   try {
-    let filePath: string | undefined
+    const attachments: string[] = []
     if (data.file) {
       const ext = data.file.name.split('.').pop() || 'bin'
       const key = `${crypto.randomUUID()}.${ext}`
@@ -76,15 +76,18 @@ export async function submitContribution(data: Contribution): Promise<SubmitResu
         .from(UPLOADS_BUCKET)
         .upload(key, data.file, { contentType: data.file.type })
       if (uploadError) return { ok: false, error: GENERIC_ERROR }
-      filePath = key
+      const { data: pub } = supabase.storage.from(UPLOADS_BUCKET).getPublicUrl(key)
+      attachments.push(pub.publicUrl)
     }
 
-    const { error: insertError } = await supabase.from('gratitude_contributions').insert({
+    // status must be 'pending' (the RLS insert policy enforces it).
+    const { error: insertError } = await supabase.from(CONTRIBUTIONS_TABLE).insert({
       message: data.message,
       name: data.name,
       email: data.email,
       location: data.location ?? null,
-      file_path: filePath ?? null,
+      attachments,
+      status: 'pending',
     })
     if (insertError) return { ok: false, error: GENERIC_ERROR }
 

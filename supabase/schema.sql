@@ -1,65 +1,90 @@
 -- Sacred Light Symphony — Book of Gratitude backend
--- Run this once in the Supabase dashboard → SQL Editor.
+-- Run this once in the Supabase dashboard → SQL Editor. Safe to re-run.
 --
--- It creates the contributions table, locks it down with RLS so the public
--- (anon) key can ONLY insert pending messages — never read or approve them —
--- and a private Storage bucket for optional uploads.
+-- Public (anon) may ONLY insert pending messages — never read them. Logged-in
+-- admins (the moderation page) can read and approve/reject. Approving auto-
+-- assigns a sequential star_id (one star per approved message → Phase 2).
 
--- 1) Contributions table -----------------------------------------------------
-create table if not exists public.gratitude_contributions (
+-- 1) Contributions ----------------------------------------------------------
+create table if not exists public.contributions (
   id          uuid primary key default gen_random_uuid(),
   created_at  timestamptz not null default now(),
   message     text not null,
   name        text not null,
   email       text not null,
   location    text,
-  file_path   text,
+  attachments text[] not null default '{}',
   status      text not null default 'pending'
-              check (status in ('pending', 'approved', 'rejected'))
+              check (status in ('pending', 'approved', 'rejected')),
+  star_id     bigint unique,           -- assigned on first approval (see trigger)
+  in_book     boolean not null default false
 );
 
--- 2) Force every public insert to 'pending' (moderation happens later, by you).
---    Even if a crafted request sets status, this trigger overrides it.
-create or replace function public.force_pending_status()
+create index if not exists contributions_status_idx on public.contributions (status);
+
+-- 2) Assign a sequential star_id the first time a row becomes approved -------
+create or replace function public.assign_star_id()
 returns trigger language plpgsql as $$
 begin
-  new.status := 'pending';
+  if new.status = 'approved' and new.star_id is null then
+    select coalesce(max(star_id), 0) + 1 into new.star_id from public.contributions;
+  end if;
   return new;
 end;
 $$;
 
-drop trigger if exists trg_force_pending on public.gratitude_contributions;
-create trigger trg_force_pending
-  before insert on public.gratitude_contributions
-  for each row execute function public.force_pending_status();
+drop trigger if exists trg_assign_star_id on public.contributions;
+create trigger trg_assign_star_id
+  before update on public.contributions
+  for each row execute function public.assign_star_id();
 
 -- 3) Row Level Security ------------------------------------------------------
-alter table public.gratitude_contributions enable row level security;
+alter table public.contributions enable row level security;
 
--- Grant the Data API roles INSERT on the table. Required because "Automatically
--- expose new tables" is OFF — privileges must be granted manually. RLS (below)
--- still governs WHICH rows they may add; SELECT is deliberately NOT granted, so
--- messages stay private until moderated server-side.
-grant insert on public.gratitude_contributions to anon, authenticated;
-
--- Anyone (anon) may submit a contribution...
-drop policy if exists "anon can submit" on public.gratitude_contributions;
+-- Public may submit only pending rows (and may never set a star_id).
+drop policy if exists "anon can submit" on public.contributions;
 create policy "anon can submit"
-  on public.gratitude_contributions
-  for insert to anon, authenticated
-  with check (true);
+  on public.contributions for insert to public
+  with check (status = 'pending' and star_id is null);
 
--- ...but NO public select/update/delete. Reading & moderating is done with the
--- service role (server side / dashboard), so messages stay private until approved.
+-- Logged-in admins can read and moderate everything.
+drop policy if exists "admins can read" on public.contributions;
+create policy "admins can read"
+  on public.contributions for select to authenticated using (true);
 
--- 4) Storage bucket for optional uploads (private) ---------------------------
+drop policy if exists "admins can update" on public.contributions;
+create policy "admins can update"
+  on public.contributions for update to authenticated using (true) with check (true);
+
+-- 4) Storage bucket for uploads ---------------------------------------------
+-- Public-read so approved artwork can appear in the book/constellation; file
+-- names are random + unguessable. Anyone may upload (the form does).
 insert into storage.buckets (id, name, public)
-values ('gratitude-uploads', 'gratitude-uploads', false)
+values ('gratitude-uploads', 'gratitude-uploads', true)
 on conflict (id) do nothing;
+-- If the bucket already existed (e.g. created private earlier), make it public:
+update storage.buckets set public = true where id = 'gratitude-uploads';
 
--- Anon may upload into the bucket; they cannot list or read it back.
 drop policy if exists "anon can upload" on storage.objects;
 create policy "anon can upload"
-  on storage.objects
-  for insert to anon, authenticated
+  on storage.objects for insert to public
   with check (bucket_id = 'gratitude-uploads');
+
+-- 5) Editable app settings (admin-managed, e.g. Heyzine URL) ----------------
+create table if not exists public.app_settings (
+  key        text primary key,
+  value      text,
+  updated_at timestamptz not null default now()
+);
+insert into public.app_settings (key, value) values ('heyzine_url', '')
+on conflict (key) do nothing;
+
+alter table public.app_settings enable row level security;
+
+drop policy if exists "anyone can read settings" on public.app_settings;
+create policy "anyone can read settings"
+  on public.app_settings for select to public using (true);
+
+drop policy if exists "admins manage settings" on public.app_settings;
+create policy "admins manage settings"
+  on public.app_settings for all to authenticated using (true) with check (true);
