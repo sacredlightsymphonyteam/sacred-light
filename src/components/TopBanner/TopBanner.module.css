@@ -15,19 +15,19 @@
   font-weight: 400;
   letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: var(--gold-bright);
+  color: var(--gold-60); /* same golden tone as Presence/Power/Light */
   margin-bottom: 8px; /* subtitle sits closer to the title */
 }
 
-/* Subtitle — a single serif line, capital "Where", scaled to ~"Choirs". */
+/* Subtitle — a single serif line, capital "Where", scaled to ~"Choirs".
+   Grey, matching the gratitude line ("With gratitude…") and "Not spoken, but held". */
 .sub {
   font-family: var(--font-display);
   font-size: clamp(18px, 2.1vw, 25px);
   font-weight: 400;
   font-style: italic;
   letter-spacing: 0.01em;
-  color: var(--gold-on-dark);
-  opacity: 0.95;
+  color: var(--warm-grey);
 }
 
 @media (max-width: 520px) {

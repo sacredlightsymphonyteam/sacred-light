@@ -66,7 +66,7 @@ export default function Home() {
           <p className={styles.gratitude}>
             With gratitude for a life that still moves through us.
           </p>
-          <Link to="/gratitude" className="sls-cta">
+          <Link to="/gratitude" className={styles.cta}>
             Express Your Gratitude
           </Link>
         </section>

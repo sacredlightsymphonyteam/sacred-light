@@ -53,12 +53,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 200px var(--frame-pad-x) 72px; /* top = the dissolve depth */
+  /* Shorter top space so the gratitude line falls WITHIN the dissolve —
+     bridging light and dark — while the CTA settles below on the charcoal. */
+  padding: 130px var(--frame-pad-x) 72px;
 }
 
-/* Gratitude line — the page's voice, gold italic on black. A large poetic
-   line (brief: Cormorant italic 300, 28–34px); sized up for Cormorant's
-   lighter face vs the previous Playfair. */
+/* Gratitude line — the page's voice, now grey and sitting in the transition
+   between the ivory and the dark. */
 .gratitude {
   font-family: var(--font-display);
   font-size: clamp(24px, 3vw, 34px);
@@ -67,12 +68,34 @@
   letter-spacing: 0.01em;
   line-height: 1.45;
   text-align: center;
-  color: var(--gold-warm);
+  color: var(--warm-grey);
   margin-bottom: var(--space-cta); /* gratitude -> CTA gap */
   max-width: 24ch;
 }
 
-/* CTA uses the shared .sls-cta button (brief spec: 6px, not a pill) — see global.css. */
+/* CTA "Express Your Gratitude" — the previous version's quiet pill: transparent
+   with a thin gold border. Text is the warm gold-ish white (--quote-light),
+   matching "A space for gratitude". */
+.cta {
+  font-family: var(--font-body);
+  font-size: clamp(12px, 1.2vw, 14px);
+  font-weight: var(--w-regular);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--quote-light);
+  border: 1px solid rgba(183, 154, 99, 0.55);
+  border-radius: 999px; /* totally rounded (pill) — see note; flip to 6px for rectangle */
+  padding: 18px 34px;
+  background: transparent;
+  transition:
+    border-color 0.35s var(--ease),
+    background 0.35s var(--ease);
+}
+
+.cta:hover {
+  border-color: var(--gold-bright);
+  background: rgba(200, 168, 75, 0.08);
+}
 
 /* ============================================================
    Mobile — Fold 1 fits one screen; the image flexes to fill the
@@ -88,7 +111,7 @@
   .closing {
     /* Shorter dissolve on mobile so Fold 1 still settles within a screen. */
     background: linear-gradient(to bottom, var(--ivory), var(--charcoal) 120px);
-    padding: 120px 24px 32px;
+    padding: 80px 24px 32px;
   }
   .gratitude {
     margin-bottom: 28px;
