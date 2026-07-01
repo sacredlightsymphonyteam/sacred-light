@@ -411,6 +411,9 @@
   justify-content: center;
   gap: 12px;
 }
+.sharePlatforms {
+  margin-top: 24px;
+}
 .shareBtn {
   font-family: var(--font-body);
   font-size: 11px;

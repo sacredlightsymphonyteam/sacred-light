@@ -300,25 +300,6 @@ export default function GratitudeForm() {
         {/* ── Section A — Your details ── */}
         <p className={styles.sectionLabel}>Your details</p>
 
-        <div className={styles.field}>
-          <label htmlFor="salutation" className={styles.label}>
-            Salutation <span className={styles.req}>*</span>
-          </label>
-          <select
-            id="salutation"
-            className={styles.select}
-            value={salutation}
-            onChange={(e) => setSalutation(e.target.value)}
-          >
-            <option value="">Please choose…</option>
-            {SALUTATIONS.map((s) => (
-              <option key={s} value={s}>
-                {s}
-              </option>
-            ))}
-          </select>
-        </div>
-
         <div className={styles.row}>
           <div className={styles.field}>
             <label htmlFor="firstName" className={styles.label}>
@@ -344,6 +325,25 @@ export default function GratitudeForm() {
               onChange={(e) => setLastName(e.target.value)}
             />
           </div>
+        </div>
+
+        <div className={styles.field}>
+          <label htmlFor="salutation" className={styles.label}>
+            Salutation <span className={styles.req}>*</span>
+          </label>
+          <select
+            id="salutation"
+            className={styles.select}
+            value={salutation}
+            onChange={(e) => setSalutation(e.target.value)}
+          >
+            <option value="">Please choose…</option>
+            {SALUTATIONS.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className={styles.field}>
@@ -388,7 +388,6 @@ export default function GratitudeForm() {
               id="city"
               className={styles.input}
               type="text"
-              placeholder="Optional"
               value={city}
               onChange={(e) => setCity(e.target.value)}
             />
@@ -404,7 +403,6 @@ export default function GratitudeForm() {
               id="website"
               className={styles.input}
               type="text"
-              placeholder="Optional"
               value={website}
               onChange={(e) => setWebsite(e.target.value)}
             />
@@ -417,7 +415,7 @@ export default function GratitudeForm() {
               id="social"
               className={styles.input}
               type="text"
-              placeholder="e.g. Instagram handle (optional)"
+              placeholder="e.g. Instagram handle"
               value={social}
               onChange={(e) => setSocial(e.target.value)}
             />
@@ -435,7 +433,7 @@ export default function GratitudeForm() {
             id="title"
             className={styles.input}
             type="text"
-            placeholder="A short title for your message, if you wish (optional)"
+            placeholder="A short title for your message, if you wish to give it one"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
@@ -449,11 +447,10 @@ export default function GratitudeForm() {
             id="displayName"
             className={styles.input}
             type="text"
-            placeholder={`Optional — defaults to “${firstName.trim() || 'your first name'}”`}
             value={displayName}
             onChange={(e) => setDisplayName(e.target.value)}
           />
-          <p className={styles.hint}>Dated {today}.</p>
+          <p className={styles.hint}>If left blank, your first name will be shown.</p>
         </div>
 
         <div className={styles.field}>
@@ -473,17 +470,20 @@ export default function GratitudeForm() {
             {message.length} / {MAX_MESSAGE}
           </div>
           <p className={styles.hint}>
-            Whether one sentence or several paragraphs, let it come from your heart. There is no right
-            way to write — only your own.
+            Whether your message is one sentence or several paragraphs, let it come from your heart.
+            Perhaps you wish to thank Tina for something she awakened within you. Perhaps you wish to
+            honour a memory, a song, a moment, a sharing that changed your life. Or perhaps you simply
+            wish to share the light you now choose to carry forward, thanks to Tina being part of your
+            life. There is no right way to write — only your own.
           </p>
+          <p className={styles.hint}>Your message will be dated {today}.</p>
         </div>
 
         {/* ── Section C — Optional creative contribution ── */}
         <p className={styles.sectionLabel}>A creative contribution — optional</p>
         <p className={styles.sectionNote}>
           You are welcome to accompany your message with a creative contribution. All formats are
-          optional — your message alone is already a gift, and you may always return to add something
-          later.
+          optional.
         </p>
 
         <FileDrop
@@ -523,7 +523,7 @@ export default function GratitudeForm() {
               id="musicUrl"
               className={styles.input}
               type="text"
-              placeholder="A link to a song or recording (optional)"
+              placeholder="A link to a song or recording"
               value={musicUrl}
               onChange={(e) => setMusicUrl(e.target.value)}
             />
@@ -536,19 +536,24 @@ export default function GratitudeForm() {
               id="videoUrl"
               className={styles.input}
               type="text"
-              placeholder="YouTube or Vimeo link (optional)"
+              placeholder="YouTube or Vimeo link"
               value={videoUrl}
               onChange={(e) => setVideoUrl(e.target.value)}
             />
           </div>
         </div>
 
+        <p className={styles.sectionNote}>
+          Not ready yet? That is perfectly fine. Your message alone is already a gift. You may always
+          return to add a creative contribution later.
+        </p>
+
         {/* ── Section D — Newsletter ── */}
         <p className={styles.sectionLabel}>Stay close to the light</p>
         <p className={styles.sectionNote}>
           Every two weeks, Sacred Light Symphony shares three newly selected messages from the Book of
-          Gratitude — beautifully presented, quietly inspiring — along with updates about the growing
-          Living Constellation and Sacred Light Symphony’s unfolding.
+          Gratitude, beautifully presented, quietly inspiring. You are invited to receive these, along
+          with updates about the growing Living Constellation and Sacred Light Symphony’s unfolding.
         </p>
         <div className={styles.field}>
           <label className={styles.consent}>
@@ -634,14 +639,26 @@ function ThankYou({ copied, setCopied }: { copied: boolean; setCopied: (v: boole
     }
   }
 
+  const shareInvitation = async () => {
+    if (typeof navigator.share === 'function') {
+      try {
+        await navigator.share({ title: 'Sacred Light Symphony', text: invite, url })
+        return
+      } catch {
+        /* dismissed — fall through to copy */
+      }
+    }
+    void copyLink()
+  }
+
   const shares: { label: string; href?: string; onClick?: () => void }[] = [
     { label: 'WhatsApp', href: `https://wa.me/?text=${encodeURIComponent(`${invite} ${url}`)}` },
     {
       label: 'Email',
       href: `mailto:?subject=${encodeURIComponent('Share your light')}&body=${encodeURIComponent(`${invite} ${url}`)}`,
     },
-    { label: 'Facebook', href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}` },
     { label: 'Instagram', onClick: copyLink },
+    { label: 'Facebook', href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}` },
     { label: copied ? 'Link copied ✓' : 'Copy link', onClick: copyLink },
   ]
 
@@ -686,7 +703,10 @@ function ThankYou({ copied, setCopied }: { copied: boolean; setCopied: (v: boole
 
       <div className={styles.share}>
         <p className={styles.shareHeading}>Would you like to invite someone else to share their light?</p>
-        <div className={styles.shareRow}>
+        <button type="button" className="sls-cta" onClick={shareInvitation}>
+          Share the Invitation
+        </button>
+        <div className={`${styles.shareRow} ${styles.sharePlatforms}`}>
           {shares.map((s) =>
             s.href ? (
               <a
