@@ -4,11 +4,14 @@
    All sizes/colours/spacing per the 28 June brief.
    ============================================================ */
 
-/* Continues seamlessly from Fold 1's charcoal close — same --charcoal, no seam.
-   The ivory→charcoal dissolve happens up in .closing (see Home.module.css). */
+/* Continues seamlessly from Fold 1's charcoal close. Same charcoal AND the same
+   grain overlay as the closing above, so the two meet with no visible seam. */
 .section {
   position: relative;
-  background: var(--charcoal);
+  background-color: var(--charcoal);
+  background-image: var(--grain);
+  background-repeat: repeat;
+  background-size: 160px 160px;
   padding-inline: clamp(24px, 6vw, 56px);
   padding-top: clamp(64px, 8vw, 96px);
   padding-bottom: 120px;
