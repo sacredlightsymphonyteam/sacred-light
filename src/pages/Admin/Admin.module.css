@@ -288,7 +288,9 @@
 .approveBtn,
 .rejectBtn,
 .inBookBtn,
-.inBookActive {
+.inBookActive,
+.featuredBtn,
+.featuredActive {
   font-family: var(--font-body);
   font-size: 11px;
   letter-spacing: 0.12em;
@@ -322,10 +324,30 @@
   background: var(--gold-bright);
   border-color: var(--gold-bright);
 }
+.featuredBtn {
+  color: var(--gold);
+}
+.featuredActive {
+  color: var(--charcoal);
+  background: var(--gold-bright);
+  border-color: var(--gold-bright);
+}
 .approveBtn:disabled,
 .rejectBtn:disabled,
 .inBookBtn:disabled,
-.inBookActive:disabled {
+.inBookActive:disabled,
+.featuredBtn:disabled,
+.featuredActive:disabled {
   opacity: 0.5;
   cursor: default;
+}
+.featuredTag {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--charcoal);
+  background: var(--gold-bright);
+  border-radius: 999px;
+  padding: 3px 9px;
 }

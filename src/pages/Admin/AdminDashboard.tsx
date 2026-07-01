@@ -87,6 +87,34 @@ export default function AdminDashboard() {
     else setRows((prev) => prev.map((r) => (r.id === id ? { ...r, in_book: value } : r)))
   }
 
+  // Today's Light — feature one approved message on the homepage. Only one may
+  // be featured at a time, so clear the current one first (the DB also enforces
+  // this with a partial unique index), then reload so every card's badge is fresh.
+  async function toggleFeatured(id: string, value: boolean) {
+    if (!supabase) return
+    setBusyId(id)
+    if (value) {
+      const { error: clearErr } = await supabase
+        .from(CONTRIBUTIONS_TABLE)
+        .update({ is_featured: false })
+        .eq('is_featured', true)
+      if (clearErr) {
+        setBusyId(null)
+        setError(clearErr.message)
+        return
+      }
+    }
+    const today = new Date().toISOString().slice(0, 10)
+    const patch = value ? { is_featured: true, featured_date: today } : { is_featured: false }
+    const { error: err } = await supabase.from(CONTRIBUTIONS_TABLE).update(patch).eq('id', id)
+    setBusyId(null)
+    if (err) {
+      setError(err.message)
+      return
+    }
+    void load()
+  }
+
   async function signOut() {
     if (supabase) await supabase.auth.signOut()
     navigate('/admin/login', { replace: true })
@@ -136,6 +164,7 @@ export default function AdminDashboard() {
                 <span className={`${styles.badge} ${styles[r.status]}`}>{r.status}</span>
                 {r.star_id != null && <span className={styles.starId}>★ {r.star_id}</span>}
                 {r.in_book && <span className={styles.inBookTag}>in book</span>}
+                {r.is_featured && <span className={styles.featuredTag}>★ today’s light</span>}
                 <time className={styles.date}>{new Date(r.created_at).toLocaleString()}</time>
               </div>
 
@@ -189,6 +218,16 @@ export default function AdminDashboard() {
                     onClick={() => toggleInBook(r.id, !r.in_book)}
                   >
                     {r.in_book ? '✓ In book' : 'Add to book'}
+                  </button>
+                )}
+                {r.status === 'approved' && (
+                  <button
+                    className={r.is_featured ? styles.featuredActive : styles.featuredBtn}
+                    disabled={busyId === r.id}
+                    onClick={() => toggleFeatured(r.id, !r.is_featured)}
+                    title="Show this message as Today’s Light on the homepage"
+                  >
+                    {r.is_featured ? '★ Featured today' : '☆ Feature'}
                   </button>
                 )}
               </div>

@@ -1,0 +1,73 @@
+/* Today's Light (Section 2b). Colour/section/button come from the global May
+   system; these are the section-specific type sizes and generous rhythm the
+   brief calls for. */
+
+.eyebrow {
+  font-family: var(--w-sans);
+  font-weight: 400;
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--w-gold);
+  margin-bottom: 40px;
+}
+
+.date {
+  font-family: var(--w-sans);
+  font-weight: 300;
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--w-graphite-mute);
+  /* the gold rule below adds its own 56px, together ≈ the brief's 64px */
+  margin-bottom: 8px;
+}
+
+/* Keep the May system's 36px gold mark; its margins provide the space
+   above and below the message (message itself needs no top margin). */
+.rule {
+  margin: 56px auto;
+}
+
+.figure {
+  margin: 0;
+}
+
+.message {
+  font-family: var(--w-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(20px, 2.2vw, 26px);
+  line-height: 1.8;
+  color: var(--w-graphite);
+  max-width: 580px;
+  margin: 0 auto 36px;
+}
+
+.mark {
+  color: var(--w-gold);
+}
+
+.attribution {
+  font-family: var(--w-sans);
+  font-weight: 400;
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--w-gold);
+  opacity: 0.85;
+  margin-bottom: 56px;
+}
+
+.closing {
+  font-family: var(--w-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 18px;
+  color: var(--w-graphite-soft);
+  margin-bottom: 64px;
+}
+
+.cta {
+  margin: 0;
+}

@@ -21,6 +21,8 @@ export const supabase: SupabaseClient | null = isSupabaseConfigured
 
 export const CONTRIBUTIONS_TABLE = 'contributions'
 export const SETTINGS_TABLE = 'app_settings'
+/** Security-definer view exposing only the one featured message's safe columns. */
+export const FEATURED_VIEW = 'featured_message'
 /** Storage bucket that holds optional contribution uploads (photo/signature/artwork). */
 export const UPLOADS_BUCKET = 'gratitude-uploads'
 
@@ -38,6 +40,32 @@ export interface ContributionRow {
   status: ContributionStatus
   star_id: number | null
   in_book: boolean
+  is_featured: boolean
+  featured_date: string | null
+}
+
+/** The one message shown in the homepage's Today's Light section (Section 2b). */
+export interface FeaturedMessage {
+  id: string
+  message: string
+  name: string
+  location: string | null
+  featured_date: string | null
+}
+
+/**
+ * The message Angel has marked as "featured", read through a view that exposes
+ * only safe columns (no email). Null when nothing is featured or the backend
+ * isn't connected — callers then fall back to a placeholder / hide the section.
+ */
+export async function getFeaturedMessage(): Promise<FeaturedMessage | null> {
+  if (!supabase) return null
+  const { data, error } = await supabase
+    .from(FEATURED_VIEW)
+    .select('id, message, name, location, featured_date')
+    .maybeSingle()
+  if (error) return null
+  return (data as FeaturedMessage) ?? null
 }
 
 /** Read an editable app setting (e.g. 'heyzine_url'). Null if unset/unavailable. */

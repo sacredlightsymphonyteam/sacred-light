@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import TopBanner from '../../components/TopBanner/TopBanner'
 import Hero from '../../components/Hero/Hero'
+import TodaysLight from '../../components/TodaysLight/TodaysLight'
 import Seo from '../../components/Seo/Seo'
 import { SITE_NAME, SITE_URL } from '../../lib/site'
 import styles from './Home.module.css'
@@ -139,7 +140,14 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="bridge-to-midnight" aria-hidden="true" />
+      {/* Charcoal dissolves into ivory — the breath arrives */}
+      <div className="bridge-to-light" aria-hidden="true" />
+
+      {/* ── Section 2b — Today's Light (one curated message) ── */}
+      <TodaysLight />
+
+      {/* Ivory dissolves back into charcoal */}
+      <div className="bridge-to-dark" aria-hidden="true" />
 
       {/* ── Movement 3 — Midnight Wonder (Living Constellation) ── */}
       <section className="section midnight" aria-label="The Living Constellation of Light">

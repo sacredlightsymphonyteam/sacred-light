@@ -285,6 +285,37 @@ a {
   }
 }
 
+/* Gentle entrance for dynamically-revealed content (Today's Light).
+   Ends fully visible, so content is never stuck hidden; visitors who
+   prefer stillness get it instantly. */
+.fade-in {
+  opacity: 0;
+  animation: sls-fade-in 900ms var(--ease) forwards;
+}
+.fade-in.delay-1 {
+  animation-delay: 500ms;
+}
+.fade-in.delay-2 {
+  animation-delay: 700ms;
+}
+@keyframes sls-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fade-in {
+    opacity: 1;
+    animation: none;
+    transform: none;
+  }
+}
+
 /* ============================================================
    MAY DESIGN SYSTEM (Brief v3) — the single source of truth for
    the Home Page. Class-based, per the brief: .section/.light/.dark/

@@ -96,3 +96,28 @@ create policy "admins manage settings"
 
 grant select on public.app_settings to anon, authenticated;
 grant insert, update on public.app_settings to authenticated;
+
+-- 6) Today's Light — the daily featured message (Home Section 2b) ------------
+-- Angel marks one approved message as "featured" from the admin dashboard;
+-- only that message appears in the homepage's Today's Light section. The
+-- partial unique index guarantees at most one featured row at any time.
+alter table public.contributions
+  add column if not exists is_featured boolean not null default false;
+alter table public.contributions
+  add column if not exists featured_date date;
+
+create unique index if not exists contributions_one_featured
+  on public.contributions (is_featured)
+  where is_featured = true;
+
+-- Public read of the featured message — safe columns only (no email).
+-- A security-definer view (default) runs with the owner's rights, so it can
+-- expose just the one approved + featured row to the anon key without opening
+-- up the rest of the table. If nothing is featured it returns no rows.
+create or replace view public.featured_message as
+  select id, message, name, location, featured_date
+  from public.contributions
+  where is_featured = true and status = 'approved'
+  limit 1;
+
+grant select on public.featured_message to anon, authenticated;
