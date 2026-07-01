@@ -10,6 +10,7 @@
 /* Title — gold tracked caps, like the centred "SACRED · LIGHT · SYMPHONY"
    in the reference. Modest in scale (review point 1), not a hero heading. */
 .title {
+  display: inline-block;
   font-family: var(--font-body);
   font-size: clamp(14px, 1.6vw, 17px);
   font-weight: 400;
@@ -17,6 +18,11 @@
   text-transform: uppercase;
   color: var(--gold-60); /* same golden tone as Presence/Power/Light */
   margin-bottom: 8px; /* subtitle sits closer to the title */
+  text-decoration: none;
+  transition: color 0.3s var(--ease);
+}
+.title:hover {
+  color: var(--gold-bright);
 }
 
 /* Subtitle — a single serif line, capital "Where", scaled to ~"Choirs".
