@@ -183,7 +183,7 @@ export default function GratitudeForm() {
   })
 
   const validate = (): string => {
-    if (!salutation) return 'Please choose a title.'
+    if (!salutation) return 'Please choose a salutation.'
     if (!firstName.trim() || !lastName.trim()) return 'Please enter your first and last name.'
     if (!email.trim() || !isValidEmail(email.trim())) return 'Please enter a valid email address.'
     if (!country) return 'Please choose your country.'
