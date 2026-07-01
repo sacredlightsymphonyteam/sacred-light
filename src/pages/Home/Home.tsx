@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import TopBanner from '../../components/TopBanner/TopBanner'
 import Hero from '../../components/Hero/Hero'
 import Seo from '../../components/Seo/Seo'
 import { SITE_NAME, SITE_URL } from '../../lib/site'
@@ -36,11 +37,10 @@ export default function Home() {
         jsonLd={[organizationSchema, personSchema]}
       />
 
+      <h1 className="sr-only">Sacred Light Symphony</h1>
+
       {/* Top banner — a thin dark frame (site wordmark), not a nav bar */}
-      <header className={styles.topBanner}>
-        <h1 className={styles.bannerTitle}>Sacred&nbsp;·&nbsp;Light&nbsp;·&nbsp;Symphony</h1>
-        <p className={styles.bannerSub}>where light, stillness and sound meet</p>
-      </header>
+      <TopBanner />
 
       {/* ── Movement 1 — Ivory Arrival (Hero) ── */}
       <section className={`section light ${styles.heroSection}`}>
