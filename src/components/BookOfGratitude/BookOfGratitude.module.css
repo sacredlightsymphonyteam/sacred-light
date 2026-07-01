@@ -25,11 +25,11 @@
 .eyebrow {
   font-family: var(--font-body);
   font-weight: var(--w-light);
-  font-size: var(--fs-label);
+  font-size: clamp(16px, 1.9vw, 22px); /* same size as POWER (the .word block) */
   letter-spacing: var(--ls-label);
   text-transform: uppercase;
   color: var(--gold-bright);
-  margin-bottom: 28px;
+  margin-bottom: 40px;
 }
 
 /* --- Hero lines --- */
@@ -62,11 +62,10 @@
 
 .poeticLine {
   font-family: var(--font-display);
-  font-style: italic;
   font-weight: var(--w-light);
   font-size: clamp(22px, 2.6vw, 26px);
   line-height: 1.35;
-  color: var(--warm-grey);
+  color: var(--quote-light); /* ivory, non-italic */
 }
 
 /* --- Introduction paragraphs --- */
