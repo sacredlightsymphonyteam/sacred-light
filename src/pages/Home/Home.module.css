@@ -44,18 +44,17 @@
 }
 
 /* --- Closing: gratitude line + CTA, then the descent into the gallery. ---
-   No hard line (brief Part 2): ivory dissolves to charcoal over ~200px —
-   daylight becoming twilight — and Section 2 continues seamlessly in the
-   same charcoal. The whole dark region uses --charcoal so the journey is
-   one continuous darkening, never a step. */
+   No hard line (brief Part 2). A long, gentle dissolve (~460px) so the shift
+   from ivory to charcoal is almost imperceptible — the visitor simply feels
+   the space quieten. Section 2 continues seamlessly in the same charcoal. */
 .closing {
-  background: linear-gradient(to bottom, var(--ivory), var(--charcoal) 200px);
+  background: linear-gradient(to bottom, var(--ivory), var(--charcoal) 460px);
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* Shorter top space so the gratitude line falls WITHIN the dissolve —
-     bridging light and dark — while the CTA settles below on the charcoal. */
-  padding: 130px var(--frame-pad-x) 72px;
+  /* The gratitude line falls within the dissolve (bridging light and dark);
+     the CTA settles below, on the charcoal. */
+  padding: 240px var(--frame-pad-x) 72px;
 }
 
 /* Gratitude line — the page's voice, now grey and sitting in the transition
@@ -109,9 +108,9 @@
     padding: 28px 24px 16px;
   }
   .closing {
-    /* Shorter dissolve on mobile so Fold 1 still settles within a screen. */
-    background: linear-gradient(to bottom, var(--ivory), var(--charcoal) 120px);
-    padding: 80px 24px 32px;
+    /* Gentle dissolve, a touch shorter on mobile to fit the screen. */
+    background: linear-gradient(to bottom, var(--ivory), var(--charcoal) 260px);
+    padding: 140px 24px 32px;
   }
   .gratitude {
     margin-bottom: 28px;
