@@ -16,6 +16,7 @@ export default function BookOfGratitude() {
     <section className={styles.section} aria-label="The Book of Gratitude">
       {/* Hero lines */}
       <div className={styles.measure}>
+        <p className={styles.eyebrow}>The Book of Gratitude</p>
         <h2 className={styles.heroLine1}>A space for gratitude.</h2>
         <p className={styles.heroLine2}>Not spoken, but held.</p>
 

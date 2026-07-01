@@ -21,6 +21,17 @@
   text-align: center;
 }
 
+/* Section eyebrow — gold tracked caps, as in the reference design. */
+.eyebrow {
+  font-family: var(--font-body);
+  font-weight: var(--w-light);
+  font-size: var(--fs-label);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--gold-bright);
+  margin-bottom: 28px;
+}
+
 /* --- Hero lines --- */
 .heroLine1 {
   font-family: var(--font-display);
