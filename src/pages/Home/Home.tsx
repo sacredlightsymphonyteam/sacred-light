@@ -1,13 +1,9 @@
 import { Link } from 'react-router-dom'
-import TopBanner from '../../components/TopBanner/TopBanner'
 import Hero from '../../components/Hero/Hero'
-import BookOfGratitude from '../../components/BookOfGratitude/BookOfGratitude'
 import Seo from '../../components/Seo/Seo'
 import { SITE_NAME, SITE_URL } from '../../lib/site'
 import styles from './Home.module.css'
 
-// The homepage "fact sheets" Google reads. Marie's list also includes Event,
-// Video, Book, FAQ, etc. — those get added on the pages where they belong.
 const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
@@ -18,11 +14,7 @@ const organizationSchema = {
   location: {
     '@type': 'Place',
     name: 'Küsnacht, Switzerland',
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: 'Küsnacht',
-      addressCountry: 'CH',
-    },
+    address: { '@type': 'PostalAddress', addressLocality: 'Küsnacht', addressCountry: 'CH' },
   },
 }
 
@@ -36,45 +28,215 @@ const personSchema = {
 
 export default function Home() {
   return (
-    <main className={styles.page}>
+    <main>
       <Seo
         title="Sacred Light Symphony — Gratitude, Presence & Light"
         description="A participatory experience of gratitude, presence and light — inspired by the legacy of Tina Turner, rooted in Küsnacht, Switzerland."
         path="/"
         jsonLd={[organizationSchema, personSchema]}
       />
-      {/* FOLD 1 — fills one screen on mobile; ends on a black section. */}
-      <div className={styles.fold1}>
-        <TopBanner />
 
+      {/* Top banner — a thin dark frame (site wordmark), not a nav bar */}
+      <header className={styles.topBanner}>
+        <h1 className={styles.bannerTitle}>Sacred&nbsp;·&nbsp;Light&nbsp;·&nbsp;Symphony</h1>
+        <p className={styles.bannerSub}>where light, stillness and sound meet</p>
+      </header>
+
+      {/* ── Movement 1 — Ivory Arrival (Hero) ── */}
+      <section className={`section light ${styles.heroSection}`}>
         <Hero />
+      </section>
 
-        {/* Ivory — three words. Stacked. Widely spaced. Timeless. */}
-        <section className={styles.words} aria-label="Presence, Power, Light">
-          <div className={styles.wordStack}>
-            <span className={styles.word}>Presence</span>
-            <span className={styles.rule} aria-hidden="true" />
-            <span className={styles.word}>Power</span>
-            <span className={styles.rule} aria-hidden="true" />
-            <span className={styles.word}>Light</span>
+      <div className="bridge-to-dark" aria-hidden="true" />
+
+      {/* ── Movement 2 — Charcoal Reflection (Book of Gratitude) ── */}
+      <section className="section dark" aria-label="The Book of Gratitude">
+        <div className="inner">
+          <h2 className="section-h">A space for gratitude.</h2>
+          <p className="stanza">Not spoken, but held.</p>
+
+          <hr className="rule-gold" />
+
+          <div className={styles.stanzaGroup}>
+            <p className="stanza">For what was given.</p>
+            <p className="stanza">For what was lived.</p>
+            <p className="stanza">For what remains.</p>
+            <p className="stanza">For what still moves.</p>
           </div>
-        </section>
 
-        {/* Black — the page's own voice + a quiet CTA. Closes Fold 1 and
-            transitions gently into the ivory Fold 2 below. */}
-        <section className={styles.closing}>
-          <p className={styles.gratitude}>
-            With gratitude for a life that still moves through us.
-          </p>
-          <Link to="/gratitude" className={styles.cta}>
-            Express Your Gratitude
-          </Link>
-        </section>
-      </div>
+          <div className={styles.paraGroup}>
+            <p className="poetic">
+              Inspired by Tina Turner’s enduring belief that even in life’s darkest moments we can
+              choose the light, the first Book of Gratitude invites people from around the world to
+              honour the gift she awakened within them — and the light they now choose to pass on.
+            </p>
+            <p className="poetic">
+              Behind the voice that inspired millions was a woman who showed us that it is possible to
+              move through darkness toward light.
+            </p>
+            <p className="poetic">The Book of Gratitude is an invitation to continue that journey.</p>
+          </div>
 
-      {/* SECTION 2 — The Book of Gratitude (charcoal). Flows from the dark
-          closing of Fold 1 into the quiet gallery. */}
-      <BookOfGratitude />
+          <div className={styles.image16}>
+            <span className={styles.imageLabel}>Bob Gruen · Tina in Blue</span>
+          </div>
+
+          <blockquote className={styles.quote}>
+            “When everything is so dark,
+            <br />
+            you have to find some way
+            <br />
+            to make the light.”
+            <cite className={styles.quoteCite}>~ Tina Turner</cite>
+          </blockquote>
+
+          <hr className="rule-gold" />
+
+          <div className={styles.paraGroup}>
+            <p className="poetic">
+              Join a growing community from around the world in sharing your message of gratitude.
+            </p>
+            <p className="poetic">
+              Share a memory, a reflection, a poem, a song, a photograph, a work of art, or simply a
+              few heartfelt words expressing what Tina Turner awakened in you — and the light you now
+              choose to pass on to others.
+            </p>
+            <p className="poetic">This is a carefully curated Living Archive of human gratitude.</p>
+            <p className="poetic">
+              Each contribution finds its place within this Living Archive and is represented by a
+              single point of light. Together, we co-create the Living Constellation of Light — a
+              growing visual expression of collective gratitude, connecting hearts across continents,
+              cultures, and generations.
+            </p>
+            <p className="poetic">
+              The first edition of the Book of Gratitude will be gracefully designed and unveiled to
+              the world on 26 November 2026, Tina Turner’s birthday, as the ceremonial opening of the
+              Book of Gratitude takes place in Küsnacht, Switzerland.
+            </p>
+          </div>
+
+          <div className={styles.stanzaGroup}>
+            <p className="stanza">Until then,</p>
+            <p className="stanza">the constellation continues to grow,</p>
+            <p className="stanza">one message,</p>
+            <p className="stanza">one light,</p>
+            <p className="stanza gold">one heart at a time.</p>
+          </div>
+
+          <hr className="rule-gold" />
+
+          <div className={styles.ctaBlock}>
+            <p className={styles.ctaLines}>
+              Your message matters.
+              <br />
+              Your light matters.
+            </p>
+            <Link to="/gratitude" className="btn">
+              Become a Messenger of Gratitude
+            </Link>
+            <p className={styles.ctaSub}>A living archive of appreciation.</p>
+          </div>
+        </div>
+      </section>
+
+      <div className="bridge-to-midnight" aria-hidden="true" />
+
+      {/* ── Movement 3 — Midnight Wonder (Living Constellation) ── */}
+      <section className="section midnight" aria-label="The Living Constellation of Light">
+        <div className="inner wide">
+          <h2 className="section-h">The Living Constellation of Light</h2>
+          <p className={`poetic italic ${styles.heroSub}`}>A preview of what is emerging.</p>
+
+          <hr className="rule-gold" />
+
+          <div className={styles.stanzaGroup}>
+            <p className="stanza">Every act of gratitude leaves a trace.</p>
+            <p className="stanza gold">Every trace becomes a light.</p>
+          </div>
+
+          <div className={styles.imageFull}>
+            <span className={styles.imageLabel}>The Living Constellation</span>
+          </div>
+
+          <div className={styles.paraGroup}>
+            <p className="poetic">
+              Together, we are gently bringing into presence a new expression of human gratitude —
+              something the world has never experienced before.
+            </p>
+            <p className="poetic">Your light becomes part of the first Living Constellation.</p>
+          </div>
+
+          <div className={styles.ctaBlock}>
+            <p className={styles.ctaLines}>
+              Your message matters.
+              <br />
+              Your light matters.
+            </p>
+            <Link to="/gratitude" className="btn">
+              Become a Messenger of Gratitude
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <div className="bridge-to-light" aria-hidden="true" />
+
+      {/* ── Movement 4 — Ivory Return (The Unveiling) ── */}
+      <section className="section light" aria-label="The Unveiling">
+        <div className="inner">
+          <h2 className="section-h">The Unveiling</h2>
+          <p className={`hero-sub ${styles.heroSub}`}>A moment the world will share.</p>
+          <p className="stanza">Where gratitude becomes presence.</p>
+
+          <hr className="rule-gold" />
+
+          <div className={styles.paraGroup}>
+            <p className="poetic">
+              On 26 November 2026, Tina Turner’s birthday, the first edition of the Book of Gratitude
+              will be ceremonially opened in Küsnacht, Switzerland — her adopted home.
+            </p>
+            <p className="poetic">
+              What begins today as individual expressions of gratitude will, on that evening, become
+              one living work of art.
+            </p>
+          </div>
+
+          <div className={styles.stanzaGroup}>
+            <p className="stanza">Thousands of voices.</p>
+            <p className="stanza">One shared heart.</p>
+            <p className="stanza gold">One memorable moment.</p>
+          </div>
+
+          <div className={styles.paraGroup}>
+            <p className="poetic">
+              The Living Constellation of Light will be revealed for the very first time — where every
+              message of gratitude becomes a point of light within one shared, luminous whole.
+            </p>
+            <p className="poetic">
+              At the heart of the evening stands Sharon Davson — Guardian of the Book of Gratitude.
+            </p>
+            <p className="poetic">
+              The ceremony will unfold beside Lake Zurich — and through a global livestream, the world
+              is invited.
+            </p>
+          </div>
+          <a className={styles.learnMore} href="#">
+            Learn more →
+          </a>
+
+          <hr className="rule-gold" />
+
+          <div className={styles.stanzaGroup}>
+            <p className="gratitude-line">Your words have the power to become light.</p>
+            <p className="stanza">Perhaps your light will be one of the first.</p>
+          </div>
+        </div>
+      </section>
+
+      <footer className={styles.footer}>
+        <p className={styles.footerMark}>Presence · Light · Resonance</p>
+        <p className={styles.footerUrl}>sacredlightsymphony.org</p>
+      </footer>
     </main>
   )
 }

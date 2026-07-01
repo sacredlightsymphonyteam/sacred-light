@@ -2,35 +2,27 @@ import { useState } from 'react'
 import styles from './Hero.module.css'
 
 /**
- * The Threshold.
- *
- * Not a header — a doorway. A framed video stage shows the poster artwork clean
- * (no overlay); the Vimeo film loads only on a deliberate play.
- *
- * Placeholders until final assets arrive:
- *   - VIMEO_ID:  set once Jonell uploads the final film to Vimeo.
- *   - /hero-poster.jpg: the Bob Gruen artwork (no quote). The final artwork with
- *     the quote integrated will replace it. Until then a soft gold-on-dark stage
- *     stands in gracefully if the image is missing.
+ * Hero video figure — landscape stage with the poster and the Tina quote
+ * overlaid; the film loads on a deliberate play (so the music plays with the
+ * tap), via the privacy-friendly youtube-nocookie domain.
  */
-const VIMEO_ID = '' // e.g. '123456789' — supplied next week
+const YOUTUBE_ID = '9NawTQNF5F8' // "TINA SWIRLS with Music @ Bob Gruen Square"
 const POSTER_SRC = '/hero-poster.jpg'
 
 export default function Hero() {
   const [playing, setPlaying] = useState(false)
   const [posterFailed, setPosterFailed] = useState(false)
-
-  const canPlay = VIMEO_ID.length > 0
+  const canPlay = YOUTUBE_ID.length > 0
 
   return (
-    <section className={styles.stage} aria-label="Sacred Light Symphony">
+    <figure className={styles.figure}>
       <div className={styles.frame}>
         {playing && canPlay ? (
           <iframe
             className={styles.video}
-            src={`https://player.vimeo.com/video/${VIMEO_ID}?autoplay=1&title=0&byline=0&portrait=0`}
-            title="Sacred Light Symphony"
-            allow="autoplay; fullscreen; picture-in-picture"
+            src={`https://www.youtube-nocookie.com/embed/${YOUTUBE_ID}?autoplay=1&rel=0&playsinline=1`}
+            title="Sacred Light Symphony — Tina Swirls"
+            allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
             allowFullScreen
           />
         ) : (
@@ -57,6 +49,6 @@ export default function Hero() {
           </>
         )}
       </div>
-    </section>
+    </figure>
   )
 }

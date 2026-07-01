@@ -1,122 +1,161 @@
-.page {
-  background: var(--ivory);
+/* Layout helpers for the v3 homepage. Type/colour/section come from the global
+   May system (.section/.light/.dark/.midnight, .inner, .hero-title, .poetic…);
+   these are just spacing + the image placeholders. */
+
+.heroSub {
+  margin-top: 22px;
 }
 
-/* ============================================================
-   FOLD 1 — banner (black) -> image + words (ivory) -> closing (black)
-   On mobile this fills exactly one screen so the CTA is always visible.
-   ============================================================ */
-.fold1 {
-  display: flex;
-  flex-direction: column;
-}
-
-/* --- Ivory: the three stacked words. Gold tracked caps; block untouched. --- */
-.words {
-  background: var(--ivory);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* top = image->Presence gap; bottom = half of the Light->gratitude gap */
-  padding: 52px var(--frame-pad-x) 26px;
-}
-
-.wordStack {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 18px;
-}
-
-.word {
-  font-family: var(--font-body);
-  font-size: clamp(16px, 1.9vw, 22px);
-  font-weight: var(--w-regular);
-  letter-spacing: 0.34em;
-  text-transform: uppercase;
-  color: var(--gold-60); /* brief: stacked words Presence/Power/Light at gold 60% */
-}
-
-.rule {
-  width: 1px;
-  height: 34px;
-  background: var(--gold-rule);
-}
-
-/* --- Closing: gratitude line + CTA, then the descent into the gallery. ---
-   No hard line (brief Part 2). A long, gentle dissolve (~460px) so the shift
-   from ivory to charcoal is almost imperceptible — the visitor simply feels
-   the space quieten. Section 2 continues seamlessly in the same charcoal. */
-.closing {
-  /* Grain layered over the gradient dithers the banding (no horizontal lines). */
-  background-image: var(--grain), linear-gradient(to bottom, var(--ivory), var(--charcoal) 460px);
-  background-repeat: repeat, no-repeat;
-  background-size: 160px 160px, auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* The gratitude line falls within the dissolve (bridging light and dark);
-     the CTA settles below, on the charcoal. More top space between "Light"
-     above and the gratitude line. */
-  padding: 320px var(--frame-pad-x) 72px;
-}
-
-/* Gratitude line — the page's voice, now grey and sitting in the transition
-   between the ivory and the dark. */
-.gratitude {
-  font-family: var(--font-display);
-  font-size: clamp(24px, 3vw, 34px);
-  font-style: italic;
-  font-weight: var(--w-light);
-  letter-spacing: 0.01em;
-  line-height: 1.45;
+/* Top banner — thin dark wordmark strip */
+.topBanner {
+  background: var(--w-dark);
   text-align: center;
-  color: var(--gold-warm); /* pre-Cormorant gold */
-  margin-bottom: var(--space-cta); /* gratitude -> CTA gap */
-  max-width: 24ch;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--w-gold-soft);
 }
-
-/* CTA "Express Your Gratitude" — the previous version's quiet pill: transparent
-   with a thin gold border. Text is the warm gold-ish white (--quote-light),
-   matching "A space for gratitude". */
-.cta {
-  font-family: var(--font-body);
-  font-size: clamp(12px, 1.2vw, 14px);
-  font-weight: var(--w-regular);
-  letter-spacing: 0.14em;
+.bannerTitle {
+  font-family: var(--w-sans);
+  font-weight: 400;
+  font-size: 12px;
+  letter-spacing: 0.38em;
   text-transform: uppercase;
-  color: var(--quote-light);
-  border: 1px solid rgba(183, 154, 99, 0.55);
-  border-radius: 6px; /* slightly-rounded rectangle */
-  padding: 18px 34px;
-  background: transparent;
-  transition:
-    border-color 0.35s var(--ease),
-    background 0.35s var(--ease);
+  color: var(--w-gold);
+  margin-bottom: 6px;
+}
+.bannerSub {
+  font-family: var(--w-sans);
+  font-weight: 400;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--w-ivory-mute);
+}
+/* Hero sits closer to the banner than a full 160px section top */
+section.heroSection {
+  padding-top: clamp(48px, 5vw, 72px);
 }
 
-.cta:hover {
-  border-color: var(--gold-bright);
-  background: rgba(200, 168, 75, 0.08);
+/* Vertical stack of poetic/stanza lines */
+.stanzaGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 40px 0;
 }
 
-/* ============================================================
-   Mobile — Fold 1 fits one screen; the image flexes to fill the
-   leftover space so the CTA is always visible without scrolling.
-   ============================================================ */
-@media (max-width: 760px) {
-  .fold1 {
-    min-height: 100svh;
-  }
-  .words {
-    padding: 28px 24px 16px;
-  }
-  .closing {
-    /* Gentle dissolve, a touch shorter on mobile to fit the screen. */
-    background-image: var(--grain), linear-gradient(to bottom, var(--ivory), var(--charcoal) 260px);
-    padding: 180px 24px 32px;
-  }
-  .gratitude {
-    margin-bottom: 28px;
-  }
+/* Body paragraph groups — generous spacing between paragraphs */
+.paraGroup > p + p {
+  margin-top: 1.7em;
+}
+.paraGroup {
+  margin: 40px 0;
+}
+
+/* Tina quote */
+.quote {
+  margin: 8px auto;
+  font-family: var(--w-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(22px, 2.2vw, 26px);
+  line-height: 1.5;
+  color: var(--w-gold);
+}
+.quoteCite {
+  display: block;
+  margin-top: 20px;
+  font-family: var(--w-sans);
+  font-size: 15px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--w-gold);
+  font-style: normal;
+}
+
+/* CTA cluster */
+.ctaBlock {
+  margin-top: 8px;
+}
+.ctaLines {
+  font-family: var(--w-serif);
+  font-size: clamp(20px, 2.2vw, 24px);
+  line-height: 1.4;
+  margin-bottom: 40px;
+}
+.ctaSub {
+  margin-top: 24px;
+  font-family: var(--w-serif);
+  font-style: italic;
+  font-size: 17px;
+}
+
+/* Image placeholders (until final assets arrive) */
+.image16 {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  margin: 64px 0;
+  border: 1px solid rgba(244, 238, 227, 0.08);
+  background-color: var(--w-midnight);
+  background-image:
+    radial-gradient(ellipse 60% 90% at 60% 40%, rgba(74, 102, 150, 0.32) 0%, transparent 60%),
+    radial-gradient(ellipse 90% 120% at 35% 80%, rgba(183, 154, 99, 0.12) 0%, transparent 55%);
+}
+
+/* Constellation image — no border, suspended in darkness */
+.imageFull {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  margin: 64px 0;
+  background-color: var(--w-midnight);
+  background-image:
+    radial-gradient(ellipse 50% 60% at 50% 45%, rgba(96, 128, 190, 0.4) 0%, transparent 62%),
+    radial-gradient(circle at 30% 30%, rgba(244, 238, 227, 0.5) 0.5px, transparent 1.5px),
+    radial-gradient(circle at 70% 60%, rgba(244, 238, 227, 0.45) 0.5px, transparent 1.5px),
+    radial-gradient(circle at 55% 22%, rgba(244, 238, 227, 0.4) 0.5px, transparent 1.5px);
+}
+
+.imageLabel {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--w-sans);
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--w-ivory-mute);
+}
+
+/* Footer */
+.footer {
+  background: var(--w-dark);
+  color: var(--w-ivory-mute);
+  text-align: center;
+  padding: 80px 24px;
+}
+.footerMark {
+  font-family: var(--w-sans);
+  font-size: 13px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--w-gold);
+}
+.footerUrl {
+  margin-top: 14px;
+  font-family: var(--w-sans);
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  color: var(--w-ivory-mute);
+}
+
+.learnMore {
+  display: inline-block;
+  margin-top: 12px;
+  font-family: var(--w-sans);
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  color: var(--w-graphite-soft);
+  border-bottom: 1px solid var(--w-gold-soft);
+  padding-bottom: 2px;
 }

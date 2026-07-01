@@ -40,7 +40,7 @@
   --gold-on-dark: rgba(200, 168, 75, 0.55); /* alias of --gold-55 */
 
   /* === TYPE — two fonts only, weights 300/400, never bold === */
-  --font-display: 'Cormorant Garamond', Georgia, serif; /* serif — body, hero, quotes, titles */
+  --font-display: 'Playfair Display', 'Times New Roman', Georgia, serif; /* May system serif */
   --font-body: 'Inter', Arial, sans-serif; /* sans — labels, buttons, metadata (uppercase + tracked) */
   --w-light: 300;
   --w-regular: 400;
@@ -283,4 +283,214 @@ a {
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ============================================================
+   MAY DESIGN SYSTEM (Brief v3) — the single source of truth for
+   the Home Page. Class-based, per the brief: .section/.light/.dark/
+   .midnight, .inner, type classes, .btn, .rule-gold, bridges.
+   ============================================================ */
+:root {
+  /* Surfaces & ink */
+  --w-dark: #0f0e0c;
+  --w-stone: #eae4da;
+  --w-ivory: #f4eee3;
+  --w-graphite: #1b1815;
+  --w-ivory-soft: rgba(244, 238, 227, 0.78);
+  --w-graphite-soft: rgba(27, 24, 21, 0.72);
+  --w-ivory-mute: rgba(244, 238, 227, 0.55);
+  --w-graphite-mute: rgba(27, 24, 21, 0.5);
+  --w-gold: #b79a63;
+  --w-gold-soft: rgba(183, 154, 99, 0.5);
+  --w-greige: #c9c2b4; /* bridge midpoint */
+  --w-midnight: #08070a; /* deeper than dark, Movement 3 */
+
+  /* Vertical rhythm */
+  --w-section: 160px;
+  --w-section-tablet: 112px;
+  --w-section-mobile: 80px;
+
+  /* Fonts */
+  --w-serif: 'Playfair Display', 'Times New Roman', Georgia, serif;
+  --w-sans: 'Inter', -apple-system, 'Segoe UI', system-ui, sans-serif;
+}
+
+/* --- Sections --- */
+.section {
+  padding: var(--w-section) 0;
+}
+.section.light {
+  background: var(--w-stone);
+  color: var(--w-graphite);
+}
+.section.dark {
+  background: var(--w-dark);
+  color: var(--w-ivory);
+}
+.section.midnight {
+  background: var(--w-midnight);
+  color: var(--w-ivory);
+}
+@media (max-width: 1024px) {
+  .section {
+    padding: var(--w-section-tablet) 0;
+  }
+}
+@media (max-width: 640px) {
+  .section {
+    padding: var(--w-section-mobile) 0;
+  }
+}
+
+/* --- Centred content column --- */
+.inner {
+  max-width: 720px;
+  margin-inline: auto;
+  padding-inline: clamp(24px, 5vw, 40px);
+  text-align: center;
+}
+.inner.wide {
+  max-width: 880px;
+}
+
+/* --- Fluid type scale (clamp) --- */
+.hero-title {
+  font-family: var(--w-serif);
+  font-weight: 500;
+  font-size: clamp(42px, 6.5vw, 72px);
+  line-height: 1.05;
+}
+.hero-sub {
+  font-family: var(--w-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(18px, 2vw, 24px);
+  line-height: 1.4;
+}
+.eyebrow {
+  font-family: var(--w-sans);
+  font-weight: 400;
+  font-size: 15px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--w-gold);
+}
+.gratitude-line {
+  font-family: var(--w-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(18px, 2vw, 24px);
+  line-height: 1.5;
+}
+.section-h {
+  font-family: var(--w-serif);
+  font-weight: 500;
+  font-size: clamp(30px, 4vw, 42px);
+  line-height: 1.15;
+}
+.poetic {
+  font-family: var(--w-serif);
+  font-weight: 400;
+  font-size: clamp(18px, 1.8vw, 22px);
+  line-height: 1.9;
+}
+.stanza {
+  font-family: var(--w-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(17px, 1.6vw, 20px);
+  line-height: 1.6;
+}
+.micro {
+  font-family: var(--w-sans);
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* --- The gold rule: the one recurring decorative mark --- */
+.rule-gold {
+  width: 36px;
+  height: 1px;
+  background: var(--w-gold);
+  border: 0;
+  margin: 56px auto;
+}
+.rule-gold.short {
+  width: 24px;
+  margin: 38px auto;
+}
+
+/* --- Pill button --- */
+.btn {
+  display: inline-block;
+  font-family: var(--w-sans);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 18px 34px;
+  border-radius: 999px;
+  background: transparent;
+  border: 1px solid;
+  cursor: pointer;
+  transition: all 0.35s var(--ease);
+}
+.dark .btn,
+.midnight .btn {
+  color: var(--w-ivory);
+  border-color: rgba(244, 238, 227, 0.4);
+}
+.light .btn {
+  color: var(--w-graphite);
+  border-color: rgba(27, 24, 21, 0.32);
+}
+.btn:hover {
+  color: var(--w-gold);
+  border-color: var(--w-gold);
+  box-shadow: 0 0 24px rgba(183, 154, 99, 0.25);
+}
+
+/* --- Bridges: pure-atmosphere transition zones (grain dithers banding) --- */
+.bridge-to-dark,
+.bridge-to-midnight,
+.bridge-to-light {
+  background-image: var(--grain);
+  background-repeat: repeat;
+  background-size: 160px 160px;
+}
+.bridge-to-dark {
+  height: 220px;
+  background-image: var(--grain),
+    linear-gradient(to bottom, var(--w-stone) 0%, var(--w-greige) 50%, var(--w-dark) 100%);
+}
+.bridge-to-midnight {
+  height: 200px;
+  background-image: var(--grain),
+    linear-gradient(to bottom, var(--w-dark) 0%, var(--w-midnight) 100%);
+}
+.bridge-to-light {
+  height: 220px;
+  background-image: var(--grain),
+    linear-gradient(to bottom, var(--w-midnight) 0%, var(--w-greige) 50%, var(--w-stone) 100%);
+}
+
+/* Contextual text colours */
+.dark .eyebrow,
+.midnight .eyebrow,
+.light .eyebrow {
+  color: var(--w-gold);
+}
+.dark .section-soft,
+.midnight .section-soft {
+  color: var(--w-ivory-soft);
+}
+.light .section-soft {
+  color: var(--w-graphite-soft);
+}
+.gold {
+  color: var(--w-gold);
+}
+.italic {
+  font-style: italic;
 }

@@ -1,34 +1,24 @@
-/* The content sits within a refined frame rather than stretching edge-to-edge.
-   Top frame equals the left/right frames for a balanced composition. */
-.stage {
-  /* Brief: ivory padding around the video frame — 40px top, 56px sides. */
-  padding: 40px var(--frame-pad-x) 0;
-  background: var(--ivory);
+/* Landscape video figure for the Movement 1 hero (light / stone). */
+.figure {
+  margin: clamp(48px, 6vw, 80px) auto 0;
+  max-width: 880px;
+  padding-inline: clamp(24px, 5vw, 40px);
 }
 
 .frame {
   position: relative;
   width: 100%;
-  padding-bottom: 52%; /* cinematic, generously framed */
+  padding-bottom: 56.25%; /* 16:9, cinematic */
   overflow: hidden;
-  background: var(--stage-bg);
+  background: var(--w-midnight);
+  border: 1px solid rgba(27, 24, 21, 0.12);
 
-  /* Graceful stand-in if the poster artwork is absent: a quiet swirl of
-     gold light on near-black, so the stage reads as intentional, not broken. */
+  /* Graceful gold-on-dark stand-in if the poster is missing. */
   background-image:
-    radial-gradient(
-      ellipse 70% 90% at 70% 35%,
-      rgba(200, 168, 75, 0.22) 0%,
-      transparent 60%
-    ),
-    radial-gradient(
-      ellipse 90% 120% at 30% 80%,
-      rgba(156, 123, 58, 0.18) 0%,
-      transparent 55%
-    );
+    radial-gradient(ellipse 70% 90% at 70% 35%, rgba(183, 154, 99, 0.22) 0%, transparent 60%),
+    radial-gradient(ellipse 90% 120% at 30% 80%, rgba(183, 154, 99, 0.14) 0%, transparent 55%);
 }
 
-/* The poster shows clean — no overlay (the quote lives only in the final artwork). */
 .poster {
   position: absolute;
   inset: 0;
@@ -36,7 +26,6 @@
   height: 100%;
   object-fit: cover;
   object-position: center 35%;
-  opacity: 0.95;
 }
 
 .video {
@@ -47,7 +36,6 @@
   border: 0;
 }
 
-/* Play affordance — quiet, discoverable, never demanding. */
 .play {
   position: absolute;
   top: 50%;
@@ -56,8 +44,8 @@
   width: 76px;
   height: 76px;
   border-radius: 50%;
-  border: 0.5px solid rgba(237, 224, 196, 0.6);
-  background: rgba(6, 8, 13, 0.25);
+  border: 0.5px solid rgba(244, 238, 227, 0.7);
+  background: rgba(8, 7, 10, 0.28);
   backdrop-filter: blur(2px);
   display: grid;
   place-items: center;
@@ -66,38 +54,21 @@
     background 0.4s var(--ease),
     transform 0.4s var(--ease);
 }
-
 .play:hover {
-  border-color: rgba(237, 224, 196, 0.95);
-  background: rgba(6, 8, 13, 0.35);
+  border-color: var(--w-gold);
+  background: rgba(8, 7, 10, 0.4);
   transform: translate(-50%, -50%) scale(1.04);
 }
-
 .playGlyph {
   width: 0;
   height: 0;
   margin-left: 4px;
   border-top: 9px solid transparent;
   border-bottom: 9px solid transparent;
-  border-left: 15px solid var(--quote-light);
+  border-left: 15px solid var(--w-ivory);
 }
 
-@media (max-width: 760px) {
-  /* The stage grows to fill whatever space Fold 1 has left, so the image
-     absorbs the slack and the CTA below always lands on-screen. */
-  .stage {
-    flex: 1 1 auto;
-    min-height: 0;
-    display: flex;
-    flex-direction: column;
-    padding: 16px 16px 0;
-  }
-  .frame {
-    flex: 1 1 auto;
-    height: auto;
-    min-height: 170px; /* never let the image get absurdly small */
-    padding-bottom: 0; /* drop the fixed aspect ratio — height is flexible now */
-  }
+@media (max-width: 640px) {
   .play {
     width: 62px;
     height: 62px;
