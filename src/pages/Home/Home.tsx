@@ -77,7 +77,20 @@ export default function Home() {
             </p>
             <p className="poetic">The Book of Gratitude is an invitation to continue that journey.</p>
           </div>
+        </div>
+      </section>
 
+      {/* Charcoal dissolves into ivory — the breath arrives before the blue image */}
+      <div className="bridge-to-light" aria-hidden="true" />
+
+      {/* ── Section 2b — Today's Light (a warm first light before Tina in Blue) ── */}
+      <TodaysLight />
+
+      {/* Ivory dissolves back into charcoal */}
+      <div className="bridge-to-dark" aria-hidden="true" />
+
+      <section className="section dark" aria-label="The Book of Gratitude, continued">
+        <div className="inner">
           <div className={styles.image16}>
             <span className={styles.imageLabel}>Bob Gruen · Tina in Blue</span>
           </div>
@@ -140,14 +153,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Charcoal dissolves into ivory — the breath arrives */}
-      <div className="bridge-to-light" aria-hidden="true" />
-
-      {/* ── Section 2b — Today's Light (one curated message) ── */}
-      <TodaysLight />
-
-      {/* Ivory dissolves back into charcoal */}
-      <div className="bridge-to-dark" aria-hidden="true" />
+      <div className="bridge-to-midnight" aria-hidden="true" />
 
       {/* ── Movement 3 — Midnight Wonder (Living Constellation) ── */}
       <section className="section midnight" aria-label="The Living Constellation of Light">
