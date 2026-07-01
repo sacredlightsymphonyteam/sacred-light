@@ -53,8 +53,9 @@
   flex-direction: column;
   align-items: center;
   /* The gratitude line falls within the dissolve (bridging light and dark);
-     the CTA settles below, on the charcoal. */
-  padding: 240px var(--frame-pad-x) 72px;
+     the CTA settles below, on the charcoal. More top space between "Light"
+     above and the gratitude line. */
+  padding: 320px var(--frame-pad-x) 72px;
 }
 
 /* Gratitude line — the page's voice, now grey and sitting in the transition
@@ -67,7 +68,7 @@
   letter-spacing: 0.01em;
   line-height: 1.45;
   text-align: center;
-  color: var(--warm-grey);
+  color: var(--gold-warm); /* pre-Cormorant gold */
   margin-bottom: var(--space-cta); /* gratitude -> CTA gap */
   max-width: 24ch;
 }
@@ -110,7 +111,7 @@
   .closing {
     /* Gentle dissolve, a touch shorter on mobile to fit the screen. */
     background: linear-gradient(to bottom, var(--ivory), var(--charcoal) 260px);
-    padding: 140px 24px 32px;
+    padding: 180px 24px 32px;
   }
   .gratitude {
     margin-bottom: 28px;
