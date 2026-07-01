@@ -29,3 +29,12 @@ export const COUNTRIES: string[] = [
 
 /** Courtesy titles for the salutation dropdown. */
 export const SALUTATIONS: string[] = ['Mr', 'Mrs', 'Ms', 'Mx', 'Dr', 'Prefer not to say']
+
+/** Languages for the form-language and message-display-language dropdowns. */
+export const LANGUAGES: string[] = [
+  'Afrikaans', 'Arabic', 'Bengali', 'Chinese (Mandarin)', 'Czech', 'Danish', 'Dutch', 'English',
+  'Filipino', 'Finnish', 'French', 'German', 'Greek', 'Gujarati', 'Hebrew', 'Hindi', 'Hungarian',
+  'Indonesian', 'Italian', 'Japanese', 'Korean', 'Malay', 'Marathi', 'Norwegian', 'Persian (Farsi)',
+  'Polish', 'Portuguese', 'Romanian', 'Russian', 'Spanish', 'Swahili', 'Swedish', 'Tamil', 'Telugu',
+  'Thai', 'Turkish', 'Ukrainian', 'Urdu', 'Vietnamese', 'Zulu', 'Other',
+]

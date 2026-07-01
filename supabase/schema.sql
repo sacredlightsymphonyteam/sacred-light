@@ -143,3 +143,12 @@ alter table public.contributions
   add column if not exists newsletter_opt_in boolean not null default false,
   add column if not exists consent_original  boolean not null default false,
   add column if not exists consent_publish   boolean not null default false;
+
+-- 8) Language + translation (form-language addition) ------------------------
+-- `language` is the language the form was completed in; `display_language` is
+-- how the contributor wants their message presented in the Book. consent_
+-- translate records permission to translate the message for the Book.
+alter table public.contributions
+  add column if not exists language          text,
+  add column if not exists display_language  text,
+  add column if not exists consent_translate boolean not null default false;

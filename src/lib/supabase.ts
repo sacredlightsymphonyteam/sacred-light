@@ -47,16 +47,19 @@ export interface ContributionRow {
   first_name: string | null
   last_name: string | null
   country: string | null
+  language: string | null
   city: string | null
   website: string | null
   social: string | null
   title: string | null
   display_name: string | null
+  display_language: string | null
   music_url: string | null
   video_url: string | null
   newsletter_opt_in: boolean
   consent_original: boolean
   consent_publish: boolean
+  consent_translate: boolean
 }
 
 /** The one message shown in the homepage's Today's Light section (Section 2b). */

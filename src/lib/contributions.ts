@@ -20,6 +20,7 @@ export type Contribution = {
   lastName: string
   email: string
   country: string
+  language: string
   city?: string
   website?: string
   social?: string
@@ -27,6 +28,7 @@ export type Contribution = {
   title?: string
   displayName?: string
   message: string
+  displayLanguage: string
   // Section C — creative contribution (all optional)
   photo?: File | null
   artwork?: File | null
@@ -37,6 +39,7 @@ export type Contribution = {
   newsletter: boolean
   consentOriginal: boolean
   consentPublish: boolean
+  consentTranslate: boolean
 }
 
 export type SubmitResult = { ok: true; preview: boolean } | { ok: false; error: string }
@@ -131,6 +134,7 @@ export async function submitContribution(data: Contribution): Promise<SubmitResu
       name: publicName(data),
       email: data.email.trim(),
       country: data.country.trim(),
+      language: data.language || null,
       city: data.city?.trim() || null,
       location: data.country.trim(),
       website: data.website?.trim() || null,
@@ -138,12 +142,14 @@ export async function submitContribution(data: Contribution): Promise<SubmitResu
       title: data.title?.trim() || null,
       display_name: data.displayName?.trim() || null,
       message: data.message.trim(),
+      display_language: data.displayLanguage || null,
       music_url: data.musicUrl?.trim() || null,
       video_url: data.videoUrl?.trim() || null,
       attachments,
       newsletter_opt_in: data.newsletter,
       consent_original: data.consentOriginal,
       consent_publish: data.consentPublish,
+      consent_translate: data.consentTranslate,
       status: 'pending',
     })
     if (insertError) return { ok: false, error: GENERIC_ERROR }

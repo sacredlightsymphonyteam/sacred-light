@@ -10,7 +10,7 @@ import {
   MAX_MESSAGE,
   type Contribution,
 } from '../../lib/contributions'
-import { COUNTRIES, SALUTATIONS } from '../../lib/countries'
+import { COUNTRIES, SALUTATIONS, LANGUAGES } from '../../lib/countries'
 import { SITE_URL } from '../../lib/site'
 import styles from './GratitudeForm.module.css'
 
@@ -134,6 +134,7 @@ export default function GratitudeForm() {
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [country, setCountry] = useState('')
+  const [language, setLanguage] = useState('')
   const [city, setCity] = useState('')
   const [website, setWebsite] = useState('')
   const [social, setSocial] = useState('')
@@ -141,6 +142,7 @@ export default function GratitudeForm() {
   const [title, setTitle] = useState('')
   const [displayName, setDisplayName] = useState('')
   const [message, setMessage] = useState('')
+  const [displayLanguage, setDisplayLanguage] = useState('')
   // Section C — creative
   const [photo, setPhoto] = useState<File | null>(null)
   const [artwork, setArtwork] = useState<File | null>(null)
@@ -151,6 +153,7 @@ export default function GratitudeForm() {
   const [newsletter, setNewsletter] = useState(false)
   const [consentOriginal, setConsentOriginal] = useState(false)
   const [consentPublish, setConsentPublish] = useState(false)
+  const [consentTranslate, setConsentTranslate] = useState(false)
 
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
@@ -166,12 +169,14 @@ export default function GratitudeForm() {
     lastName,
     email,
     country,
+    language,
     city: city || undefined,
     website: website || undefined,
     social: social || undefined,
     title: title || undefined,
     displayName: displayName || undefined,
     message,
+    displayLanguage,
     photo,
     artwork,
     document,
@@ -180,6 +185,7 @@ export default function GratitudeForm() {
     newsletter,
     consentOriginal,
     consentPublish,
+    consentTranslate,
   })
 
   const validate = (): string => {
@@ -187,11 +193,14 @@ export default function GratitudeForm() {
     if (!firstName.trim() || !lastName.trim()) return 'Please enter your first and last name.'
     if (!email.trim() || !isValidEmail(email.trim())) return 'Please enter a valid email address.'
     if (!country) return 'Please choose your country.'
+    if (!language) return 'Please choose the language you are writing in.'
     if (!message.trim()) return 'Please write your message of gratitude.'
+    if (!displayLanguage) return 'Please choose the language for your message.'
     if (website && !isValidUrl(website)) return 'Please enter a valid website address, or leave it blank.'
     if (musicUrl && !isValidUrl(musicUrl)) return 'Please enter a valid music link, or leave it blank.'
     if (videoUrl && !isValidUrl(videoUrl)) return 'Please enter a valid video link, or leave it blank.'
-    if (!consentOriginal || !consentPublish) return 'Please confirm both consent statements to continue.'
+    if (!consentOriginal || !consentPublish || !consentTranslate)
+      return 'Please confirm the consent statements to continue.'
     return ''
   }
 
@@ -394,6 +403,26 @@ export default function GratitudeForm() {
           </div>
         </div>
 
+        <div className={styles.field}>
+          <label htmlFor="language" className={styles.label}>
+            Language <span className={styles.req}>*</span>
+          </label>
+          <select
+            id="language"
+            className={styles.select}
+            value={language}
+            onChange={(e) => setLanguage(e.target.value)}
+          >
+            <option value="">Please choose…</option>
+            {LANGUAGES.map((l) => (
+              <option key={l} value={l}>
+                {l}
+              </option>
+            ))}
+          </select>
+          <p className={styles.hint}>The language you are completing this form in.</p>
+        </div>
+
         <div className={styles.row}>
           <div className={styles.field}>
             <label htmlFor="website" className={styles.label}>
@@ -477,6 +506,28 @@ export default function GratitudeForm() {
             life. There is no right way to write — only your own.
           </p>
           <p className={styles.hint}>Your message will be dated {today}.</p>
+        </div>
+
+        <div className={styles.field}>
+          <label htmlFor="displayLanguage" className={styles.label}>
+            Language to display your message in <span className={styles.req}>*</span>
+          </label>
+          <select
+            id="displayLanguage"
+            className={styles.select}
+            value={displayLanguage}
+            onChange={(e) => setDisplayLanguage(e.target.value)}
+          >
+            <option value="">Please choose…</option>
+            {LANGUAGES.map((l) => (
+              <option key={l} value={l}>
+                {l}
+              </option>
+            ))}
+          </select>
+          <p className={styles.hint}>
+            So your message is presented correctly within the Book of Gratitude.
+          </p>
         </div>
 
         {/* ── Section C — Optional creative contribution ── */}
@@ -597,6 +648,22 @@ export default function GratitudeForm() {
             <span>
               I agree that Sacred Light Symphony may publish my contribution within the Book of
               Gratitude and share it freely with the world in any form.
+              <span className={styles.req}> *</span>
+            </span>
+          </label>
+        </div>
+        <div className={styles.field}>
+          <label className={styles.consent}>
+            <input
+              type="checkbox"
+              className={styles.checkbox}
+              checked={consentTranslate}
+              onChange={(e) => setConsentTranslate(e.target.checked)}
+            />
+            <span>
+              I understand and agree that Sacred Light Symphony may translate my message into one or
+              more additional languages for inclusion in the Book of Gratitude and related Sacred Light
+              Symphony publications, while preserving the spirit and meaning of my original text.
               <span className={styles.req}> *</span>
             </span>
           </label>

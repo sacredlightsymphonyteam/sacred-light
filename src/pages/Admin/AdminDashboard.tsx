@@ -203,7 +203,10 @@ export default function AdminDashboard() {
               )}
 
               <div className={styles.flags}>
+                {r.language && <span>form: {r.language}</span>}
+                {r.display_language && <span>display: {r.display_language}</span>}
                 <span>{r.newsletter_opt_in ? '✓ newsletter' : 'no newsletter'}</span>
+                {r.consent_translate && <span>✓ translation ok</span>}
                 {r.display_name && <span>displayed as “{r.display_name}”</span>}
               </div>
 
