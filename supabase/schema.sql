@@ -121,3 +121,25 @@ create or replace view public.featured_message as
   limit 1;
 
 grant select on public.featured_message to anon, authenticated;
+
+-- 7) Full funnel fields (Funnel Pages brief) --------------------------------
+-- The contribution form collects structured details, an optional message
+-- title + display name, creative links, a newsletter opt-in, and two consent
+-- flags. `name` and `location` are still populated on insert (name = display
+-- name or first name, location = country) so the admin dashboard and the
+-- Today's Light view keep working unchanged.
+alter table public.contributions
+  add column if not exists salutation        text,
+  add column if not exists first_name        text,
+  add column if not exists last_name         text,
+  add column if not exists country           text,
+  add column if not exists city              text,
+  add column if not exists website           text,
+  add column if not exists social            text,
+  add column if not exists title             text,
+  add column if not exists display_name      text,
+  add column if not exists music_url         text,
+  add column if not exists video_url         text,
+  add column if not exists newsletter_opt_in boolean not null default false,
+  add column if not exists consent_original  boolean not null default false,
+  add column if not exists consent_publish   boolean not null default false;

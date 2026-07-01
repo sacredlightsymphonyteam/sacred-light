@@ -42,6 +42,21 @@ export interface ContributionRow {
   in_book: boolean
   is_featured: boolean
   featured_date: string | null
+  // Full funnel fields
+  salutation: string | null
+  first_name: string | null
+  last_name: string | null
+  country: string | null
+  city: string | null
+  website: string | null
+  social: string | null
+  title: string | null
+  display_name: string | null
+  music_url: string | null
+  video_url: string | null
+  newsletter_opt_in: boolean
+  consent_original: boolean
+  consent_publish: boolean
 }
 
 /** The one message shown in the homepage's Today's Light section (Section 2b). */

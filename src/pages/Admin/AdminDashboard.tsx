@@ -168,12 +168,43 @@ export default function AdminDashboard() {
                 <time className={styles.date}>{new Date(r.created_at).toLocaleString()}</time>
               </div>
 
+              {r.title && <p className={styles.msgTitle}>{r.title}</p>}
               <p className={styles.message}>{r.message}</p>
 
               <div className={styles.meta}>
-                <strong>{r.name}</strong>
-                {r.location && <span> · {r.location}</span>}
+                <strong>
+                  {[r.salutation, r.first_name, r.last_name].filter(Boolean).join(' ') || r.name}
+                </strong>
+                {(r.city || r.country) && (
+                  <span> · {[r.city, r.country].filter(Boolean).join(', ')}</span>
+                )}
                 <span className={styles.email}> · {r.email}</span>
+              </div>
+
+              {(r.website || r.social || r.music_url || r.video_url) && (
+                <div className={styles.details}>
+                  {r.website && (
+                    <a href={r.website} target="_blank" rel="noreferrer">
+                      Website ↗
+                    </a>
+                  )}
+                  {r.social && <span>{r.social}</span>}
+                  {r.music_url && (
+                    <a href={r.music_url} target="_blank" rel="noreferrer">
+                      Music ↗
+                    </a>
+                  )}
+                  {r.video_url && (
+                    <a href={r.video_url} target="_blank" rel="noreferrer">
+                      Video ↗
+                    </a>
+                  )}
+                </div>
+              )}
+
+              <div className={styles.flags}>
+                <span>{r.newsletter_opt_in ? '✓ newsletter' : 'no newsletter'}</span>
+                {r.display_name && <span>displayed as “{r.display_name}”</span>}
               </div>
 
               {r.attachments.length > 0 && (

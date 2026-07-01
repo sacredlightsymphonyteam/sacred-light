@@ -11,19 +11,11 @@ export default function Gratitude() {
   return (
     <main className={styles.page}>
       <Seo
-        title="Share Your Light — Sacred Light Symphony"
-        description="Leave a word of gratitude — it becomes a star in the living constellation of the Book of Gratitude."
+        title="Share Your Gratitude — Sacred Light Symphony"
+        description="Share your message of gratitude — it becomes a light within the Living Constellation of the Book of Gratitude."
         path="/gratitude"
       />
       <TopBanner />
-
-      <section className={styles.intro} aria-label="Share Your Light">
-        <p className={styles.tagline}>Become a Messenger of Light</p>
-        <h1 className={styles.heading}>Share Your Light</h1>
-        <p className={styles.lead}>
-          Leave a word of gratitude. It will become a star in the field.
-        </p>
-      </section>
 
       <div className={styles.formWrap}>
         <GratitudeForm />
