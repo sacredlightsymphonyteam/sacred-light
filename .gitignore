@@ -22,6 +22,10 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+# Design handover — generated self-contained HTML snapshots (large, regenerable).
+/design-handover/
+/flatten.mjs
+
 # Source materials & design references — kept locally, not part of the built site.
 # (The 30 MB master PNG, the strategy brief, and the original mockup live on disk;
 #  the shipping asset is the optimized public/hero-poster.jpg.)
