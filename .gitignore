@@ -33,3 +33,7 @@ pnpm-debug.log*
 /*.png
 /20.06.26 sacred_light_symphony_hero_v2.html
 /screenshots/
+
+# internal handover docs (kept local, not published)
+HANDOFF.md
+CLIENT-ACCOUNT-SETUP.md
