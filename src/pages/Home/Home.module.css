@@ -104,28 +104,6 @@ section.heroSection {
   color: var(--w-ivory-mute);
 }
 
-/* Footer */
-.footer {
-  background: var(--w-dark);
-  color: var(--w-ivory-mute);
-  text-align: center;
-  padding: 80px 24px;
-}
-.footerMark {
-  font-family: var(--w-sans);
-  font-size: 13px;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--w-gold);
-}
-.footerUrl {
-  margin-top: 14px;
-  font-family: var(--w-sans);
-  font-size: 13px;
-  letter-spacing: 0.12em;
-  color: var(--w-ivory-mute);
-}
-
 .learnMore {
   display: inline-block;
   margin-top: 12px;

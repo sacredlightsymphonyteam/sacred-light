@@ -1,0 +1,80 @@
+/* The Footer — slim dark closing bar (May .footer). */
+.footer {
+  background: var(--w-dark);
+  color: var(--w-ivory);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 100px 32px 56px;
+  text-align: center;
+}
+
+/* 1 — Social links */
+.socials {
+  font-size: 0; /* collapse whitespace between inline spans */
+}
+.social {
+  font-family: var(--w-sans);
+  font-weight: 400;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--w-ivory);
+  opacity: 0.75;
+  text-decoration: none;
+  transition:
+    color 0.28s var(--ease),
+    opacity 0.28s var(--ease);
+}
+.social:hover {
+  color: var(--w-gold);
+  opacity: 1;
+}
+.sep {
+  font-family: var(--w-sans);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: var(--w-gold);
+}
+
+/* 2 — Email */
+.email {
+  font-family: var(--w-sans);
+  font-weight: 300;
+  font-size: 13px;
+  text-transform: lowercase;
+  color: var(--w-ivory-mute);
+  text-decoration: none;
+  border-bottom: 1px solid var(--w-ivory-mute);
+  padding-bottom: 2px;
+  transition:
+    color 0.28s var(--ease),
+    border-color 0.28s var(--ease);
+}
+.email:hover {
+  color: var(--w-gold);
+  border-color: var(--w-gold);
+}
+
+/* 3 — Closing mark */
+.closing {
+  margin-top: 64px;
+  font-family: var(--w-sans);
+  font-weight: 400;
+  font-size: 12px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--w-gold);
+  opacity: 0.85;
+}
+
+/* 4 — Copyright */
+.copyright {
+  font-family: var(--w-sans);
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--w-ivory-mute);
+  max-width: 640px;
+}

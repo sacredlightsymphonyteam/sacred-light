@@ -1,0 +1,139 @@
+import { useEffect, useRef } from 'react'
+import styles from './TheCircle.module.css'
+
+/**
+ * Section 6 — The Circle. Two halves that flow as one: the narrative close,
+ * then Our Gratitude (the credits). Copy verbatim from the Circle brief.
+ *
+ * Credits are a modular data structure with a data-tier on each block, so a
+ * Supabase-backed `credits` table + admin editing can replace this array later
+ * without changing the markup.
+ */
+type CreditName = { name: string; role?: string; tba?: boolean }
+type Tier = { slug: string; label: string; names: CreditName[] }
+
+const TIERS: Tier[] = [
+  {
+    slug: 'founding-voices',
+    label: 'Founding Voices',
+    names: [
+      { name: 'Bob Gruen', role: 'Photographer' },
+      { name: 'Rob Verhorst', role: 'Photographer' },
+      { name: 'Markus Ernst', role: 'Mayor of Küsnacht' },
+    ],
+  },
+  {
+    slug: 'creative-collaborators',
+    label: 'Creative Collaborators',
+    names: [{ name: 'Serena Russignan & Mike Sommer' }],
+  },
+  {
+    slug: 'artists-of-light',
+    label: 'Artists of Light',
+    names: [{ name: 'Sharon Davson', role: 'Guardian of the Book of Gratitude' }],
+  },
+  {
+    slug: 'founding-partners',
+    label: 'Founding Partners',
+    names: [{ name: 'To be announced.', tba: true }],
+  },
+]
+
+export default function TheCircle() {
+  const rootRef = useRef<HTMLElement>(null)
+
+  // Reveal-on-scroll (progressive enhancement): the hidden state is armed only
+  // when JS runs, so no-JS / pre-rendered HTML always shows the credits.
+  useEffect(() => {
+    const root = rootRef.current
+    if (!root) return
+    root.classList.add(styles.armed)
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            root.classList.add(styles.in)
+            io.disconnect()
+          }
+        }
+      },
+      { threshold: 0.12 },
+    )
+    io.observe(root)
+    return () => io.disconnect()
+  }, [])
+
+  return (
+    <section ref={rootRef} className={`section light ${styles.circle}`} aria-label="The Circle">
+      <div className="inner">
+        {/* ── Half 1 — the narrative close ── */}
+        <p className={`${styles.eyebrow} ${styles.reveal}`}>The Circle</p>
+        <p className={`${styles.opening} ${styles.reveal}`}>The first light is only the beginning.</p>
+
+        <div className={styles.body}>
+          <p className={`${styles.para} ${styles.reveal}`}>
+            What begins with a single message of gratitude will continue to grow, one heart at a time.
+          </p>
+          <p className={`${styles.para} ${styles.reveal}`}>
+            Each new contribution becomes another light. Each new light becomes part of the Living
+            Constellation.
+          </p>
+          <p className={`${styles.para} ${styles.reveal}`}>
+            Together, we are gently bringing into presence a new expression of human gratitude — one
+            that will continue to grow for generations to come.
+          </p>
+        </div>
+
+        <hr className={`rule-gold ${styles.divide}`} />
+
+        {/* ── Half 2 — Our Gratitude (the credits) ── */}
+        <p className={`${styles.eyebrow} ${styles.reveal}`}>Our Gratitude</p>
+        <p className={`${styles.intro} ${styles.reveal}`}>
+          Sacred Light Symphony extends its heartfelt appreciation to the artists, visionaries, patrons
+          and friends whose generosity, creativity and trust have helped illuminate this journey from
+          its very beginning.
+        </p>
+
+        {TIERS.map((tier) => (
+          <div key={tier.slug} className={styles.tier} data-tier={tier.slug}>
+            <p className={`${styles.tierLabel} ${styles.reveal}`}>{tier.label}</p>
+            <div className={styles.names}>
+              {tier.names.map((n, i) => (
+                <p
+                  key={n.name}
+                  className={`${styles.creditName} ${styles.reveal} ${n.tba ? styles.tba : ''}`}
+                  style={{ transitionDelay: `${80 + i * 80}ms` }}
+                >
+                  {n.tba ? (
+                    n.name
+                  ) : (
+                    <>
+                      <span className={styles.nm}>{n.name}</span>
+                      {n.role && (
+                        <>
+                          <span className={styles.sep}> · </span>
+                          <span className={styles.role}>{n.role}</span>
+                        </>
+                      )}
+                    </>
+                  )}
+                </p>
+              ))}
+            </div>
+          </div>
+        ))}
+
+        {/* ── The Messengers line ── */}
+        <hr className={`rule-gold short ${styles.short}`} />
+        <p className={`${styles.messengers} ${styles.reveal}`}>
+          …and to every Messenger of Gratitude
+          <br />
+          whose light continues to illuminate the Living Constellation.
+        </p>
+
+        {/* ── Closing benediction ── */}
+        <p className={`${styles.closingPhrase} ${styles.reveal}`}>Where gratitude becomes light.</p>
+      </div>
+    </section>
+  )
+}

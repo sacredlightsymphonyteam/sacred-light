@@ -1,0 +1,144 @@
+/* Section 6 — The Circle. Colour/section/rule come from the global May system;
+   these are the section-specific type sizes, credit tiers, and reveal. */
+
+/* ── Half 1 — narrative close ── */
+.eyebrow {
+  font-family: var(--w-sans);
+  font-weight: 400;
+  font-size: 14px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--w-gold);
+  margin-bottom: 44px;
+}
+
+.opening {
+  font-family: var(--w-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(22px, 2.5vw, 32px);
+  line-height: 1.4;
+  color: var(--w-graphite);
+  margin-bottom: 48px;
+}
+
+.body {
+  max-width: 580px;
+  margin: 0 auto;
+}
+.para {
+  font-family: var(--w-sans);
+  font-weight: 300;
+  font-size: clamp(17px, 1.6vw, 20px);
+  line-height: 1.9;
+  color: var(--w-graphite-soft);
+  margin-bottom: 28px;
+}
+.para:last-child {
+  margin-bottom: 0;
+}
+
+/* Gold rule dividing the two halves (80px above, 56px below) */
+.divide {
+  margin: 80px auto 56px;
+}
+
+/* ── Half 2 — Our Gratitude ── */
+.intro {
+  max-width: 580px;
+  margin: 0 auto 8px;
+  font-family: var(--w-sans);
+  font-weight: 300;
+  font-size: clamp(16px, 1.5vw, 18px);
+  line-height: 1.8;
+  color: var(--w-graphite-soft);
+}
+
+.tier {
+  margin-top: 56px;
+}
+.tierLabel {
+  font-family: var(--w-sans);
+  font-weight: 400;
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--w-gold);
+  opacity: 0.85;
+  margin-bottom: 24px;
+}
+
+.creditName {
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+.creditName:last-child {
+  margin-bottom: 0;
+}
+.nm {
+  font-family: var(--w-serif);
+  font-weight: 400;
+  font-size: 20px;
+  color: var(--w-graphite);
+}
+.sep {
+  font-family: var(--w-sans);
+  color: var(--w-gold);
+}
+.role {
+  font-family: var(--w-sans);
+  font-weight: 300;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  color: var(--w-graphite-mute);
+}
+.tba {
+  font-family: var(--w-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 18px;
+  color: var(--w-graphite-soft);
+}
+
+/* ── Messengers line + closing ── */
+.short {
+  margin: 64px auto 38px;
+}
+.messengers {
+  font-family: var(--w-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--w-graphite-soft);
+  margin-bottom: 0;
+}
+.closingPhrase {
+  margin-top: 80px;
+  margin-bottom: 0;
+  font-family: var(--w-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 20px;
+  color: var(--w-gold);
+}
+
+/* ── Reveal-on-scroll (armed only when JS runs → no-JS shows everything) ── */
+.armed .reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.8s var(--ease),
+    transform 0.8s var(--ease);
+}
+.armed.in .reveal {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .armed .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

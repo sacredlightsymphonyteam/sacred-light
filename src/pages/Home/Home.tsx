@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom'
 import TopBanner from '../../components/TopBanner/TopBanner'
 import Hero from '../../components/Hero/Hero'
 import TodaysLight from '../../components/TodaysLight/TodaysLight'
+import TheCircle from '../../components/TheCircle/TheCircle'
+import Footer from '../../components/Footer/Footer'
 import Seo from '../../components/Seo/Seo'
 import { SITE_NAME, SITE_URL } from '../../lib/site'
 import styles from './Home.module.css'
@@ -247,10 +249,10 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className={styles.footer}>
-        <p className={styles.footerMark}>Presence · Light · Resonance</p>
-        <p className={styles.footerUrl}>sacredlightsymphony.org</p>
-      </footer>
+      {/* ── Section 6 — The Circle (narrative close + Our Gratitude) ── */}
+      <TheCircle />
+
+      <Footer />
     </main>
   )
 }
