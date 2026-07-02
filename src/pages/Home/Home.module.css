@@ -27,7 +27,11 @@ section.heroSection {
   color: var(--w-graphite-soft);
 }
 .heroCta {
-  margin-top: clamp(32px, 4vw, 48px);
+  /* Match the section CTAs' available width (the hero isn't inside .inner),
+     so the button is the same size everywhere instead of stretching edge-to-edge. */
+  margin: clamp(32px, 4vw, 48px) auto 0;
+  max-width: 720px;
+  padding-inline: clamp(24px, 5vw, 40px);
   text-align: center;
 }
 
