@@ -152,3 +152,49 @@ alter table public.contributions
   add column if not exists language          text,
   add column if not exists display_language  text,
   add column if not exists consent_translate boolean not null default false;
+
+-- 9) Credits — Our Gratitude tiers (The Circle, Section 6) -------------------
+-- Modular, admin-editable. Each row is one name within a tier; tiers are
+-- implied by tier_name/tier_slug/tier_order (denormalised per the brief).
+-- is_placeholder marks the "To be announced." line for an empty tier.
+create table if not exists public.credits (
+  id             uuid primary key default gen_random_uuid(),
+  tier_name      text not null,
+  tier_slug      text not null,
+  tier_order     integer not null default 0,
+  name           text not null,
+  role           text,
+  is_visible     boolean not null default true,
+  is_placeholder boolean not null default false,
+  created_at     timestamptz not null default now()
+);
+
+alter table public.credits enable row level security;
+
+drop policy if exists "anyone reads visible credits" on public.credits;
+create policy "anyone reads visible credits"
+  on public.credits for select to public using (is_visible = true);
+
+drop policy if exists "admins manage credits" on public.credits;
+create policy "admins manage credits"
+  on public.credits for all to authenticated using (true) with check (true);
+
+-- Explicit grants (project has "expose new tables" OFF; RLS still governs rows).
+grant select on public.credits to anon, authenticated;
+grant insert, update, delete on public.credits to authenticated;
+
+-- Seed the approved launch content — only if the table is empty (idempotent).
+insert into public.credits (tier_name, tier_slug, tier_order, name, role, is_placeholder)
+select v.tier_name, v.tier_slug, v.tier_order, v.name, v.role, v.is_placeholder
+from (values
+  ('Founding Voices', 'founding-voices', 1, 'Bob Gruen', 'Photographer', false),
+  ('Founding Voices', 'founding-voices', 1, 'Rob Verhorst', 'Photographer', false),
+  ('Founding Voices', 'founding-voices', 1, 'Markus Ernst', 'Mayor of Küsnacht', false),
+  ('Creative Collaborators', 'creative-collaborators', 2, 'Serena Russignan & Mike Sommer', null, false),
+  ('Artists of Light', 'artists-of-light', 3, 'Sharon Davson', 'Guardian of the Book of Gratitude', false),
+  ('Founding Partners', 'founding-partners', 4, 'To be announced.', null, true)
+) as v(tier_name, tier_slug, tier_order, name, role, is_placeholder)
+where not exists (select 1 from public.credits);
+
+-- New table added → refresh the API schema cache.
+notify pgrst, 'reload schema';

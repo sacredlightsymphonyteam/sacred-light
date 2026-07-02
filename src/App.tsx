@@ -3,6 +3,7 @@ import Home from './pages/Home/Home'
 import Gratitude from './pages/Gratitude/Gratitude'
 import AdminLogin from './pages/Admin/AdminLogin'
 import AdminDashboard from './pages/Admin/AdminDashboard'
+import AdminCredits from './pages/Admin/AdminCredits'
 import RequireAuth from './components/RequireAuth'
 
 /**
@@ -30,6 +31,14 @@ export const routes: RouteRecord[] = [
     element: (
       <RequireAuth>
         <AdminDashboard />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: '/admin/credits',
+    element: (
+      <RequireAuth>
+        <AdminCredits />
       </RequireAuth>
     ),
   },

@@ -384,3 +384,121 @@
   border-radius: 999px;
   padding: 3px 9px;
 }
+
+/* --- Credits editor --- */
+.headActions {
+  display: flex;
+  gap: 10px;
+}
+
+.creditAdd,
+.creditEdit {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.creditEdit {
+  margin-bottom: 0;
+  width: 100%;
+}
+.creditAdd input,
+.creditEdit input {
+  flex: 1 1 160px;
+  min-width: 120px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--gold-line-faint);
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-family: var(--font-display);
+  font-size: 16px;
+  color: var(--quote-light);
+}
+.creditAdd input:focus,
+.creditEdit input:focus {
+  outline: none;
+  border-color: var(--gold-line-strong);
+}
+.orderInput {
+  flex: 0 0 76px !important;
+  min-width: 0 !important;
+}
+.phLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--warm-grey);
+  white-space: nowrap;
+}
+
+.creditList {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.tierGroup {
+  border: 1px solid var(--gold-line-faint);
+  border-radius: 10px;
+  padding: 20px 22px;
+}
+.tierHeading {
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+  margin-bottom: 14px;
+}
+.tierOrder {
+  color: var(--warm-grey);
+  letter-spacing: 0.06em;
+}
+
+.creditItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px solid var(--gold-line-faint);
+}
+.creditItem:first-of-type {
+  border-top: none;
+}
+.hiddenItem {
+  opacity: 0.5;
+}
+.creditMain {
+  font-family: var(--font-display);
+  font-size: 18px;
+  color: var(--quote-light);
+}
+.creditMain strong {
+  font-weight: var(--w-regular);
+}
+.creditRole {
+  color: var(--warm-grey);
+  font-size: 15px;
+}
+.phTag,
+.hiddenTag {
+  margin-left: 10px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--warm-grey);
+  border: 1px solid var(--gold-line-faint);
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+.creditActions {
+  display: flex;
+  gap: 8px;
+}

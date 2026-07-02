@@ -21,6 +21,7 @@ export const supabase: SupabaseClient | null = isSupabaseConfigured
 
 export const CONTRIBUTIONS_TABLE = 'contributions'
 export const SETTINGS_TABLE = 'app_settings'
+export const CREDITS_TABLE = 'credits'
 /** Security-definer view exposing only the one featured message's safe columns. */
 export const FEATURED_VIEW = 'featured_message'
 /** Storage bucket that holds optional contribution uploads (photo/signature/artwork). */
@@ -84,6 +85,36 @@ export async function getFeaturedMessage(): Promise<FeaturedMessage | null> {
     .maybeSingle()
   if (error) return null
   return (data as FeaturedMessage) ?? null
+}
+
+/** One credit row (a name within a tier) for Our Gratitude in The Circle. */
+export interface CreditRow {
+  id: string
+  tier_name: string
+  tier_slug: string
+  tier_order: number
+  name: string
+  role: string | null
+  is_visible: boolean
+  is_placeholder: boolean
+  created_at: string
+}
+
+/**
+ * Visible credits for the public Circle section, ordered by tier then insertion.
+ * Empty array if nothing's stored or the backend isn't connected — The Circle
+ * then falls back to its built-in launch list.
+ */
+export async function getVisibleCredits(): Promise<CreditRow[]> {
+  if (!supabase) return []
+  const { data, error } = await supabase
+    .from(CREDITS_TABLE)
+    .select('*')
+    .eq('is_visible', true)
+    .order('tier_order', { ascending: true })
+    .order('created_at', { ascending: true })
+  if (error) return []
+  return (data ?? []) as CreditRow[]
 }
 
 /** Read an editable app setting (e.g. 'heyzine_url'). Null if unset/unavailable. */

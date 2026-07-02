@@ -1,17 +1,33 @@
+import { useEffect, useState } from 'react'
+import { getVisibleCredits, type CreditRow } from '../../lib/supabase'
 import styles from './TheCircle.module.css'
 
 /**
  * Section 6 — The Circle. Two halves that flow as one: the narrative close,
  * then Our Gratitude (the credits). Copy verbatim from the Circle brief.
  *
- * Credits are a modular data structure with a data-tier on each block, so a
- * Supabase-backed `credits` table + admin editing can replace this array later
- * without changing the markup.
+ * Credits render from the Supabase `credits` table (admin-editable). The
+ * built-in list below is the fallback / pre-render seed, so the section is
+ * correct on first paint and without a backend.
  */
 type CreditName = { name: string; role?: string; tba?: boolean }
 type Tier = { slug: string; label: string; names: CreditName[] }
 
-const TIERS: Tier[] = [
+/** Group flat credit rows (already tier/insert ordered) into display tiers. */
+function groupCredits(rows: CreditRow[]): Tier[] {
+  const tiers: Tier[] = []
+  for (const r of rows) {
+    let tier = tiers[tiers.length - 1]
+    if (!tier || tier.slug !== r.tier_slug) {
+      tier = { slug: r.tier_slug, label: r.tier_name, names: [] }
+      tiers.push(tier)
+    }
+    tier.names.push({ name: r.name, role: r.role ?? undefined, tba: r.is_placeholder })
+  }
+  return tiers
+}
+
+const FALLBACK_TIERS: Tier[] = [
   {
     slug: 'founding-voices',
     label: 'Founding Voices',
@@ -41,6 +57,18 @@ const TIERS: Tier[] = [
 export default function TheCircle() {
   // Reveal-on-scroll (incl. the staggered credit cascade) is handled site-wide
   // by useScrollReveal + the global `reveal` class (see global.css).
+  const [tiers, setTiers] = useState<Tier[]>(FALLBACK_TIERS)
+
+  useEffect(() => {
+    let active = true
+    void getVisibleCredits().then((rows) => {
+      if (active && rows.length) setTiers(groupCredits(rows))
+    })
+    return () => {
+      active = false
+    }
+  }, [])
+
   return (
     <section className={`section light ${styles.circle}`} aria-label="The Circle">
       <div className="inner">
@@ -72,7 +100,7 @@ export default function TheCircle() {
           its very beginning.
         </p>
 
-        {TIERS.map((tier) => (
+        {tiers.map((tier) => (
           <div key={tier.slug} className={styles.tier} data-tier={tier.slug}>
             <p className={`${styles.tierLabel} reveal`}>{tier.label}</p>
             <div className={styles.names}>

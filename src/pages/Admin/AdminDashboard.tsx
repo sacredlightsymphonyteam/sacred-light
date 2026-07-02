@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   supabase,
   CONTRIBUTIONS_TABLE,
@@ -130,9 +130,14 @@ export default function AdminDashboard() {
           <p className={styles.eyebrow}>Sacred Light Symphony</p>
           <h1 className={styles.dashTitle}>Messages of Gratitude</h1>
         </div>
-        <button className={styles.ghostBtn} onClick={signOut}>
-          Sign out
-        </button>
+        <div className={styles.headActions}>
+          <Link to="/admin/credits" className={styles.ghostBtn}>
+            Credits
+          </Link>
+          <button className={styles.ghostBtn} onClick={signOut}>
+            Sign out
+          </button>
+        </div>
       </header>
 
       <div className={styles.tabs}>
