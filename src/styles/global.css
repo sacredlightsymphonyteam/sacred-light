@@ -522,8 +522,12 @@ html.reveal-on .reveal.in {
 }
 .bridge-to-midnight {
   height: 200px;
-  background-image: var(--grain),
-    linear-gradient(to bottom, var(--w-dark) 0%, var(--w-midnight) 100%);
+  /* No grain here: dark→midnight is already near-black, so the noise only
+     lightened the band into a visible lighter rectangle. The tiny gradient
+     range needs no dithering. */
+  background-image: linear-gradient(to bottom, var(--w-dark) 0%, var(--w-midnight) 100%);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 .bridge-to-light {
   height: 220px;
