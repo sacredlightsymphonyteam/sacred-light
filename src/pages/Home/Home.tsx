@@ -223,43 +223,39 @@ export default function Home() {
 
           <div className={`${styles.paraGroup} reveal`}>
             <p className="poetic">
-              On 26 November 2026, Tina Turner’s birthday, the first edition of the Book of Gratitude
-              will be ceremonially opened in Küsnacht, Switzerland — her adopted home.
-            </p>
-            <p className="poetic">
-              What begins today as individual expressions of gratitude will, on that evening, become
-              one living work of art.
+              On Thanksgiving, 26 November 2026 — Tina Turner’s birthday — Sacred Light Symphony will
+              unfold beside Lake Zurich in Switzerland and be shared with Messengers of Gratitude
+              around the world through a global livestream.
             </p>
           </div>
 
           <div className={`${styles.stanzaGroup} reveal`}>
-            <p className="stanza">Thousands of voices.</p>
-            <p className="stanza">One shared heart.</p>
-            <p className="stanza gold">One memorable moment.</p>
+            <p className="stanza">Thousands of hearts.</p>
+            <p className="stanza">One living constellation.</p>
+            <p className="stanza gold">A new expression of human gratitude.</p>
           </div>
 
           <div className={`${styles.paraGroup} reveal`}>
             <p className="poetic">
-              The Living Constellation of Light will be revealed for the very first time — where every
-              message of gratitude becomes a point of light within one shared, luminous whole.
+              The first edition of the Book of Gratitude will be ceremonially opened in Küsnacht, the
+              place Tina Turner chose as her home.
             </p>
             <p className="poetic">
-              At the heart of the evening stands Sharon Davson — Guardian of the Book of Gratitude.
+              What begins today as individual expressions of gratitude will gently come together
+              through a series of shared experiences, each offering a different expression of
+              gratitude, connection and presence.
             </p>
             <p className="poetic">
-              The ceremony will unfold beside Lake Zurich — and through a global livestream, the world
-              is invited.
+              Artist Sharon Davson, Guardian of the Book of Gratitude, will invite guests to become
+              part of a living collective artwork, celebrating joy, presence and unity through the
+              universal language of art. Created together during the celebration, the artwork will
+              remain as a lasting testament to our shared humanity.
             </p>
-          </div>
-          <a className={`${styles.learnMore} reveal`} href="#">
-            Learn more →
-          </a>
-
-          <hr className="rule-gold reveal" />
-
-          <div className={`${styles.stanzaGroup} reveal`}>
-            <p className="gratitude-line">Your words have the power to become light.</p>
-            <p className="stanza">Perhaps your light will be one of the first.</p>
+            <p className="poetic">
+              The celebration will also invite people around the world to pause together in a shared
+              moment of resonance, connecting hearts across continents through one simple, universal
+              expression.
+            </p>
           </div>
         </div>
       </section>
