@@ -1,6 +1,6 @@
 /* Landscape video figure for the Movement 1 hero (light / stone). */
 .figure {
-  margin: clamp(48px, 6vw, 80px) auto 0;
+  margin: clamp(24px, 3vw, 44px) auto 0;
   /* Wide cinematic hero (as before v3) — near full-width with side margins,
      capped so it stays sane on ultra-wide screens. Bigger than the 880px
      .inner.wide used elsewhere, by design — the hero is the opening statement. */

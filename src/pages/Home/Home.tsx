@@ -59,6 +59,10 @@ export default function Home() {
           <span className={styles.wordRule} aria-hidden="true" />
           <span className={styles.word}>Light</span>
         </div>
+
+        <p className={styles.heroPhrase}>
+          With gratitude for a life that still moves through us.
+        </p>
       </section>
 
       <div className="bridge-to-dark" aria-hidden="true" />
