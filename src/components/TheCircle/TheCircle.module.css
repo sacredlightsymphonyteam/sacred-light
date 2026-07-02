@@ -2,14 +2,10 @@
    these are the section-specific type sizes, credit tiers, and reveal. */
 
 /* ── Half 1 — narrative close ── */
-.eyebrow {
-  font-family: var(--w-sans);
-  font-weight: 400;
-  font-size: 14px;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  color: var(--w-gold);
-  margin-bottom: 44px;
+/* Section titles (The Circle / Our Gratitude) — match The Unveiling's title
+   (global .section-h). This just adds the spacing below each. */
+.circleTitle {
+  margin-bottom: 40px;
 }
 
 .opening {
