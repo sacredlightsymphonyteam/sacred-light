@@ -198,3 +198,18 @@ where not exists (select 1 from public.credits);
 
 -- New table added → refresh the API schema cache.
 notify pgrst, 'reload schema';
+
+-- 10) Harden anon to least privilege ----------------------------------------
+-- On projects where new tables are auto-exposed to anon, the anon role may get
+-- broad table privileges by default. RLS still governs rows, but strip anything
+-- anon doesn't need so it can ONLY insert a contribution and read public data.
+revoke all on public.contributions from anon;
+grant insert on public.contributions to anon;
+
+revoke all on public.credits from anon;
+grant select on public.credits to anon;
+
+revoke all on public.app_settings from anon;
+grant select on public.app_settings to anon;
+
+notify pgrst, 'reload schema';
