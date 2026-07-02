@@ -60,7 +60,7 @@ export default function Home() {
           <span className={styles.word}>Light</span>
         </div>
 
-        <p className={styles.heroPhrase}>
+        <p className={`gratitude-line ${styles.heroPhrase} reveal`}>
           With gratitude for a life that still moves through us.
         </p>
       </section>

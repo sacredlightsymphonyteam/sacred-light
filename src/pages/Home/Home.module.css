@@ -19,14 +19,11 @@ section.heroSection {
   gap: 18px;
   margin-top: clamp(44px, 5vw, 64px);
 }
+/* Type comes from the global .gratitude-line (Playfair italic, design scale);
+   this adds the spacing below the three words + the quiet tone. */
 .heroPhrase {
-  margin-top: clamp(28px, 3vw, 36px);
+  margin-top: clamp(52px, 6vw, 80px);
   text-align: center;
-  font-family: var(--w-serif);
-  font-style: italic;
-  font-weight: 400;
-  font-size: clamp(18px, 2vw, 22px);
-  line-height: 1.5;
   color: var(--w-graphite-soft);
 }
 .word {
