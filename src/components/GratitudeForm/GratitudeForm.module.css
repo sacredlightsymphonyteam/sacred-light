@@ -119,6 +119,11 @@
   outline: none;
   border-color: var(--gold-line-strong);
 }
+/* While nothing is chosen (empty + required), show "Please choose…" muted,
+   like an input placeholder; a real selection reverts to the normal text colour. */
+.select:invalid {
+  color: var(--warm-grey);
+}
 .select option {
   background: #ffffff;
   color: var(--w-graphite);
@@ -263,7 +268,7 @@
   font-family: var(--font-display);
   font-size: 16px;
   line-height: 1.5;
-  color: var(--quote-light);
+  color: var(--warm-grey);
 }
 
 .checkbox {

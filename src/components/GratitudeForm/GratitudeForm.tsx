@@ -343,6 +343,7 @@ export default function GratitudeForm() {
           <select
             id="salutation"
             className={styles.select}
+            required
             value={salutation}
             onChange={(e) => setSalutation(e.target.value)}
           >
@@ -378,6 +379,7 @@ export default function GratitudeForm() {
             <select
               id="country"
               className={styles.select}
+            required
               value={country}
               onChange={(e) => setCountry(e.target.value)}
             >
@@ -410,6 +412,7 @@ export default function GratitudeForm() {
           <select
             id="language"
             className={styles.select}
+            required
             value={language}
             onChange={(e) => setLanguage(e.target.value)}
           >
@@ -515,6 +518,7 @@ export default function GratitudeForm() {
           <select
             id="displayLanguage"
             className={styles.select}
+            required
             value={displayLanguage}
             onChange={(e) => setDisplayLanguage(e.target.value)}
           >
