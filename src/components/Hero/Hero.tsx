@@ -1,27 +1,23 @@
-import { useState } from 'react'
 import styles from './Hero.module.css'
 
 /**
- * Hero image figure — the Bob Gruen "Tina Swirling" artwork held in the
- * landscape frame. The click-to-play film was removed; this shows the still
- * image (as before) until the final video is provided.
+ * Hero film — a muted, looping background video in the landscape frame, for
+ * comparing the video treatment against the still image. Uses the privacy-
+ * friendly youtube-nocookie domain.
  */
-const POSTER_SRC = '/hero-poster.jpg'
+const YOUTUBE_ID = 'V2LsGyovTsE'
 
 export default function Hero() {
-  const [posterFailed, setPosterFailed] = useState(false)
-
   return (
     <figure className={styles.figure}>
       <div className={styles.frame}>
-        {!posterFailed && (
-          <img
-            className={styles.poster}
-            src={POSTER_SRC}
-            alt="Tina Turner amid swirling golden light"
-            onError={() => setPosterFailed(true)}
-          />
-        )}
+        <iframe
+          className={styles.video}
+          src={`https://www.youtube-nocookie.com/embed/${YOUTUBE_ID}?autoplay=1&mute=1&loop=1&playlist=${YOUTUBE_ID}&controls=0&rel=0&playsinline=1&modestbranding=1`}
+          title="Sacred Light Symphony — hero film"
+          allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+          allowFullScreen
+        />
       </div>
     </figure>
   )
