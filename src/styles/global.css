@@ -509,9 +509,11 @@ html.reveal-on .reveal.in {
 .bridge-to-dark,
 .bridge-to-midnight,
 .bridge-to-light {
-  background-image: var(--grain);
-  background-repeat: repeat;
-  background-size: 160px 160px;
+  /* Two layers: grain (tiles for dither) + the colour gradient (fills once).
+     Per-layer size/repeat so the gradient is NOT squished to 160px and tiled
+     (which produced a repeated beige band before the dark section). */
+  background-repeat: repeat, no-repeat;
+  background-size: 160px 160px, 100% 100%;
 }
 .bridge-to-dark {
   height: 220px;
