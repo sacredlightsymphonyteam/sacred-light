@@ -61,7 +61,9 @@ export default function Home() {
         </div>
 
         <p className={`gratitude-line ${styles.heroPhrase} reveal`}>
-          With gratitude for a life that still moves through us.
+          With gratitude for a life
+          <br />
+          that still moves through us.
         </p>
 
         <div className={styles.heroCta}>
