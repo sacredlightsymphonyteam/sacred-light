@@ -78,7 +78,7 @@ export default function TodaysLight() {
         <p className={`${styles.closing} fade-in delay-2`}>One message. One heart. One light.</p>
 
         <Link to="/gratitude" className={`btn ${styles.cta}`}>
-          Share Your Light
+          Become a Messenger of Gratitude
         </Link>
       </div>
     </section>
