@@ -498,16 +498,16 @@ html.reveal-on .reveal.in {
   cursor: pointer;
   transition: all 0.35s var(--ease);
 }
+/* Gold outline on every surface (per the CTA reference) — text stays readable
+   per background: dark on light, ivory on dark. */
 .dark .btn,
 .midnight .btn {
   color: var(--w-ivory);
-  border-color: rgba(244, 238, 227, 0.4);
+  border-color: var(--w-gold);
 }
 .light .btn {
   color: var(--w-graphite);
-  /* Dark hairline needs more opacity than the light one on dark to read with
-     the same weight, so the button matches the dark-section CTAs. */
-  border-color: rgba(27, 24, 21, 0.5);
+  border-color: var(--w-gold);
 }
 .btn:hover {
   color: var(--w-gold);
