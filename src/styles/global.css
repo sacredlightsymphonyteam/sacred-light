@@ -385,6 +385,14 @@ html.reveal-on .reveal.in {
   background: var(--w-midnight);
   color: var(--w-ivory);
 }
+/* Two same-tone light sections directly adjacent (The Unveiling → The Circle,
+   while Section 5 is unbuilt) would otherwise stack paddings into a 320px gap.
+   Collapse the seam to a single section's spacing. Self-correcting: if a dark
+   Section 5 is inserted between them, this no longer matches and full spacing
+   returns. */
+.section.light + .section.light {
+  padding-top: 0;
+}
 @media (max-width: 1024px) {
   .section {
     padding: var(--w-section-tablet) 0;
