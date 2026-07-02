@@ -50,6 +50,19 @@ export default function Home() {
       {/* ── Movement 1 — Ivory Arrival (Hero) ── */}
       <section className={`section light ${styles.heroSection}`}>
         <Hero />
+
+        {/* Three words — stacked, widely spaced, timeless */}
+        <div className={styles.words} aria-label="Presence, Power, Light">
+          <span className={styles.word}>Presence</span>
+          <span className={styles.wordRule} aria-hidden="true" />
+          <span className={styles.word}>Power</span>
+          <span className={styles.wordRule} aria-hidden="true" />
+          <span className={styles.word}>Light</span>
+        </div>
+
+        <p className={`gratitude-line ${styles.heroPhrase} reveal`}>
+          With gratitude for a life that still moves through us.
+        </p>
       </section>
 
       <div className="bridge-to-dark" aria-hidden="true" />

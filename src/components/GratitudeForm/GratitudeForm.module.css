@@ -99,7 +99,7 @@
   width: 100%;
   appearance: none;
   -webkit-appearance: none;
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.55);
   border: 1px solid var(--gold-line-faint);
   border-radius: 6px;
   padding: 14px 40px 14px 16px;
@@ -119,9 +119,14 @@
   outline: none;
   border-color: var(--gold-line-strong);
 }
+/* While nothing is chosen (empty + required), show "Please choose…" muted,
+   like an input placeholder; a real selection reverts to the normal text colour. */
+.select:invalid {
+  color: var(--warm-grey);
+}
 .select option {
-  background: var(--charcoal);
-  color: var(--quote-light);
+  background: #ffffff;
+  color: var(--w-graphite);
 }
 
 .field {
@@ -146,7 +151,7 @@
 .input,
 .textarea {
   width: 100%;
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.55);
   border: 1px solid var(--gold-line-faint);
   border-radius: 6px;
   padding: 14px 16px;
@@ -175,7 +180,7 @@
 .textarea:focus {
   outline: none;
   border-color: var(--gold-line-strong);
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.9);
 }
 
 .counter {
@@ -214,7 +219,7 @@
 .drop:hover,
 .dropActive {
   border-color: var(--gold-line-strong);
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.55);
 }
 
 .dropText {
@@ -263,7 +268,7 @@
   font-family: var(--font-display);
   font-size: 16px;
   line-height: 1.5;
-  color: var(--quote-light);
+  color: var(--warm-grey);
 }
 
 .checkbox {
@@ -325,7 +330,7 @@
   padding: 36px 32px;
   border: 1px solid var(--gold-line-faint);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(255, 255, 255, 0.4);
   text-align: center;
 }
 .previewAttr {

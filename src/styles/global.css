@@ -505,7 +505,9 @@ html.reveal-on .reveal.in {
 }
 .light .btn {
   color: var(--w-graphite);
-  border-color: rgba(27, 24, 21, 0.32);
+  /* Dark hairline needs more opacity than the light one on dark to read with
+     the same weight, so the button matches the dark-section CTAs. */
+  border-color: rgba(27, 24, 21, 0.5);
 }
 .btn:hover {
   color: var(--w-gold);

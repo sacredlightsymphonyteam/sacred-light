@@ -1,8 +1,11 @@
 /* Landscape video figure for the Movement 1 hero (light / stone). */
 .figure {
-  margin: clamp(48px, 6vw, 80px) auto 0;
-  max-width: 880px;
-  padding-inline: clamp(24px, 5vw, 40px);
+  margin: clamp(24px, 3vw, 44px) auto 0;
+  /* Wide cinematic hero (as before v3) — near full-width with side margins,
+     capped so it stays sane on ultra-wide screens. Bigger than the 880px
+     .inner.wide used elsewhere, by design — the hero is the opening statement. */
+  max-width: 1320px;
+  padding-inline: clamp(24px, 5vw, 56px);
 }
 
 .frame {
@@ -34,43 +37,4 @@
   width: 100%;
   height: 100%;
   border: 0;
-}
-
-.play {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 76px;
-  height: 76px;
-  border-radius: 50%;
-  border: 0.5px solid rgba(244, 238, 227, 0.7);
-  background: rgba(8, 7, 10, 0.28);
-  backdrop-filter: blur(2px);
-  display: grid;
-  place-items: center;
-  transition:
-    border-color 0.4s var(--ease),
-    background 0.4s var(--ease),
-    transform 0.4s var(--ease);
-}
-.play:hover {
-  border-color: var(--w-gold);
-  background: rgba(8, 7, 10, 0.4);
-  transform: translate(-50%, -50%) scale(1.04);
-}
-.playGlyph {
-  width: 0;
-  height: 0;
-  margin-left: 4px;
-  border-top: 9px solid transparent;
-  border-bottom: 9px solid transparent;
-  border-left: 15px solid var(--w-ivory);
-}
-
-@media (max-width: 640px) {
-  .play {
-    width: 62px;
-    height: 62px;
-  }
 }

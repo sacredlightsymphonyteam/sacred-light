@@ -1,5 +1,5 @@
 .page {
-  background: var(--charcoal);
+  background: var(--w-stone);
   min-height: 100dvh;
   padding-bottom: 120px;
 }
@@ -41,4 +41,12 @@
 
 .formWrap {
   padding: clamp(56px, 8vw, 96px) clamp(24px, 6vw, 56px) 0;
+  /* Re-map the funnel's (charcoal-era) colour tokens to the ivory/light
+     surface — scoped here so the dark top banner above is untouched. */
+  --quote-light: var(--w-graphite);
+  --warm-grey: rgba(27, 24, 21, 0.62);
+  --gold-line-faint: rgba(27, 24, 21, 0.16);
+  --gold-line: rgba(27, 24, 21, 0.26);
+  --gold-line-strong: var(--w-gold);
+  --gold-bright: var(--w-gold);
 }

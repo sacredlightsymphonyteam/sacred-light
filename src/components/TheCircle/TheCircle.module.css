@@ -27,9 +27,9 @@
   margin: 0 auto;
 }
 .para {
-  font-family: var(--w-sans);
-  font-weight: 300;
-  font-size: clamp(17px, 1.6vw, 20px);
+  font-family: var(--w-serif);
+  font-weight: 400;
+  font-size: clamp(18px, 1.8vw, 22px);
   line-height: 1.9;
   color: var(--w-graphite-soft);
   margin-bottom: 28px;
@@ -47,10 +47,10 @@
 .intro {
   max-width: 580px;
   margin: 0 auto 8px;
-  font-family: var(--w-sans);
-  font-weight: 300;
-  font-size: clamp(16px, 1.5vw, 18px);
-  line-height: 1.8;
+  font-family: var(--w-serif);
+  font-weight: 400;
+  font-size: clamp(18px, 1.8vw, 22px);
+  line-height: 1.9;
   color: var(--w-graphite-soft);
 }
 
