@@ -26,6 +26,37 @@ section.heroSection {
   text-align: center;
   color: var(--w-graphite-soft);
 }
+.heroCta {
+  margin-top: clamp(32px, 4vw, 48px);
+  text-align: center;
+}
+
+/* Gold italic emphasis for select body lines (curated archive / first edition) */
+.goldNote {
+  color: var(--w-gold);
+  font-style: italic;
+}
+
+/* Phone: tighten the hero so the CTA lands within the first fold */
+@media (max-width: 640px) {
+  section.heroSection {
+    padding-top: 10px;
+  }
+  .words {
+    margin-top: 12px;
+    gap: 6px;
+  }
+  .wordRule {
+    height: 12px;
+  }
+  .heroPhrase {
+    margin-top: 12px;
+    font-size: 16px;
+  }
+  .heroCta {
+    margin-top: 12px;
+  }
+}
 .word {
   font-family: var(--w-sans);
   font-weight: 400;
@@ -69,12 +100,12 @@ section.heroSection {
 }
 .quoteCite {
   display: block;
-  margin-top: 20px;
+  margin-top: 22px;
   font-family: var(--w-sans);
-  font-size: 15px;
-  letter-spacing: 0.18em;
+  font-size: 18px;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--w-gold);
+  color: #ceb88c; /* softer gold for Tina's name */
   font-style: normal;
 }
 

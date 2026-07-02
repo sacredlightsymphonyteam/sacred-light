@@ -1,15 +1,15 @@
-/* Today's Light (Section 2b). Colour/section/button come from the global May
-   system; these are the section-specific type sizes and generous rhythm the
-   brief calls for. */
+/* ONE LIGHT FROM THE BOOK OF GRATITUDE — framed letter on ivory.
+   Title uses the global .section-h (same as The Unveiling). */
 
-.eyebrow {
-  font-family: var(--w-sans);
-  font-weight: 400;
-  font-size: 14px;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  color: var(--w-gold);
-  margin-bottom: 40px;
+/* Gold frame, sized like the Tina in Blue image (same width; taller to hold
+   the letter). */
+.frame {
+  margin: clamp(48px, 6vw, 72px) auto 0;
+  max-width: 720px;
+  padding: clamp(40px, 6vw, 72px) clamp(28px, 6vw, 60px);
+  border: 1px solid var(--w-gold);
+  background: rgba(255, 255, 255, 0.35);
+  text-align: center;
 }
 
 .date {
@@ -18,56 +18,39 @@
   font-size: 13px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--w-graphite-mute);
-  /* the gold rule below adds its own 56px, together ≈ the brief's 64px */
-  margin-bottom: 8px;
+  color: var(--w-gold);
+  margin-bottom: 36px;
 }
 
-/* Keep the May system's 36px gold mark; its margins provide the space
-   above and below the message (message itself needs no top margin). */
-.rule {
-  margin: 56px auto;
-}
-
-.figure {
-  margin: 0;
-}
-
-.message {
+.letter {
+  max-width: 540px;
+  margin: 0 auto;
   font-family: var(--w-serif);
   font-style: italic;
   font-weight: 400;
-  font-size: clamp(20px, 2.2vw, 26px);
-  line-height: 1.8;
+  font-size: clamp(18px, 1.9vw, 21px);
+  line-height: 1.9;
   color: var(--w-graphite);
-  max-width: 580px;
-  margin: 0 auto 36px;
 }
-
-.mark {
+.letter p + p {
+  margin-top: 1.4em;
+}
+.verse {
   color: var(--w-gold);
 }
-
-.attribution {
-  font-family: var(--w-sans);
-  font-weight: 400;
-  font-size: 13px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--w-gold);
-  opacity: 0.85;
-  margin-bottom: 56px;
+.sign {
+  margin-top: 1.6em;
+  color: var(--w-graphite-soft);
 }
 
-.closing {
+/* One message. One heart. One light. — stacked, in Tina's-quote style (gold). */
+.trio {
+  margin-top: clamp(48px, 6vw, 72px);
+  text-align: center;
   font-family: var(--w-serif);
   font-style: italic;
   font-weight: 400;
-  font-size: 18px;
-  color: var(--w-graphite-soft);
-  margin-bottom: 64px;
-}
-
-.cta {
-  margin: 0;
+  font-size: clamp(22px, 2.2vw, 26px);
+  line-height: 1.7;
+  color: var(--w-gold);
 }

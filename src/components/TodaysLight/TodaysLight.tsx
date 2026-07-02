@@ -1,85 +1,61 @@
-import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { getFeaturedMessage, type FeaturedMessage } from '../../lib/supabase'
 import styles from './TodaysLight.module.css'
 
 /**
- * Today's Light (Home Section 2b — "The First Lights").
+ * ONE LIGHT FROM THE BOOK OF GRATITUDE (Section 2b, ivory).
  *
- * One curated message, held in generous ivory space, between the Book of
- * Gratitude and the Living Constellation. Angel marks a message as "featured"
- * in the admin dashboard; it is read here through the `featured_message` view.
- *
- * Until a real message is featured we show a placeholder so the section is
- * always present (the bridges above and below need something between them, and
- * the design stays reviewable). The brief's strict behaviour is to hide the
- * section entirely when nothing is featured — flip SHOW_PLACEHOLDER to false
- * (and let the parent drop the surrounding bridges) for that.
+ * A single framed message on the ivory surface. For launch this holds Marie's
+ * letter — the first light. (Can become a dynamic featured message later.)
  */
-const SHOW_PLACEHOLDER = true
-
-const PLACEHOLDER: FeaturedMessage = {
-  id: 'placeholder',
-  message:
-    'Tina did not only teach me to sing. She taught me to stand. To take up space. To believe that my voice — my small, uncertain voice — was worth something. That belief changed everything.',
-  name: 'Sophia',
-  location: 'Australia',
-  featured_date: '2026-07-04',
-}
-
-const MONTHS = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December',
-]
-
-/** Format an ISO date (YYYY-MM-DD) as "D MMMM YYYY" without timezone drift. */
-function formatDate(iso: string | null): string {
-  if (!iso) return ''
-  const [y, m, d] = iso.split('-').map(Number)
-  if (!y || !m || !d) return ''
-  return `${d} ${MONTHS[m - 1]} ${y}`
-}
-
 export default function TodaysLight() {
-  const [featured, setFeatured] = useState<FeaturedMessage | null>(null)
-
-  useEffect(() => {
-    let active = true
-    void getFeaturedMessage().then((m) => {
-      if (active && m) setFeatured(m)
-    })
-    return () => {
-      active = false
-    }
-  }, [])
-
-  const msg = featured ?? (SHOW_PLACEHOLDER ? PLACEHOLDER : null)
-  if (!msg) return null
-
-  const attribution = msg.location ? `${msg.name} · ${msg.location}` : msg.name
-
   return (
-    <section className="section light" aria-label="Today's Light">
+    <section className="section light" aria-label="One Light from the Book of Gratitude">
       <div className="inner">
-        <p className={styles.eyebrow}>The First Lights</p>
-        <p className={styles.date}>{formatDate(msg.featured_date)}</p>
+        <h2 className="section-h reveal">
+          One Light
+          <br />
+          from the Book of Gratitude
+        </h2>
 
-        <hr className={`rule-gold ${styles.rule}`} />
-
-        <figure className={`${styles.figure} fade-in`}>
-          <blockquote className={styles.message}>
-            <span className={styles.mark}>“</span>
-            {msg.message}
-            <span className={styles.mark}>”</span>
-          </blockquote>
-          <figcaption className={`${styles.attribution} fade-in delay-1`}>{attribution}</figcaption>
+        <figure className={`${styles.frame} reveal`}>
+          <p className={styles.date}>4 July 2026</p>
+          <div className={styles.letter}>
+            <p>Dearest Tina,</p>
+            <p>
+              Thank you for living your calling, for the songs you gave to the world, for the quiet
+              invitations you left behind…
+            </p>
+            <p className={styles.verse}>
+              To choose the light.
+              <br />
+              To become the light.
+              <br />
+              To dance…
+            </p>
+            <p>
+              Your journey reminded me that every ending can become a beginning, that gratitude has
+              the power to transform pain into presence and fear into faith.
+            </p>
+            <p>
+              May this Book become a home for countless hearts, and may every message entrusted to it
+              carry your invitation a little further into the world.
+            </p>
+            <p className={styles.sign}>
+              Sharing your Light,
+              <br />
+              With joy and gratitude,
+              <br />
+              Marie
+              <br />
+              Switzerland
+            </p>
+          </div>
         </figure>
 
-        <p className={`${styles.closing} fade-in delay-2`}>One message. One heart. One light.</p>
-
-        <Link to="/gratitude" className={`btn ${styles.cta}`}>
-          Become a Messenger of Gratitude
-        </Link>
+        <div className={`${styles.trio} reveal`}>
+          <p>One message.</p>
+          <p>One heart.</p>
+          <p>One light.</p>
+        </div>
       </div>
     </section>
   )

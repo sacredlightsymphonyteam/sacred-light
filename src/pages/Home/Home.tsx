@@ -63,6 +63,12 @@ export default function Home() {
         <p className={`gratitude-line ${styles.heroPhrase} reveal`}>
           With gratitude for a life that still moves through us.
         </p>
+
+        <div className={styles.heroCta}>
+          <Link to="/gratitude" className="btn">
+            Become a Messenger of Gratitude
+          </Link>
+        </div>
       </section>
 
       <div className="bridge-to-dark" aria-hidden="true" />
@@ -94,20 +100,7 @@ export default function Home() {
             </p>
             <p className="poetic">The Book of Gratitude is an invitation to continue that journey.</p>
           </div>
-        </div>
-      </section>
 
-      {/* Charcoal dissolves into ivory — the breath arrives before the blue image */}
-      <div className="bridge-to-light" aria-hidden="true" />
-
-      {/* ── Section 2b — Today's Light (a warm first light before Tina in Blue) ── */}
-      <TodaysLight />
-
-      {/* Ivory dissolves back into charcoal */}
-      <div className="bridge-to-dark" aria-hidden="true" />
-
-      <section className="section dark" aria-label="The Book of Gratitude, continued">
-        <div className="inner">
           <div className={`${styles.image16} reveal`}>
             <span className={styles.imageLabel}>Bob Gruen · Tina in Blue</span>
           </div>
@@ -120,8 +113,22 @@ export default function Home() {
             to make the light.”
             <cite className={styles.quoteCite}>~ Tina Turner</cite>
           </blockquote>
+        </div>
+      </section>
 
-          <hr className="rule-gold reveal" />
+      {/* Charcoal dissolves into ivory — the breath before One Light */}
+      <div className="bridge-to-light" aria-hidden="true" />
+
+      {/* ── Section 2b — One Light from the Book of Gratitude (framed, ivory) ── */}
+      <TodaysLight />
+
+      {/* Ivory dissolves back into charcoal */}
+      <div className="bridge-to-dark" aria-hidden="true" />
+
+      {/* ── The Book of Gratitude, continued — charcoal, flowing into the Constellation ── */}
+      <section className="section dark" aria-label="The Book of Gratitude, continued">
+        <div className="inner">
+          <h2 className="section-h reveal">The Book of Gratitude</h2>
 
           <div className={`${styles.paraGroup} reveal`}>
             <p className="poetic">
@@ -132,14 +139,16 @@ export default function Home() {
               few heartfelt words expressing what Tina Turner awakened in you — and the light you now
               choose to pass on to others.
             </p>
-            <p className="poetic">This is a carefully curated Living Archive of human gratitude.</p>
+            <p className={`poetic ${styles.goldNote}`}>
+              This is a carefully curated living archive of human gratitude.
+            </p>
             <p className="poetic">
               Each contribution finds its place within this Living Archive and is represented by a
               single point of light. Together, we co-create the Living Constellation of Light — a
               growing visual expression of collective gratitude, connecting hearts across continents,
               cultures, and generations.
             </p>
-            <p className="poetic">
+            <p className={`poetic ${styles.goldNote}`}>
               The first edition of the Book of Gratitude will be gracefully designed and unveiled to
               the world on 26 November 2026, Tina Turner’s birthday, as the ceremonial opening of the
               Book of Gratitude takes place in Küsnacht, Switzerland.
@@ -180,10 +189,11 @@ export default function Home() {
 
           <hr className="rule-gold reveal" />
 
-          <div className={`${styles.stanzaGroup} reveal`}>
-            <p className="stanza">Every act of gratitude leaves a trace.</p>
-            <p className="stanza gold">Every trace becomes a light.</p>
-          </div>
+          <blockquote className={`${styles.quote} reveal`}>
+            Every act of gratitude leaves a trace.
+            <br />
+            Every trace becomes a light.
+          </blockquote>
 
           <div className={`${styles.imageFull} reveal`}>
             <span className={styles.imageLabel}>The Living Constellation</span>
