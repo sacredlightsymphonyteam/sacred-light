@@ -5,6 +5,7 @@ import TodaysLight from '../../components/TodaysLight/TodaysLight'
 import TheCircle from '../../components/TheCircle/TheCircle'
 import Footer from '../../components/Footer/Footer'
 import Seo from '../../components/Seo/Seo'
+import { useScrollReveal } from '../../hooks/useScrollReveal'
 import { SITE_NAME, SITE_URL } from '../../lib/site'
 import styles from './Home.module.css'
 
@@ -31,6 +32,7 @@ const personSchema = {
 }
 
 export default function Home() {
+  useScrollReveal()
   return (
     <main>
       <Seo
@@ -55,19 +57,19 @@ export default function Home() {
       {/* ── Movement 2 — Charcoal Reflection (Book of Gratitude) ── */}
       <section className="section dark" aria-label="The Book of Gratitude">
         <div className="inner">
-          <h2 className="section-h">A space for gratitude.</h2>
-          <p className="stanza">Not spoken, but held.</p>
+          <h2 className="section-h reveal">A space for gratitude.</h2>
+          <p className="stanza reveal">Not spoken, but held.</p>
 
-          <hr className="rule-gold" />
+          <hr className="rule-gold reveal" />
 
-          <div className={styles.stanzaGroup}>
+          <div className={`${styles.stanzaGroup} reveal`}>
             <p className="stanza">For what was given.</p>
             <p className="stanza">For what was lived.</p>
             <p className="stanza">For what remains.</p>
             <p className="stanza">For what still moves.</p>
           </div>
 
-          <div className={styles.paraGroup}>
+          <div className={`${styles.paraGroup} reveal`}>
             <p className="poetic">
               Inspired by Tina Turner’s enduring belief that even in life’s darkest moments we can
               choose the light, the first Book of Gratitude invites people from around the world to
@@ -93,11 +95,11 @@ export default function Home() {
 
       <section className="section dark" aria-label="The Book of Gratitude, continued">
         <div className="inner">
-          <div className={styles.image16}>
+          <div className={`${styles.image16} reveal`}>
             <span className={styles.imageLabel}>Bob Gruen · Tina in Blue</span>
           </div>
 
-          <blockquote className={styles.quote}>
+          <blockquote className={`${styles.quote} reveal`}>
             “When everything is so dark,
             <br />
             you have to find some way
@@ -106,9 +108,9 @@ export default function Home() {
             <cite className={styles.quoteCite}>~ Tina Turner</cite>
           </blockquote>
 
-          <hr className="rule-gold" />
+          <hr className="rule-gold reveal" />
 
-          <div className={styles.paraGroup}>
+          <div className={`${styles.paraGroup} reveal`}>
             <p className="poetic">
               Join a growing community from around the world in sharing your message of gratitude.
             </p>
@@ -131,7 +133,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className={styles.stanzaGroup}>
+          <div className={`${styles.stanzaGroup} reveal`}>
             <p className="stanza">Until then,</p>
             <p className="stanza">the constellation continues to grow,</p>
             <p className="stanza">one message,</p>
@@ -139,9 +141,9 @@ export default function Home() {
             <p className="stanza gold">one heart at a time.</p>
           </div>
 
-          <hr className="rule-gold" />
+          <hr className="rule-gold reveal" />
 
-          <div className={styles.ctaBlock}>
+          <div className={`${styles.ctaBlock} reveal`}>
             <p className={styles.ctaLines}>
               Your message matters.
               <br />
@@ -161,20 +163,20 @@ export default function Home() {
       <section className="section midnight" aria-label="The Living Constellation of Light">
         <div className="inner wide">
           <h2 className="section-h">The Living Constellation of Light</h2>
-          <p className={`poetic italic ${styles.heroSub}`}>A preview of what is emerging.</p>
+          <p className={`poetic italic ${styles.heroSub} reveal`}>A preview of what is emerging.</p>
 
-          <hr className="rule-gold" />
+          <hr className="rule-gold reveal" />
 
-          <div className={styles.stanzaGroup}>
+          <div className={`${styles.stanzaGroup} reveal`}>
             <p className="stanza">Every act of gratitude leaves a trace.</p>
             <p className="stanza gold">Every trace becomes a light.</p>
           </div>
 
-          <div className={styles.imageFull}>
+          <div className={`${styles.imageFull} reveal`}>
             <span className={styles.imageLabel}>The Living Constellation</span>
           </div>
 
-          <div className={styles.paraGroup}>
+          <div className={`${styles.paraGroup} reveal`}>
             <p className="poetic">
               Together, we are gently bringing into presence a new expression of human gratitude —
               something the world has never experienced before.
@@ -182,7 +184,7 @@ export default function Home() {
             <p className="poetic">Your light becomes part of the first Living Constellation.</p>
           </div>
 
-          <div className={styles.ctaBlock}>
+          <div className={`${styles.ctaBlock} reveal`}>
             <p className={styles.ctaLines}>
               Your message matters.
               <br />
@@ -201,12 +203,12 @@ export default function Home() {
       <section className="section light" aria-label="The Unveiling">
         <div className="inner">
           <h2 className="section-h">The Unveiling</h2>
-          <p className={`hero-sub ${styles.heroSub}`}>A moment the world will share.</p>
-          <p className="stanza">Where gratitude becomes presence.</p>
+          <p className={`hero-sub ${styles.heroSub} reveal`}>A moment the world will share.</p>
+          <p className="stanza reveal">Where gratitude becomes presence.</p>
 
-          <hr className="rule-gold" />
+          <hr className="rule-gold reveal" />
 
-          <div className={styles.paraGroup}>
+          <div className={`${styles.paraGroup} reveal`}>
             <p className="poetic">
               On 26 November 2026, Tina Turner’s birthday, the first edition of the Book of Gratitude
               will be ceremonially opened in Küsnacht, Switzerland — her adopted home.
@@ -217,13 +219,13 @@ export default function Home() {
             </p>
           </div>
 
-          <div className={styles.stanzaGroup}>
+          <div className={`${styles.stanzaGroup} reveal`}>
             <p className="stanza">Thousands of voices.</p>
             <p className="stanza">One shared heart.</p>
             <p className="stanza gold">One memorable moment.</p>
           </div>
 
-          <div className={styles.paraGroup}>
+          <div className={`${styles.paraGroup} reveal`}>
             <p className="poetic">
               The Living Constellation of Light will be revealed for the very first time — where every
               message of gratitude becomes a point of light within one shared, luminous whole.
@@ -236,13 +238,13 @@ export default function Home() {
               is invited.
             </p>
           </div>
-          <a className={styles.learnMore} href="#">
+          <a className={`${styles.learnMore} reveal`} href="#">
             Learn more →
           </a>
 
-          <hr className="rule-gold" />
+          <hr className="rule-gold reveal" />
 
-          <div className={styles.stanzaGroup}>
+          <div className={`${styles.stanzaGroup} reveal`}>
             <p className="gratitude-line">Your words have the power to become light.</p>
             <p className="stanza">Perhaps your light will be one of the first.</p>
           </div>

@@ -122,23 +122,3 @@
   font-size: 20px;
   color: var(--w-gold);
 }
-
-/* ── Reveal-on-scroll (armed only when JS runs → no-JS shows everything) ── */
-.armed .reveal {
-  opacity: 0;
-  transform: translateY(12px);
-  transition:
-    opacity 0.8s var(--ease),
-    transform 0.8s var(--ease);
-}
-.armed.in .reveal {
-  opacity: 1;
-  transform: none;
-}
-@media (prefers-reduced-motion: reduce) {
-  .armed .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-}
