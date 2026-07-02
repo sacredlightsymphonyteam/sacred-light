@@ -150,7 +150,7 @@ export default function Home() {
             <p className="stanza">Until then,</p>
             <p className="stanza">the constellation continues to grow,</p>
             <p className="stanza">one message,</p>
-            <p className="stanza">one light,</p>
+            <p className="stanza gold">one light,</p>
             <p className="stanza gold">one heart at a time.</p>
           </div>
 

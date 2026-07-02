@@ -40,8 +40,8 @@ export default function Footer() {
       <p className={styles.closing}>Presence · Light · Resonance</p>
 
       <p className={styles.copyright}>
-        © {year} Sacred Light Symphony · A Seeds 4 The Future Initiative · Created in Küsnacht,
-        Switzerland
+        © {year} Sacred Light Symphony · A Seeds 4 The Future Initiative · Created on the shores of
+        Lake Zurich, Switzerland
       </p>
     </footer>
   )
