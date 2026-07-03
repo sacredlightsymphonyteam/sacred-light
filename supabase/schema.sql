@@ -213,3 +213,45 @@ revoke all on public.app_settings from anon;
 grant select on public.app_settings to anon;
 
 notify pgrst, 'reload schema';
+
+-- 11) Transactional email webhook (Brevo via send-email Edge Function) --------
+-- Fires the `send-email` Edge Function on every insert/update of a contribution.
+-- The function inspects the payload and decides which email to send:
+--   INSERT                     → "message received" (+ newsletter opt-in)
+--   UPDATE status → 'approved' → "light confirmed"
+--   UPDATE status → 'rejected' → "gentle decline"
+-- Any other change is a no-op. This mirrors what a dashboard Database Webhook
+-- would create; done in SQL so it is version-controlled and reproducible.
+--
+-- Prerequisites (one-time, per project — NOT created by this file):
+--   • Deploy the function:  supabase/functions/send-email  (Verify JWT = OFF)
+--   • Set its secrets:      BREVO_API_KEY, WEBHOOK_SECRET
+--   • Replace YOUR-PROJECT-REF below, and set the x-webhook-secret header value
+--     to the SAME string as the function's WEBHOOK_SECRET secret.
+create extension if not exists pg_net with schema extensions;
+
+create or replace function public.notify_send_email()
+returns trigger language plpgsql security definer as $$
+begin
+  perform net.http_post(
+    url := 'https://YOUR-PROJECT-REF.supabase.co/functions/v1/send-email',
+    headers := jsonb_build_object(
+      'Content-Type', 'application/json',
+      'x-webhook-secret', 'REPLACE-WITH-WEBHOOK_SECRET'
+    ),
+    body := jsonb_build_object(
+      'type',       TG_OP,                       -- 'INSERT' or 'UPDATE'
+      'table',      TG_TABLE_NAME,
+      'schema',     TG_TABLE_SCHEMA,
+      'record',     to_jsonb(NEW),
+      'old_record', case when TG_OP = 'UPDATE' then to_jsonb(OLD) else null end
+    )
+  );
+  return NEW;
+end;
+$$;
+
+drop trigger if exists trg_send_email on public.contributions;
+create trigger trg_send_email
+  after insert or update on public.contributions
+  for each row execute function public.notify_send_email();
