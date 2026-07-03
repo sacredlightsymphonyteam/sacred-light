@@ -83,6 +83,19 @@ section.heroSection {
   gap: 12px;
   margin: 40px 0;
 }
+/* Item 7 — the "Until then" block: subtitle scale, upright (not italic). */
+.bigStanza p {
+  font-size: clamp(22px, 2.5vw, 32px);
+  font-style: normal;
+}
+/* Item 9 — the Unveiling "Thousands of hearts" block: subtitle scale, with
+   more breathing room above and below the three lines. */
+.spacedStanza {
+  margin: clamp(64px, 8vw, 104px) 0;
+}
+.spacedStanza p {
+  font-size: clamp(22px, 2.5vw, 32px);
+}
 
 /* Body paragraph groups — generous spacing between paragraphs */
 .paraGroup > p + p {
@@ -92,8 +105,12 @@ section.heroSection {
   margin: 40px 0;
 }
 
-/* Tina quote */
+/* Tina quote — inline-block so the block is only as wide as its longest line
+   ("When everything is so dark,"); the poem stays centred, but that lets the
+   right-aligned citation drop its last letter (R) under that line's comma. */
 .quote {
+  display: inline-block;
+  max-width: 100%;
   margin: 8px auto;
   font-family: var(--w-serif);
   font-style: italic;
@@ -101,13 +118,16 @@ section.heroSection {
   font-size: clamp(22px, 2.2vw, 26px);
   line-height: 1.5;
   color: var(--w-gold);
+  text-align: center;
 }
 .quoteCite {
   display: block;
+  text-align: right; /* push "~ Tina Turner" to the right edge (under the comma) */
   margin-top: 22px;
+  margin-right: calc(-1 * var(--ls-cta)); /* offset trailing letter-spacing so R sits at the edge */
   font-family: var(--w-sans);
-  font-size: 18px;
-  letter-spacing: 0.2em;
+  font-size: var(--fs-cta); /* tiny — same as the CTA buttons */
+  letter-spacing: var(--ls-cta);
   text-transform: uppercase;
   color: #ceb88c; /* softer gold for Tina's name */
   font-style: normal;

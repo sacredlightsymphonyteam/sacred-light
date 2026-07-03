@@ -263,10 +263,22 @@ a {
   padding: var(--cta-pad-y) var(--cta-pad-x);
   transition: all 0.35s var(--ease);
 }
-.sls-cta:hover {
+/* Light up on hover / keyboard focus — a soft golden glow + brighter border,
+   as if the button catches the light. */
+.sls-cta:hover,
+.sls-cta:focus-visible {
   border-color: var(--gold-line-strong);
-  background: rgba(150, 122, 55, 0.05);
+  background: rgba(183, 154, 99, 0.08);
+  box-shadow: 0 0 26px rgba(183, 154, 99, 0.38);
   letter-spacing: 0.38em;
+}
+/* Brighten the text only on dark grounds, where a light gold reads well and
+   catches the glow. On ivory it would wash out, so the text stays as-is. */
+.dark .sls-cta:hover,
+.dark .sls-cta:focus-visible,
+.midnight .sls-cta:hover,
+.midnight .sls-cta:focus-visible {
+  color: #d8c48f;
 }
 .sls-cta:disabled {
   opacity: 0.5;
@@ -479,6 +491,14 @@ html.reveal-on .reveal.in {
   font-weight: 400;
   font-size: clamp(18px, 1.8vw, 22px);
   line-height: 1.9;
+}
+/* Playfair is a high-contrast display face; as body text its hairlines "bloom"
+   on dark grounds, reading heavier/more ornate than on ivory. Antialiasing on
+   the dark/midnight sections tames that so paragraphs read consistently. */
+.dark .poetic,
+.midnight .poetic {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 .stanza {
   font-family: var(--w-serif);

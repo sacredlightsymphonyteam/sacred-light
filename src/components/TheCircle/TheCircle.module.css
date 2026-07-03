@@ -124,5 +124,7 @@
   font-style: italic;
   font-weight: 400;
   font-size: 20px;
-  color: var(--w-gold);
+  /* Shiny gold — same softer gold + soft glow as "One message / heart / light". */
+  color: #ceb88c;
+  text-shadow: 0 0 18px rgba(183, 154, 99, 0.45);
 }

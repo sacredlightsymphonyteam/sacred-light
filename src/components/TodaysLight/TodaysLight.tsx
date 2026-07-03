@@ -13,7 +13,9 @@ export default function TodaysLight() {
         <h2 className="section-h swirl reveal">
           One Light
           <br />
-          from the Book of Gratitude
+          from the
+          <br />
+          Book of Gratitude
         </h2>
 
         <figure className={`${styles.frame} reveal`}>
@@ -25,28 +27,21 @@ export default function TodaysLight() {
               invitations you left behind…
             </p>
             <p className={styles.verse}>
-              To choose the light.
+              To choose the Light…
               <br />
-              To become the light.
+              To become the Light…
               <br />
               To dance…
             </p>
             <p>
-              Your journey reminded me that every ending can become a beginning, that gratitude has
-              the power to transform pain into presence and fear into faith.
-            </p>
-            <p>
-              May this Book become a home for countless hearts, and may every message entrusted to it
-              carry your invitation a little further into the world.
+              May the Book of Gratitude become a home for countless hearts and may every message
+              entrusted to it carry your invitation a little further into the world.
             </p>
             <p className={styles.sign}>
               Sharing your Light,
               <br />
-              With joy and gratitude,
-              <br />
-              Marie
-              <br />
-              Switzerland
+              With joy, love and gratitude,
+              <span className={styles.signName}>~ Marie</span>
             </p>
           </div>
         </figure>

@@ -51,11 +51,11 @@ function FileDrop({
   const choose = (f: File | null) => {
     if (!f) return
     if (!allowed.includes(f.type)) {
-      onError(`“${f.name}” isn’t an accepted format for ${label.toLowerCase()}.`)
+      onError(`This kind of file cannot be used for ${label.toLowerCase()}. Please choose a different file.`)
       return
     }
     if (f.size > MAX_FILE_BYTES) {
-      onError(`“${f.name}” is larger than ${MB(MAX_FILE_BYTES)}.`)
+      onError(`This file is too big. Please choose one smaller than ${MB(MAX_FILE_BYTES)}.`)
       return
     }
     onError('')
@@ -189,18 +189,22 @@ export default function GratitudeForm() {
   })
 
   const validate = (): string => {
-    if (!salutation) return 'Please choose a salutation.'
-    if (!firstName.trim() || !lastName.trim()) return 'Please enter your first and last name.'
-    if (!email.trim() || !isValidEmail(email.trim())) return 'Please enter a valid email address.'
-    if (!country) return 'Please choose your country.'
+    if (!salutation) return 'Please choose a title, such as Mr, Mrs, or Ms.'
+    if (!firstName.trim() || !lastName.trim()) return 'Please type your first name and your last name.'
+    if (!email.trim() || !isValidEmail(email.trim()))
+      return 'Please type your email address, for example name@example.com.'
+    if (!country) return 'Please choose your country from the list.'
     if (!language) return 'Please choose the language you are writing in.'
     if (!message.trim()) return 'Please write your message of gratitude.'
-    if (!displayLanguage) return 'Please choose the language for your message.'
-    if (website && !isValidUrl(website)) return 'Please enter a valid website address, or leave it blank.'
-    if (musicUrl && !isValidUrl(musicUrl)) return 'Please enter a valid music link, or leave it blank.'
-    if (videoUrl && !isValidUrl(videoUrl)) return 'Please enter a valid video link, or leave it blank.'
+    if (!displayLanguage) return 'Please choose the language to show your message in.'
+    if (website && !isValidUrl(website))
+      return 'Please check the website link, for example https://example.com — or leave it empty.'
+    if (musicUrl && !isValidUrl(musicUrl))
+      return 'Please check the music link, for example https://… — or leave it empty.'
+    if (videoUrl && !isValidUrl(videoUrl))
+      return 'Please check the video link, for example https://… — or leave it empty.'
     if (!consentOriginal || !consentPublish || !consentTranslate)
-      return 'Please confirm the consent statements to continue.'
+      return 'Please tick the boxes below to agree, so you can continue.'
     return ''
   }
 
@@ -338,7 +342,7 @@ export default function GratitudeForm() {
 
         <div className={styles.field}>
           <label htmlFor="salutation" className={styles.label}>
-            Salutation <span className={styles.req}>*</span>
+            Title (Mr, Mrs, Ms…) <span className={styles.req}>*</span>
           </label>
           <select
             id="salutation"

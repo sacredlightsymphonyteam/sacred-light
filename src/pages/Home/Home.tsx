@@ -78,20 +78,20 @@ export default function Home() {
       {/* ── Movement 2 — Charcoal Reflection (Book of Gratitude) ── */}
       <section className="section dark" aria-label="The Book of Gratitude">
         <div className="inner">
-          <h2 className="section-h reveal">A space for gratitude.</h2>
+          <h2 className="section-h reveal">A space for gratitude</h2>
           <p className="poetic-sub gold reveal">
             Not spoken,
             <br />
-            but held.
+            but held
           </p>
 
           <hr className="rule-gold reveal" />
 
           <div className={`${styles.stanzaGroup} reveal`}>
-            <p className="stanza">For what was given.</p>
-            <p className="stanza">For what was lived.</p>
-            <p className="stanza">For what remains.</p>
-            <p className="stanza">For what still moves.</p>
+            <p className="stanza">For what was given</p>
+            <p className="stanza">For what was lived</p>
+            <p className="stanza">For what remains</p>
+            <p className="stanza">For what still moves</p>
           </div>
 
           <div className={`${styles.paraGroup} reveal`}>
@@ -170,10 +170,10 @@ export default function Home() {
             </p>
           </div>
 
-          <div className={`${styles.stanzaGroup} reveal`}>
+          <div className={`${styles.stanzaGroup} ${styles.bigStanza} reveal`}>
             <p className="stanza">Until then,</p>
             <p className="stanza">the constellation continues to grow,</p>
-            <p className="stanza">one message,</p>
+            <p className="stanza gold">one message,</p>
             <p className="stanza gold">one light,</p>
             <p className="stanza gold">one heart at a time.</p>
           </div>
@@ -190,6 +190,14 @@ export default function Home() {
               Become a Messenger of Gratitude
             </Link>
             <p className={`poetic-sub gold-glow ${styles.ctaSub}`}>A Living Archive of Appreciation</p>
+
+            <div className={`${styles.words} reveal`} aria-label="Gratitude, Light, Resonance">
+              <span className={styles.word}>Gratitude</span>
+              <span className={styles.wordRule} aria-hidden="true" />
+              <span className={styles.word}>Light</span>
+              <span className={styles.wordRule} aria-hidden="true" />
+              <span className={styles.word}>Resonance</span>
+            </div>
           </div>
         </div>
       </section>
@@ -223,7 +231,7 @@ export default function Home() {
               Together, we are gently bringing into presence a new expression of human gratitude —
               something the world has never experienced before.
             </p>
-            <p className="poetic">Your light becomes part of the first Living Constellation.</p>
+            <p className="poetic gold">Your light becomes part of the first Living Constellation.</p>
           </div>
 
           <div className={`${styles.ctaBlock} reveal`}>
@@ -258,10 +266,10 @@ export default function Home() {
             </p>
           </div>
 
-          <div className={`${styles.stanzaGroup} reveal`}>
-            <p className="stanza">Thousands of hearts.</p>
-            <p className="stanza">One living constellation.</p>
-            <p className="stanza gold">A new expression of human gratitude.</p>
+          <div className={`${styles.stanzaGroup} ${styles.spacedStanza} reveal`}>
+            <p className="stanza">Thousands of hearts</p>
+            <p className="stanza">One living constellation</p>
+            <p className="stanza gold">A new expression of human gratitude</p>
           </div>
 
           <div className={`${styles.paraGroup} reveal`}>

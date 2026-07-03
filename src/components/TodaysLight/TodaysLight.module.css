@@ -38,9 +38,19 @@
 .verse {
   color: var(--w-gold);
 }
+/* Closing + signature: the block is only as wide as its longest line
+   ("With joy and gratitude,"), so right-aligning the name drops its last
+   letter under that line's comma. */
 .sign {
+  display: inline-block;
   margin-top: 1.6em;
+  text-align: left;
   color: var(--w-graphite-soft);
+}
+.signName {
+  display: block;
+  text-align: right;
+  margin-top: 0.15em;
 }
 
 /* One message / One heart / One light — stacked, matching "A Living Archive

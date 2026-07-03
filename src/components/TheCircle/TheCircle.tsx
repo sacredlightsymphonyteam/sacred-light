@@ -100,7 +100,7 @@ export default function TheCircle() {
         <p className={`${styles.intro} reveal`}>
           Sacred Light Symphony extends its heartfelt appreciation to the artists, visionaries, patrons
           and friends whose generosity, creativity and trust have helped illuminate this journey from
-          its very beginning.
+          its very beginning,
         </p>
 
         {tiers.map((tier) => (
