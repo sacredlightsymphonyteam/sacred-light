@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { getVisibleCredits, type CreditRow } from '../../lib/supabase'
 import styles from './TheCircle.module.css'
 
@@ -73,8 +74,10 @@ export default function TheCircle() {
     <section className={`section light ${styles.circle}`} aria-label="The Circle">
       <div className="inner">
         {/* ── Half 1 — the narrative close ── */}
-        <p className={`section-h ${styles.circleTitle} reveal`}>The Circle</p>
+        <p className={`section-h swirl ${styles.circleTitle} reveal`}>The Circle</p>
         <p className={`${styles.opening} reveal`}>The first light is only the beginning.</p>
+
+        <hr className={`rule-gold short ${styles.openingRule}`} />
 
         <div className={styles.body}>
           <p className={`${styles.para} reveal`}>
@@ -93,7 +96,7 @@ export default function TheCircle() {
         <hr className={`rule-gold ${styles.divide}`} />
 
         {/* ── Half 2 — Our Gratitude (the credits) ── */}
-        <p className={`section-h ${styles.circleTitle} reveal`}>Our Gratitude</p>
+        <p className={`section-h swirl ${styles.circleTitle} reveal`}>Our Gratitude</p>
         <p className={`${styles.intro} reveal`}>
           Sacred Light Symphony extends its heartfelt appreciation to the artists, visionaries, patrons
           and friends whose generosity, creativity and trust have helped illuminate this journey from
@@ -137,7 +140,12 @@ export default function TheCircle() {
           whose light continues to illuminate the Living Constellation.
         </p>
 
-        {/* ── Closing benediction ── */}
+        {/* ── Invitation + closing benediction ── */}
+        <div className={`${styles.circleCta} reveal`}>
+          <Link to="/gratitude" className="sls-cta">
+            Become a Messenger of Gratitude
+          </Link>
+        </div>
         <p className={`${styles.closingPhrase} reveal`}>Where gratitude becomes light.</p>
       </div>
     </section>

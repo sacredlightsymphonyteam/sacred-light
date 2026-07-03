@@ -10,7 +10,7 @@ export default function TodaysLight() {
   return (
     <section className="section light" aria-label="One Light from the Book of Gratitude">
       <div className="inner">
-        <h2 className="section-h reveal">
+        <h2 className="section-h swirl reveal">
           One Light
           <br />
           from the Book of Gratitude
@@ -52,9 +52,9 @@ export default function TodaysLight() {
         </figure>
 
         <div className={`${styles.trio} reveal`}>
-          <p>One message.</p>
-          <p>One heart.</p>
-          <p>One light.</p>
+          <p>One message</p>
+          <p>One heart</p>
+          <p>One light</p>
         </div>
       </div>
     </section>

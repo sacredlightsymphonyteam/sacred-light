@@ -67,7 +67,7 @@ export default function Home() {
         </p>
 
         <div className={styles.heroCta}>
-          <Link to="/gratitude" className="btn">
+          <Link to="/gratitude" className="sls-cta">
             Become a Messenger of Gratitude
           </Link>
         </div>
@@ -79,7 +79,11 @@ export default function Home() {
       <section className="section dark" aria-label="The Book of Gratitude">
         <div className="inner">
           <h2 className="section-h reveal">A space for gratitude.</h2>
-          <p className="stanza reveal">Not spoken, but held.</p>
+          <p className="poetic-sub gold reveal">
+            Not spoken,
+            <br />
+            but held.
+          </p>
 
           <hr className="rule-gold reveal" />
 
@@ -139,7 +143,7 @@ export default function Home() {
       {/* ── The Book of Gratitude, continued — charcoal, flowing into the Constellation ── */}
       <section className="section dark" aria-label="The Book of Gratitude, continued">
         <div className="inner">
-          <h2 className="section-h reveal">The Book of Gratitude</h2>
+          <h2 className="section-h swirl reveal">The Book of Gratitude</h2>
 
           <div className={`${styles.paraGroup} reveal`}>
             <p className="poetic">
@@ -182,10 +186,10 @@ export default function Home() {
               <br />
               Your light matters.
             </p>
-            <Link to="/gratitude" className="btn">
+            <Link to="/gratitude" className="sls-cta">
               Become a Messenger of Gratitude
             </Link>
-            <p className={styles.ctaSub}>A living archive of appreciation.</p>
+            <p className={`poetic-sub gold-glow ${styles.ctaSub}`}>A Living Archive of Appreciation</p>
           </div>
         </div>
       </section>
@@ -199,8 +203,8 @@ export default function Home() {
         aria-label="The Living Constellation of Light"
       >
         <div className="inner wide">
-          <h2 className="section-h">The Living Constellation of Light</h2>
-          <p className={`poetic italic ${styles.heroSub} reveal`}>A preview of what is emerging.</p>
+          <h2 className="section-h swirl">The Living Constellation of Light</h2>
+          <p className={`poetic-sub gold ${styles.heroSub} reveal`}>A preview of what is emerging.</p>
 
           <hr className="rule-gold reveal" />
 
@@ -228,7 +232,7 @@ export default function Home() {
               <br />
               Your light matters.
             </p>
-            <Link to="/gratitude" className="btn">
+            <Link to="/gratitude" className="sls-cta">
               Become a Messenger of Gratitude
             </Link>
           </div>
@@ -240,9 +244,9 @@ export default function Home() {
       {/* ── Movement 4 — Ivory Return (The Unveiling) ── */}
       <section className="section light" aria-label="The Unveiling">
         <div className="inner">
-          <h2 className="section-h">The Unveiling</h2>
-          <p className={`hero-sub ${styles.heroSub} reveal`}>A moment the world will share.</p>
-          <p className="stanza reveal">Where gratitude becomes presence.</p>
+          <h2 className="section-h swirl">The Unveiling</h2>
+          <p className={`poetic-sub ${styles.heroSub} reveal`}>A moment the world will share.</p>
+          <p className="poetic-sub reveal">Where gratitude becomes presence.</p>
 
           <hr className="rule-gold reveal" />
 

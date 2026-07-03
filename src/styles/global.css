@@ -450,6 +450,30 @@ html.reveal-on .reveal.in {
   font-size: clamp(30px, 4vw, 42px);
   line-height: 1.15;
 }
+/* The elegant "swirl" title treatment — Playfair Display italic, same size.
+   Applied to the named section titles (The Book of Gratitude, The Unveiling,
+   The Circle, …). Deliberately NOT on "A space for gratitude." */
+.section-h.swirl {
+  font-style: italic;
+}
+/* Poetic subtitle — the elegant italic line beneath a title, matching
+   "The first light is only the beginning." Colour inherits per section
+   (graphite on light); pair with .gold for dark grounds. */
+.poetic-sub {
+  font-family: var(--w-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(22px, 2.5vw, 32px);
+  line-height: 1.4;
+}
+/* Emphasised gold phrase — bold, slightly softer gold, soft golden glow
+   (e.g. "A Living Archive of Appreciation"). Pair with .poetic-sub for
+   the italic base. Needs italic 600/700 from the extended font import. */
+.gold-glow {
+  font-weight: 700;
+  color: #ceb88c;
+  text-shadow: 0 0 18px rgba(183, 154, 99, 0.45);
+}
 .poetic {
   font-family: var(--w-serif);
   font-weight: 400;

@@ -43,14 +43,16 @@
   color: var(--w-graphite-soft);
 }
 
-/* One message. One heart. One light. — stacked, in Tina's-quote style (gold). */
+/* One message / One heart / One light — stacked, matching "A Living Archive
+   of Appreciation": italic + bold + slightly softer gold + soft golden glow. */
 .trio {
   margin-top: clamp(48px, 6vw, 72px);
   text-align: center;
   font-family: var(--w-serif);
   font-style: italic;
-  font-weight: 400;
-  font-size: clamp(22px, 2.2vw, 26px);
+  font-weight: 700;
+  font-size: clamp(22px, 2.5vw, 32px);
   line-height: 1.7;
-  color: var(--w-gold);
+  color: #ceb88c;
+  text-shadow: 0 0 18px rgba(183, 154, 99, 0.45);
 }

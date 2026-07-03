@@ -15,7 +15,11 @@
   font-size: clamp(22px, 2.5vw, 32px);
   line-height: 1.4;
   color: var(--w-graphite);
-  margin-bottom: 48px;
+  margin-bottom: 0;
+}
+/* Short gold rule beneath "The first light is only the beginning." */
+.openingRule {
+  margin: 32px auto 48px;
 }
 
 .body {
@@ -56,7 +60,7 @@
 .tierLabel {
   font-family: var(--w-sans);
   font-weight: 400;
-  font-size: 11px;
+  font-size: clamp(16px, 1.9vw, 22px); /* match PRESENCE (the hero word scale) */
   letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--w-gold);
@@ -109,8 +113,12 @@
   color: var(--w-graphite-soft);
   margin-bottom: 0;
 }
+.circleCta {
+  margin-top: 72px;
+  text-align: center;
+}
 .closingPhrase {
-  margin-top: 80px;
+  margin-top: 56px;
   margin-bottom: 0;
   font-family: var(--w-serif);
   font-style: italic;
