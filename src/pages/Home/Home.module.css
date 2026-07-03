@@ -145,6 +145,21 @@ section.heroSection {
     radial-gradient(ellipse 90% 120% at 35% 80%, rgba(183, 154, 99, 0.12) 0%, transparent 55%);
 }
 
+/* Book of Gratitude photograph — Bob Gruen "Tina in Blue" (placeholder asset).
+   Sized to match the Movement 1 hero video: same 1320px cap + side padding,
+   so the 16:9 image reads at the identical width. Breaks out of .inner (720). */
+.bookFigure {
+  margin: clamp(48px, 6vw, 72px) auto;
+  max-width: 1320px;
+  padding-inline: clamp(24px, 5vw, 56px);
+}
+.bookImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid rgba(244, 238, 227, 0.08);
+}
+
 /* Constellation image — no border, suspended in darkness */
 .imageFull {
   position: relative;

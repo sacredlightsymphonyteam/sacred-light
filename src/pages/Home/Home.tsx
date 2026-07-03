@@ -102,11 +102,20 @@ export default function Home() {
             </p>
             <p className="poetic">The Book of Gratitude is an invitation to continue that journey.</p>
           </div>
+        </div>
 
-          <div className={`${styles.image16} reveal`}>
-            <span className={styles.imageLabel}>Bob Gruen · Tina in Blue</span>
-          </div>
+        <figure className={`${styles.bookFigure} reveal`}>
+          <img
+            className={styles.bookImage}
+            src="/tina-in-blue.jpg"
+            alt="Tina Turner in silhouette against a cross of blue stage light — photograph by Bob Gruen"
+            width={1920}
+            height={1080}
+            loading="lazy"
+          />
+        </figure>
 
+        <div className="inner">
           <blockquote className={`${styles.quote} reveal`}>
             “When everything is so dark,
             <br />
