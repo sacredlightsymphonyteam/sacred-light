@@ -184,7 +184,11 @@ export default function Home() {
       <div className="bridge-to-midnight" aria-hidden="true" />
 
       {/* ── Movement 3 — Midnight Wonder (Living Constellation) ── */}
-      <section className="section midnight" aria-label="The Living Constellation of Light">
+      <section
+        id="constellation"
+        className="section midnight"
+        aria-label="The Living Constellation of Light"
+      >
         <div className="inner wide">
           <h2 className="section-h">The Living Constellation of Light</h2>
           <p className={`poetic italic ${styles.heroSub} reveal`}>A preview of what is emerging.</p>
