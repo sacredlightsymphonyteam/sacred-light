@@ -38,3 +38,8 @@ pnpm-debug.log*
 HANDOFF.md
 CLIENT-ACCOUNT-SETUP.md
 seo-update-email-draft.md
+
+# credentials & secrets — never commit (public repo). Includes Excel lock files.
+credentials.xlsx
+*credentials*.xlsx
+~$*
