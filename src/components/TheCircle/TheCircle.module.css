@@ -26,6 +26,22 @@
   max-width: 580px;
   margin: 0 auto;
 }
+
+/* Gold stanza lines — same upright Playfair scale as the homepage
+   "Until then, the constellation continues…" block. */
+.bigLines {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 44px auto;
+}
+.bigLines p {
+  font-family: var(--w-serif);
+  font-weight: 400;
+  font-size: clamp(22px, 2.5vw, 32px);
+  line-height: 1.4;
+  color: var(--w-gold);
+}
 .para {
   font-family: var(--w-serif);
   font-weight: 400;
@@ -117,9 +133,23 @@
   margin-top: 72px;
   text-align: center;
 }
-/* Item 5 — spacing only; type + shine come from .poetic-sub + .gold-glow,
-   so it matches "A Living Archive of Appreciation" exactly. */
+/* The quiet closing before the footer — generous space around the two lines. */
+.closing {
+  margin: clamp(72px, 10vw, 120px) auto 0;
+}
+/* Type + shine come from .poetic-sub + .gold-glow (matches "A Living Archive
+   of Appreciation"); italic. */
 .closingPhrase {
-  margin-top: 56px;
-  margin-bottom: 0;
+  margin: 0;
+}
+/* "May the light you received…" — upright Playfair (like "Until then…"),
+   charcoal, non-italic. The soft resolve after the gold line. */
+.closingPass {
+  margin-top: 20px;
+  font-family: var(--w-serif);
+  font-weight: 400;
+  font-style: normal;
+  font-size: clamp(20px, 2.2vw, 28px);
+  line-height: 1.5;
+  color: var(--w-graphite);
 }

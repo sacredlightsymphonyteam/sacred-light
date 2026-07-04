@@ -350,6 +350,13 @@ html.reveal-on .reveal.in {
     transition: none;
   }
 }
+/* A quiet appearance — pure opacity, no movement, slow and gentle. Used with
+   per-element transition-delay to let the GRATITUDE / LIGHT / RESONANCE trio
+   emerge one note at a time, like three notes before the next movement. */
+html.reveal-on .reveal.fade-soft {
+  transform: none;
+  transition: opacity 1.6s var(--ease);
+}
 
 /* ============================================================
    MAY DESIGN SYSTEM (Brief v3) — the single source of truth for

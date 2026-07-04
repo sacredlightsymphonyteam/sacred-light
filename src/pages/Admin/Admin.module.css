@@ -175,17 +175,193 @@
   padding: 24px 0;
 }
 
+/* Search + count */
+.search {
+  flex: 1 1 220px;
+  min-width: 150px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--gold-line-faint);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--quote-light);
+}
+.search:focus {
+  outline: none;
+  border-color: var(--gold-line-strong);
+}
+.search::placeholder {
+  color: var(--warm-grey);
+}
+.count {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--warm-grey);
+  margin-bottom: 14px;
+}
+
+/* Responsive grid of message cards — scales to dozens of entries. */
 .list {
   display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 16px;
-  max-width: 760px;
+  align-items: start;
 }
 
 .card {
-  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 22px;
   border: 1px solid var(--gold-line-faint);
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.02);
+}
+
+/* --- Spreadsheet / table view --- */
+.filterSelect {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--gold-line-faint);
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--quote-light);
+  cursor: pointer;
+}
+.dupToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--warm-grey);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.tableWrap {
+  overflow-x: auto;
+  border: 1px solid var(--gold-line-faint);
+  border-radius: 10px;
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--quote-light);
+}
+.th {
+  position: sticky;
+  top: 0;
+  text-align: left;
+  padding: 12px 14px;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+  background: #1f1f1c;
+  border-bottom: 1px solid var(--gold-line-faint);
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+}
+.sortArrow {
+  color: var(--gold-bright);
+}
+.row {
+  cursor: pointer;
+  transition: background 0.2s var(--ease);
+}
+.row:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+.rowOpen {
+  background: rgba(200, 168, 75, 0.07);
+}
+.table td {
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--gold-line-faint);
+  vertical-align: top;
+}
+.tdDate {
+  white-space: nowrap;
+  color: var(--warm-grey);
+}
+.tdEmail {
+  white-space: nowrap;
+}
+/* max-width:0 + width lets the ellipsis engage in an auto table layout */
+.tdMsg {
+  max-width: 0;
+  width: 40%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--warm-grey);
+}
+.dupBadge {
+  margin-left: 6px;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: #1a1a18;
+  background: #c98b7a;
+  border-radius: 999px;
+  padding: 1px 6px;
+}
+.inBookDot,
+.featStar {
+  color: var(--gold-bright);
+}
+.tdActions {
+  white-space: nowrap;
+  text-align: right;
+}
+.iconApprove,
+.iconReject,
+.iconExpand {
+  width: 28px;
+  height: 28px;
+  font-size: 12px;
+  border-radius: 6px;
+  border: 1px solid var(--gold-line);
+  background: none;
+  cursor: pointer;
+  margin-left: 4px;
+}
+.iconApprove {
+  color: #8aa97a;
+  border-color: rgba(138, 169, 122, 0.5);
+}
+.iconApprove:hover {
+  background: rgba(138, 169, 122, 0.12);
+}
+.iconReject {
+  color: #c98b7a;
+  border-color: rgba(201, 139, 122, 0.5);
+}
+.iconReject:hover {
+  background: rgba(201, 139, 122, 0.12);
+}
+.iconExpand {
+  color: var(--warm-grey);
+}
+.iconApprove:disabled,
+.iconReject:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.detailRow td {
+  padding: 0;
+  background: rgba(255, 255, 255, 0.015);
+}
+.detail {
+  padding: 18px 20px 22px;
 }
 
 .cardHead {
@@ -248,11 +424,34 @@
 }
 .message {
   font-family: var(--font-display);
-  font-size: 19px;
+  font-size: 16px;
   line-height: 1.6;
   color: var(--quote-light);
-  margin-bottom: 14px;
+  margin-bottom: 12px;
   white-space: pre-wrap;
+}
+/* Clamp long messages so grid cards stay uniform; "Read more" expands. */
+.clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.readMore {
+  align-self: flex-start;
+  margin: -6px 0 12px;
+  padding: 0;
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.readMore:hover {
+  text-decoration: underline;
 }
 
 .details {

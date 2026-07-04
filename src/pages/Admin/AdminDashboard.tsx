@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { Fragment, useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import {
   supabase,
@@ -9,6 +9,7 @@ import {
 import styles from './Admin.module.css'
 
 type Filter = ContributionStatus | 'all' | 'in_book'
+type SortKey = 'created_at' | 'name' | 'country' | 'email' | 'status' | 'message'
 
 const FILTERS: { key: Filter; label: string }[] = [
   { key: 'pending', label: 'Pending' },
@@ -24,10 +25,87 @@ const isImage = (url: string) => /\.(png|jpe?g|gif|webp|avif|svg)(\?|$)/i.test(u
 export default function AdminDashboard() {
   const navigate = useNavigate()
   const [filter, setFilter] = useState<Filter>('pending')
+  const [search, setSearch] = useState('')
+  const [countryFilter, setCountryFilter] = useState('')
+  const [dupOnly, setDupOnly] = useState(false)
+  const [sortKey, setSortKey] = useState<SortKey>('created_at')
+  const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc')
+  const [expanded, setExpanded] = useState<Set<string>>(new Set())
   const [rows, setRows] = useState<ContributionRow[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [busyId, setBusyId] = useState<string | null>(null)
+
+  const toggleExpand = (id: string) =>
+    setExpanded((prev) => {
+      const next = new Set(prev)
+      next.has(id) ? next.delete(id) : next.add(id)
+      return next
+    })
+
+  const displayName = (r: ContributionRow) =>
+    [r.salutation, r.first_name, r.last_name].filter(Boolean).join(' ') || r.name
+
+  // How many times each email appears in the loaded rows (to flag duplicates).
+  const emailCounts = rows.reduce<Record<string, number>>((acc, r) => {
+    acc[r.email] = (acc[r.email] ?? 0) + 1
+    return acc
+  }, {})
+  const countries = Array.from(new Set(rows.map((r) => r.country).filter(Boolean))).sort() as string[]
+
+  const q = search.trim().toLowerCase()
+  const sortVal = (r: ContributionRow): string => {
+    switch (sortKey) {
+      case 'name':
+        return displayName(r).toLowerCase()
+      case 'country':
+        return (r.country ?? '').toLowerCase()
+      case 'email':
+        return r.email.toLowerCase()
+      case 'status':
+        return r.status
+      case 'message':
+        return r.message.toLowerCase()
+      default:
+        return r.created_at
+    }
+  }
+  const visibleRows = rows
+    .filter((r) =>
+      !q
+        ? true
+        : [
+            r.name,
+            r.first_name,
+            r.last_name,
+            r.display_name,
+            r.email,
+            r.title,
+            r.message,
+            r.country,
+            r.city,
+          ]
+            .filter(Boolean)
+            .join(' ')
+            .toLowerCase()
+            .includes(q),
+    )
+    .filter((r) => (countryFilter ? r.country === countryFilter : true))
+    .filter((r) => (dupOnly ? emailCounts[r.email] > 1 : true))
+    .slice()
+    .sort((a, b) => {
+      const cmp = sortVal(a).localeCompare(sortVal(b))
+      return sortDir === 'asc' ? cmp : -cmp
+    })
+
+  const sortBy = (key: SortKey) => {
+    if (sortKey === key) {
+      setSortDir((d) => (d === 'asc' ? 'desc' : 'asc'))
+    } else {
+      setSortKey(key)
+      setSortDir(key === 'created_at' ? 'desc' : 'asc')
+    }
+  }
 
   const load = useCallback(async () => {
     if (!supabase) {
@@ -120,6 +198,16 @@ export default function AdminDashboard() {
     navigate('/admin/login', { replace: true })
   }
 
+  // Sortable column header — click to sort, click again to flip direction.
+  const th = (key: SortKey, label: string) => (
+    <th className={styles.th} onClick={() => sortBy(key)}>
+      {label}
+      <span className={styles.sortArrow}>
+        {sortKey === key ? (sortDir === 'asc' ? ' ▲' : ' ▼') : ''}
+      </span>
+    </th>
+  )
+
   return (
     <main className={styles.dashWrap}>
       <title>Moderation — Sacred Light Symphony</title>
@@ -150,6 +238,30 @@ export default function AdminDashboard() {
             {f.label}
           </button>
         ))}
+        <input
+          className={styles.search}
+          type="search"
+          placeholder="Search name, message, email…"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <select
+          className={styles.filterSelect}
+          value={countryFilter}
+          onChange={(e) => setCountryFilter(e.target.value)}
+          title="Filter by country"
+        >
+          <option value="">All countries</option>
+          {countries.map((c) => (
+            <option key={c} value={c}>
+              {c}
+            </option>
+          ))}
+        </select>
+        <label className={styles.dupToggle} title="Show only emails that submitted more than once">
+          <input type="checkbox" checked={dupOnly} onChange={(e) => setDupOnly(e.target.checked)} />
+          Duplicate emails
+        </label>
         <button className={styles.refresh} onClick={() => void load()} title="Refresh">
           ↻
         </button>
@@ -159,120 +271,201 @@ export default function AdminDashboard() {
 
       {loading ? (
         <p className={styles.muted}>Loading…</p>
-      ) : rows.length === 0 ? (
-        <p className={styles.muted}>No messages here yet.</p>
+      ) : visibleRows.length === 0 ? (
+        <p className={styles.muted}>
+          {rows.length === 0 ? 'No messages here yet.' : 'No messages match your search.'}
+        </p>
       ) : (
-        <div className={styles.list}>
-          {rows.map((r) => (
-            <article key={r.id} className={styles.card}>
-              <div className={styles.cardHead}>
-                <span className={`${styles.badge} ${styles[r.status]}`}>{r.status}</span>
-                {r.star_id != null && <span className={styles.starId}>★ {r.star_id}</span>}
-                {r.in_book && <span className={styles.inBookTag}>in book</span>}
-                {r.is_featured && <span className={styles.featuredTag}>★ today’s light</span>}
-                <time className={styles.date}>{new Date(r.created_at).toLocaleString()}</time>
-              </div>
+        <>
+          <p className={styles.count}>
+            {visibleRows.length} {visibleRows.length === 1 ? 'message' : 'messages'}
+            {q && ` matching “${search.trim()}”`}
+          </p>
+          <div className={styles.tableWrap}>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  {th('created_at', 'Date')}
+                  {th('name', 'Name')}
+                  {th('country', 'Country')}
+                  {th('email', 'Email')}
+                  {th('message', 'Message')}
+                  {th('status', 'Status')}
+                  <th className={styles.th}>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {visibleRows.map((r) => {
+                  const dup = emailCounts[r.email] > 1
+                  const isOpen = expanded.has(r.id)
+                  return (
+                    <Fragment key={r.id}>
+                      <tr
+                        className={`${styles.row} ${isOpen ? styles.rowOpen : ''}`}
+                        onClick={() => toggleExpand(r.id)}
+                      >
+                        <td className={styles.tdDate}>
+                          {new Date(r.created_at).toLocaleDateString()}
+                        </td>
+                        <td>
+                          {displayName(r)}
+                          {r.star_id != null && <span className={styles.starId}> ★{r.star_id}</span>}
+                        </td>
+                        <td>{r.country || '—'}</td>
+                        <td className={styles.tdEmail}>
+                          {r.email}
+                          {dup && (
+                            <span className={styles.dupBadge} title="Submitted more than once">
+                              ×{emailCounts[r.email]}
+                            </span>
+                          )}
+                        </td>
+                        <td className={styles.tdMsg} title={r.message}>
+                          {r.title ? `${r.title} — ` : ''}
+                          {r.message}
+                        </td>
+                        <td>
+                          <span className={`${styles.badge} ${styles[r.status]}`}>{r.status}</span>
+                          {r.in_book && (
+                            <span className={styles.inBookDot} title="In book">
+                              {' ●'}
+                            </span>
+                          )}
+                          {r.is_featured && (
+                            <span className={styles.featStar} title="Today’s light">
+                              {' ★'}
+                            </span>
+                          )}
+                        </td>
+                        <td className={styles.tdActions} onClick={(e) => e.stopPropagation()}>
+                          {r.status !== 'approved' && (
+                            <button
+                              className={styles.iconApprove}
+                              disabled={busyId === r.id}
+                              onClick={() => setStatus(r.id, 'approved')}
+                              title="Approve"
+                            >
+                              ✓
+                            </button>
+                          )}
+                          {r.status !== 'rejected' && (
+                            <button
+                              className={styles.iconReject}
+                              disabled={busyId === r.id}
+                              onClick={() => setStatus(r.id, 'rejected')}
+                              title="Reject"
+                            >
+                              ✕
+                            </button>
+                          )}
+                          <button
+                            className={styles.iconExpand}
+                            onClick={() => toggleExpand(r.id)}
+                            title={isOpen ? 'Collapse' : 'Expand'}
+                          >
+                            {isOpen ? '▲' : '▼'}
+                          </button>
+                        </td>
+                      </tr>
 
-              {r.title && <p className={styles.msgTitle}>{r.title}</p>}
-              <p className={styles.message}>{r.message}</p>
+                      {isOpen && (
+                        <tr className={styles.detailRow}>
+                          <td colSpan={7}>
+                            <div className={styles.detail}>
+                              {r.title && <p className={styles.msgTitle}>{r.title}</p>}
+                              <p className={styles.message}>{r.message}</p>
 
-              <div className={styles.meta}>
-                <strong>
-                  {[r.salutation, r.first_name, r.last_name].filter(Boolean).join(' ') || r.name}
-                </strong>
-                {(r.city || r.country) && (
-                  <span> · {[r.city, r.country].filter(Boolean).join(', ')}</span>
-                )}
-                <span className={styles.email}> · {r.email}</span>
-              </div>
+                              <div className={styles.meta}>
+                                <strong>{displayName(r)}</strong>
+                                {(r.city || r.country) && (
+                                  <span> · {[r.city, r.country].filter(Boolean).join(', ')}</span>
+                                )}
+                                <span className={styles.email}> · {r.email}</span>
+                                {r.display_name && <span> · displayed as “{r.display_name}”</span>}
+                              </div>
 
-              {(r.website || r.social || r.music_url || r.video_url) && (
-                <div className={styles.details}>
-                  {r.website && (
-                    <a href={r.website} target="_blank" rel="noreferrer">
-                      Website ↗
-                    </a>
-                  )}
-                  {r.social && <span>{r.social}</span>}
-                  {r.music_url && (
-                    <a href={r.music_url} target="_blank" rel="noreferrer">
-                      Music ↗
-                    </a>
-                  )}
-                  {r.video_url && (
-                    <a href={r.video_url} target="_blank" rel="noreferrer">
-                      Video ↗
-                    </a>
-                  )}
-                </div>
-              )}
+                              {(r.website || r.social || r.music_url || r.video_url) && (
+                                <div className={styles.details}>
+                                  {r.website && (
+                                    <a href={r.website} target="_blank" rel="noreferrer">
+                                      Website ↗
+                                    </a>
+                                  )}
+                                  {r.social && <span>{r.social}</span>}
+                                  {r.music_url && (
+                                    <a href={r.music_url} target="_blank" rel="noreferrer">
+                                      Music ↗
+                                    </a>
+                                  )}
+                                  {r.video_url && (
+                                    <a href={r.video_url} target="_blank" rel="noreferrer">
+                                      Video ↗
+                                    </a>
+                                  )}
+                                </div>
+                              )}
 
-              <div className={styles.flags}>
-                {r.language && <span>form: {r.language}</span>}
-                {r.display_language && <span>display: {r.display_language}</span>}
-                <span>{r.newsletter_opt_in ? '✓ newsletter' : 'no newsletter'}</span>
-                {r.consent_translate && <span>✓ translation ok</span>}
-                {r.display_name && <span>displayed as “{r.display_name}”</span>}
-              </div>
+                              <div className={styles.flags}>
+                                {r.language && <span>form: {r.language}</span>}
+                                {r.display_language && <span>display: {r.display_language}</span>}
+                                <span>{r.newsletter_opt_in ? '✓ newsletter' : 'no newsletter'}</span>
+                                {r.consent_translate && <span>✓ translation ok</span>}
+                              </div>
 
-              {r.attachments.length > 0 && (
-                <div className={styles.attachments}>
-                  {r.attachments.map((u) =>
-                    isImage(u) ? (
-                      <a key={u} href={u} target="_blank" rel="noreferrer">
-                        <img src={u} alt="attachment" />
-                      </a>
-                    ) : (
-                      <a key={u} href={u} target="_blank" rel="noreferrer" className={styles.fileLink}>
-                        View file ↗
-                      </a>
-                    ),
-                  )}
-                </div>
-              )}
+                              {r.attachments.length > 0 && (
+                                <div className={styles.attachments}>
+                                  {r.attachments.map((u) =>
+                                    isImage(u) ? (
+                                      <a key={u} href={u} target="_blank" rel="noreferrer">
+                                        <img src={u} alt="attachment" />
+                                      </a>
+                                    ) : (
+                                      <a
+                                        key={u}
+                                        href={u}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className={styles.fileLink}
+                                      >
+                                        View file ↗
+                                      </a>
+                                    ),
+                                  )}
+                                </div>
+                              )}
 
-              <div className={styles.actions}>
-                {r.status !== 'approved' && (
-                  <button
-                    className={styles.approveBtn}
-                    disabled={busyId === r.id}
-                    onClick={() => setStatus(r.id, 'approved')}
-                  >
-                    Approve
-                  </button>
-                )}
-                {r.status !== 'rejected' && (
-                  <button
-                    className={styles.rejectBtn}
-                    disabled={busyId === r.id}
-                    onClick={() => setStatus(r.id, 'rejected')}
-                  >
-                    Reject
-                  </button>
-                )}
-                {r.status === 'approved' && (
-                  <button
-                    className={r.in_book ? styles.inBookActive : styles.inBookBtn}
-                    disabled={busyId === r.id}
-                    onClick={() => toggleInBook(r.id, !r.in_book)}
-                  >
-                    {r.in_book ? '✓ In book' : 'Add to book'}
-                  </button>
-                )}
-                {r.status === 'approved' && (
-                  <button
-                    className={r.is_featured ? styles.featuredActive : styles.featuredBtn}
-                    disabled={busyId === r.id}
-                    onClick={() => toggleFeatured(r.id, !r.is_featured)}
-                    title="Show this message as Today’s Light on the homepage"
-                  >
-                    {r.is_featured ? '★ Featured today' : '☆ Feature'}
-                  </button>
-                )}
-              </div>
-            </article>
-          ))}
-        </div>
+                              <div className={styles.actions}>
+                                {r.status === 'approved' && (
+                                  <button
+                                    className={r.in_book ? styles.inBookActive : styles.inBookBtn}
+                                    disabled={busyId === r.id}
+                                    onClick={() => toggleInBook(r.id, !r.in_book)}
+                                  >
+                                    {r.in_book ? '✓ In book' : 'Add to book'}
+                                  </button>
+                                )}
+                                {r.status === 'approved' && (
+                                  <button
+                                    className={r.is_featured ? styles.featuredActive : styles.featuredBtn}
+                                    disabled={busyId === r.id}
+                                    onClick={() => toggleFeatured(r.id, !r.is_featured)}
+                                    title="Show this message as Today’s Light on the homepage"
+                                  >
+                                    {r.is_featured ? '★ Featured today' : '☆ Feature'}
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      )}
+                    </Fragment>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
+        </>
       )}
     </main>
   )

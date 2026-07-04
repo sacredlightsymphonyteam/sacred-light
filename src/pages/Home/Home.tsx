@@ -51,13 +51,28 @@ export default function Home() {
       <section className={`section light ${styles.heroSection}`}>
         <Hero />
 
-        {/* Three words — stacked, widely spaced, timeless */}
+        {/* Three words — stacked, widely spaced, timeless. On load they breathe
+            in one at a time (soft fade, no movement) — a revelation, not motion. */}
         <div className={styles.words} aria-label="Presence, Power, Light">
-          <span className={styles.word}>Presence</span>
-          <span className={styles.wordRule} aria-hidden="true" />
-          <span className={styles.word}>Power</span>
-          <span className={styles.wordRule} aria-hidden="true" />
-          <span className={styles.word}>Light</span>
+          <span className={`${styles.word} ${styles.appear}`} style={{ animationDelay: '0.4s' }}>
+            Presence
+          </span>
+          <span
+            className={`${styles.wordRule} ${styles.appear}`}
+            style={{ animationDelay: '0.75s' }}
+            aria-hidden="true"
+          />
+          <span className={`${styles.word} ${styles.appear}`} style={{ animationDelay: '1.1s' }}>
+            Power
+          </span>
+          <span
+            className={`${styles.wordRule} ${styles.appear}`}
+            style={{ animationDelay: '1.45s' }}
+            aria-hidden="true"
+          />
+          <span className={`${styles.word} ${styles.appear}`} style={{ animationDelay: '1.8s' }}>
+            Light
+          </span>
         </div>
 
         <p className={`gratitude-line ${styles.heroPhrase} reveal`}>
@@ -79,7 +94,7 @@ export default function Home() {
       <section className="section dark" aria-label="The Book of Gratitude">
         <div className="inner">
           <h2 className="section-h reveal">A space for gratitude</h2>
-          <p className="poetic-sub gold reveal">
+          <p className={`poetic-sub gold ${styles.heroSub} reveal`}>
             Not spoken,
             <br />
             but held
@@ -144,6 +159,9 @@ export default function Home() {
       <section className="section dark" aria-label="The Book of Gratitude, continued">
         <div className="inner">
           <h2 className="section-h swirl reveal">The Book of Gratitude</h2>
+          <p className={`poetic-sub gold ${styles.heroSub} reveal`}>
+            Let your light join thousands of hearts around the world.
+          </p>
 
           <div className={`${styles.paraGroup} reveal`}>
             <p className="poetic">
@@ -151,11 +169,11 @@ export default function Home() {
             </p>
             <p className="poetic">
               Share a memory, a reflection, a poem, a song, a photograph, a work of art, or simply a
-              few heartfelt words expressing what Tina Turner awakened in you — and the light you now
-              choose to pass on to others.
+              few heartfelt words expressing what Tina awakened in you — and the light you now choose
+              to pass on to others.
             </p>
-            <p className={`poetic ${styles.goldNote}`}>
-              This is a carefully curated living archive of human gratitude.
+            <p className="poetic-sub gold-glow">
+              A Carefully Curated Living Archive of Human Gratitude
             </p>
             <p className="poetic">
               Each contribution finds its place within this Living Archive and is represented by a
@@ -164,9 +182,10 @@ export default function Home() {
               cultures, and generations.
             </p>
             <p className={`poetic ${styles.goldNote}`}>
-              The first edition of the Book of Gratitude will be gracefully designed and unveiled to
-              the world on 26 November 2026, Tina Turner’s birthday, as the ceremonial opening of the
-              Book of Gratitude takes place in Küsnacht, Switzerland.
+              The first edition of the Book of Gratitude will be ceremonially unveiled on 26 November
+              2026, Thanksgiving and Tina Turner’s birthday, following the ceremonial opening of the
+              Book of Gratitude beside Lake Zurich in Küsnacht, Switzerland, the place Tina called home
+              for more than two decades.
             </p>
           </div>
 
@@ -191,12 +210,29 @@ export default function Home() {
             </Link>
             <p className={`poetic-sub gold-glow ${styles.ctaSub}`}>A Living Archive of Appreciation</p>
 
-            <div className={`${styles.words} ${styles.wordsMid} reveal`} aria-label="Gratitude, Light, Resonance">
-              <span className={styles.word}>Gratitude</span>
-              <span className={styles.wordRule} aria-hidden="true" />
-              <span className={styles.word}>Light</span>
-              <span className={styles.wordRule} aria-hidden="true" />
-              <span className={styles.word}>Resonance</span>
+            <div className={`${styles.words} ${styles.wordsMid}`} aria-label="Gratitude, Light, Resonance">
+              <span className={`${styles.word} reveal fade-soft`} style={{ transitionDelay: '0ms' }}>
+                Gratitude
+              </span>
+              <span
+                className={`${styles.wordRule} reveal fade-soft`}
+                style={{ transitionDelay: '400ms' }}
+                aria-hidden="true"
+              />
+              <span className={`${styles.word} reveal fade-soft`} style={{ transitionDelay: '800ms' }}>
+                Light
+              </span>
+              <span
+                className={`${styles.wordRule} reveal fade-soft`}
+                style={{ transitionDelay: '1200ms' }}
+                aria-hidden="true"
+              />
+              <span
+                className={`${styles.word} reveal fade-soft`}
+                style={{ transitionDelay: '1600ms' }}
+              >
+                Resonance
+              </span>
             </div>
           </div>
         </div>
@@ -212,7 +248,7 @@ export default function Home() {
       >
         <div className="inner wide">
           <h2 className="section-h swirl">The Living Constellation of Light</h2>
-          <p className={`poetic-sub gold ${styles.heroSub} reveal`}>A preview of what is emerging.</p>
+          <p className={`poetic-sub gold ${styles.heroSub} reveal`}>A preview of what is emerging</p>
 
           <hr className="rule-gold reveal" />
 
@@ -235,9 +271,9 @@ export default function Home() {
 
           <div className={`${styles.ctaBlock} reveal`}>
             <p className={styles.ctaLines}>
-              Your message matters.
-              <br />
               Your light matters.
+              <br />
+              Your light lives on.
             </p>
             <Link to="/gratitude" className="sls-cta">
               Become a Messenger of Gratitude

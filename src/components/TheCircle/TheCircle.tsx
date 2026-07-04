@@ -83,20 +83,31 @@ export default function TheCircle() {
           <p className={`${styles.para} reveal`}>
             What begins with a single message of gratitude will continue to grow, one heart at a time.
           </p>
+          <p className={`${styles.para} reveal`}>Each new contribution becomes another light.</p>
+        </div>
+
+        <div className={`${styles.bigLines} reveal`}>
+          <p>Each new light becomes part of the Living Constellation.</p>
+        </div>
+
+        <div className={`${styles.bigLines} reveal`}>
+          <p>Together, we are illuminating the world,</p>
+          <p>one message,</p>
+          <p>one heart,</p>
+          <p>one light at a time.</p>
+        </div>
+
+        <div className={styles.body}>
           <p className={`${styles.para} reveal`}>
-            Each new contribution becomes another light. Each new light becomes part of the Living
-            Constellation.
-          </p>
-          <p className={`${styles.para} reveal`}>
-            Together, we are gently bringing into presence a new expression of human gratitude — one
-            that will continue to grow for generations to come.
+            Together, we are gently bringing into being a new way of expressing gratitude, inspired by
+            Tina Turner’s enduring light and spirit, and shared by hearts around the world.
           </p>
         </div>
 
         <hr className={`rule-gold ${styles.divide}`} />
 
         {/* ── Half 2 — Our Gratitude (the credits) ── */}
-        <p className={`section-h swirl ${styles.circleTitle} reveal`}>Our Gratitude</p>
+        <p className={`section-h swirl ${styles.circleTitle} reveal`}>With Gratitude</p>
         <p className={`${styles.intro} reveal`}>
           Sacred Light Symphony extends its heartfelt appreciation to the artists, visionaries, patrons
           and friends whose generosity, creativity and trust have helped illuminate this journey from
@@ -146,7 +157,14 @@ export default function TheCircle() {
             Become a Messenger of Gratitude
           </Link>
         </div>
-        <p className={`poetic-sub gold-glow ${styles.closingPhrase} reveal`}>Where gratitude becomes light</p>
+        <div className={styles.closing}>
+          <p className={`poetic-sub gold-glow ${styles.closingPhrase} reveal`}>
+            Where gratitude becomes light
+          </p>
+          <p className={`${styles.closingPass} reveal`}>
+            May the light you received become the light you pass on.
+          </p>
+        </div>
       </div>
     </section>
   )

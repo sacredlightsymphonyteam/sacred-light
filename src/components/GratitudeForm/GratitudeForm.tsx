@@ -158,6 +158,7 @@ export default function GratitudeForm() {
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [showConfirm, setShowConfirm] = useState(false)
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -224,7 +225,9 @@ export default function GratitudeForm() {
     setSubmitting(true)
     const result = await submitContribution(data())
     setSubmitting(false)
-    if (result.ok) setStep('thankyou')
+    // Success → a quiet ceremonial confirmation over the dimmed page, then the
+    // thank-you page once it's dismissed / shared.
+    if (result.ok) setShowConfirm(true)
     else setError(result.error)
   }
 
@@ -281,6 +284,15 @@ export default function GratitudeForm() {
             Return and edit
           </button>
         </div>
+
+        {showConfirm && (
+          <ConfirmModal
+            onClose={() => {
+              setShowConfirm(false)
+              setStep('thankyou')
+            }}
+          />
+        )}
       </div>
     )
   }
@@ -694,6 +706,96 @@ export default function GratitudeForm() {
           </p>
         </div>
       </form>
+    </div>
+  )
+}
+
+// ── Ceremonial confirmation — fades in over the dimmed page after submit ──
+function ConfirmModal({ onClose }: { onClose: () => void }) {
+  const invite =
+    'I just shared my light with the Sacred Light Symphony — a Book of Gratitude inspired by Tina Turner. Add yours:'
+  const url = SITE_URL
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+    }
+    document.addEventListener('keydown', onKey)
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.body.style.overflow = prev
+    }
+  }, [onClose])
+
+  const share = async () => {
+    if (typeof navigator.share === 'function') {
+      try {
+        await navigator.share({ title: 'Sacred Light Symphony', text: invite, url })
+      } catch {
+        /* dismissed */
+      }
+    } else {
+      try {
+        await navigator.clipboard.writeText(`${invite} ${url}`)
+      } catch {
+        /* clipboard unavailable */
+      }
+    }
+    onClose()
+  }
+
+  return (
+    <div className={styles.overlay} onClick={onClose}>
+      <div
+        className={styles.modal}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="confirm-title"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h2 id="confirm-title" className={styles.modalTitle}>
+          Your Light Has Been Entrusted
+        </h2>
+
+        <div className={styles.modalBody}>
+          <p className={styles.modalSub}>Thank You!</p>
+          <p>
+            Your message has been safely entrusted to the Book of Gratitude and has become part of a
+            growing journey shared by hearts around the world.
+          </p>
+
+          <p className={styles.modalSub}>What happens next?</p>
+          <p>
+            To preserve the beauty and anticipation of this collective creation, the complete Book of
+            Gratitude will remain gently held until its ceremonial unveiling on 26 November 2026,
+            Thanksgiving and Tina Turner’s birthday.
+          </p>
+          <p>
+            On that day, your words will become part of the first edition of the Book of Gratitude and
+            the Living Constellation of Light, unveiled during the inaugural Sacred Light Symphony
+            celebration beside Lake Zurich in Switzerland.
+          </p>
+
+          <p className={styles.modalSub}>Until then…</p>
+          <p>
+            Every day, one message from the Book of Gratitude will be featured on our homepage as One
+            Light from the Book of Gratitude.
+          </p>
+          <p className={styles.modalEm}>Perhaps your light will be one of the first.</p>
+          <p>
+            In the meantime, you might want to share this invitation with those whose lives were also
+            touched by Tina Turner.
+          </p>
+        </div>
+
+        <div className={styles.modalCtaWrap}>
+          <button type="button" className="sls-cta" onClick={share}>
+            Share the Invitation
+          </button>
+        </div>
+      </div>
     </div>
   )
 }
