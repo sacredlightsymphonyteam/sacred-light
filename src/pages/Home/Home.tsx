@@ -85,14 +85,14 @@ export default function Home() {
             but held
           </p>
 
-          <hr className="rule-gold reveal" />
-
-          <div className={`${styles.stanzaGroup} reveal`}>
+          <div className={`${styles.stanzaGroup} ${styles.bigStanza} ${styles.forWhat} reveal`}>
             <p className="stanza">For what was given</p>
             <p className="stanza">For what was lived</p>
             <p className="stanza">For what remains</p>
             <p className="stanza">For what still moves</p>
           </div>
+
+          <hr className="rule-gold reveal" />
 
           <div className={`${styles.paraGroup} reveal`}>
             <p className="poetic">
@@ -191,7 +191,7 @@ export default function Home() {
             </Link>
             <p className={`poetic-sub gold-glow ${styles.ctaSub}`}>A Living Archive of Appreciation</p>
 
-            <div className={`${styles.words} reveal`} aria-label="Gratitude, Light, Resonance">
+            <div className={`${styles.words} ${styles.wordsMid} reveal`} aria-label="Gratitude, Light, Resonance">
               <span className={styles.word}>Gratitude</span>
               <span className={styles.wordRule} aria-hidden="true" />
               <span className={styles.word}>Light</span>
@@ -216,11 +216,10 @@ export default function Home() {
 
           <hr className="rule-gold reveal" />
 
-          <blockquote className={`${styles.quote} reveal`}>
-            Every act of gratitude leaves a trace.
-            <br />
-            Every trace becomes a light.
-          </blockquote>
+          <div className={`${styles.stanzaGroup} ${styles.bigStanza} reveal`}>
+            <p className="stanza">Every act of gratitude leaves a trace.</p>
+            <p className="stanza gold">Every trace becomes a light.</p>
+          </div>
 
           <div className={`${styles.imageFull} reveal`}>
             <span className={styles.imageLabel}>The Living Constellation</span>
@@ -253,8 +252,8 @@ export default function Home() {
       <section className="section light" aria-label="The Unveiling">
         <div className="inner">
           <h2 className="section-h swirl">The Unveiling</h2>
-          <p className={`poetic-sub ${styles.heroSub} reveal`}>A moment the world will share.</p>
-          <p className="poetic-sub reveal">Where gratitude becomes presence.</p>
+          <p className={`poetic-sub gold ${styles.heroSub} reveal`}>A moment the world will share,</p>
+          <p className="poetic-sub gold reveal">where gratitude becomes presence.</p>
 
           <hr className="rule-gold reveal" />
 

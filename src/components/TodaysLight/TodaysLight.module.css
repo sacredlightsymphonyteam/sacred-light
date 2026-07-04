@@ -50,7 +50,7 @@
 .signName {
   display: block;
   text-align: right;
-  margin-top: 0.15em;
+  margin-top: 1em; /* sit the name a little lower, apart from the closing line */
 }
 
 /* One message / One heart / One light — stacked, matching "A Living Archive

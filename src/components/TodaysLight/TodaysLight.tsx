@@ -41,7 +41,7 @@ export default function TodaysLight() {
               Sharing your Light,
               <br />
               With joy, love and gratitude,
-              <span className={styles.signName}>~ Marie</span>
+              <span className={styles.signName}>Marie</span>
             </p>
           </div>
         </figure>

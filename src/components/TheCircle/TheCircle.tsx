@@ -146,7 +146,7 @@ export default function TheCircle() {
             Become a Messenger of Gratitude
           </Link>
         </div>
-        <p className={`${styles.closingPhrase} reveal`}>Where gratitude becomes light.</p>
+        <p className={`poetic-sub gold-glow ${styles.closingPhrase} reveal`}>Where gratitude becomes light</p>
       </div>
     </section>
   )
