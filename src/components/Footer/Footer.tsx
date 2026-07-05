@@ -5,14 +5,13 @@ import styles from './Footer.module.css'
  * the closing mark, and an auto-updating copyright line. Copy verbatim from the
  * Circle + Footer brief.
  *
- * Social URLs are placeholders (#) until Angel provides them; each opens in a
- * new tab.
+ * Social handle is @SacredLightSymphony across IG / FB / YouTube; each opens in
+ * a new tab. (No LinkedIn yet — add here when there is one.)
  */
 const SOCIALS: { label: string; href: string }[] = [
-  { label: 'Instagram', href: '#' },
-  { label: 'Facebook', href: '#' },
-  { label: 'LinkedIn', href: '#' },
-  { label: 'YouTube', href: '#' },
+  { label: 'Instagram', href: 'https://www.instagram.com/sacredlightsymphony/' },
+  { label: 'Facebook', href: 'https://www.facebook.com/SacredLightSymphony' },
+  { label: 'YouTube', href: 'https://www.youtube.com/@SacredLightSymphony' },
 ]
 
 const EMAIL = 'sacredlightsymphony@protonmail.com'

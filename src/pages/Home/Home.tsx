@@ -21,6 +21,11 @@ const organizationSchema = {
     name: 'Küsnacht, Switzerland',
     address: { '@type': 'PostalAddress', addressLocality: 'Küsnacht', addressCountry: 'CH' },
   },
+  sameAs: [
+    'https://www.instagram.com/sacredlightsymphony/',
+    'https://www.facebook.com/SacredLightSymphony',
+    'https://www.youtube.com/@SacredLightSymphony',
+  ],
 }
 
 const personSchema = {
