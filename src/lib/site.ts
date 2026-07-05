@@ -5,7 +5,7 @@
  * Canonical links and social-preview (Open Graph) URLs are built from it and MUST
  * be absolute, so this needs to be correct before the public launch.
  */
-export const SITE_URL = 'https://www.sacredlightsymphony.org' // www is the primary domain (full CDN via CNAME); apex redirects to it
+export const SITE_URL = 'https://sacredlightsymphony.org' // apex is the primary domain in Netlify; www redirects to it
 export const SITE_NAME = 'Sacred Light Symphony'
 
 // Default image shown when a link is shared. Ideally a dedicated 1200×630 image;
