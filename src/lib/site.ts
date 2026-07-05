@@ -5,7 +5,7 @@
  * Canonical links and social-preview (Open Graph) URLs are built from it and MUST
  * be absolute, so this needs to be correct before the public launch.
  */
-export const SITE_URL = 'https://sacredlightsymphony.org' // registered via name.com (2026-07-03)
+export const SITE_URL = 'https://www.sacredlightsymphony.org' // www is the primary domain (full CDN via CNAME); apex redirects to it
 export const SITE_NAME = 'Sacred Light Symphony'
 
 // Default image shown when a link is shared. Ideally a dedicated 1200×630 image;
