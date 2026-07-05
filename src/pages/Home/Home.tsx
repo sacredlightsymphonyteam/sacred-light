@@ -75,7 +75,7 @@ export default function Home() {
           </span>
         </div>
 
-        <p className={`gratitude-line ${styles.heroPhrase} reveal`}>
+        <p className={`${styles.heroPhrase} reveal`}>
           With gratitude for a life
           <br />
           that still moves through us.
@@ -104,7 +104,7 @@ export default function Home() {
             <p className="stanza">For what was given</p>
             <p className="stanza">For what was lived</p>
             <p className="stanza">For what remains</p>
-            <p className="stanza">For what still moves</p>
+            <p className="stanza">For what still moves us</p>
           </div>
 
           <hr className="rule-gold reveal" />

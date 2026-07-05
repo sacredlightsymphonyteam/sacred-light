@@ -91,7 +91,7 @@ export default function TheCircle() {
         </div>
 
         <div className={`${styles.bigLines} reveal`}>
-          <p>Together, we are illuminating the world,</p>
+          <p className={styles.italicLine}>Together, we are illuminating the world,</p>
           <p>one message,</p>
           <p>one heart,</p>
           <p>one light at a time.</p>
@@ -162,7 +162,9 @@ export default function TheCircle() {
             Where gratitude becomes light
           </p>
           <p className={`${styles.closingPass} reveal`}>
-            May the light you received become the light you pass on.
+            May the light you received
+            <br />
+            become the light you pass on.
           </p>
         </div>
       </div>
