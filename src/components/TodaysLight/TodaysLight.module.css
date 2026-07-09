@@ -53,6 +53,9 @@
 }
 .featuredMsg {
   white-space: pre-line; /* keep line breaks within a paragraph, tidy spacing */
+  color: var(--w-graphite); /* charcoal by default; wrap **…** for gold */
+}
+.goldText {
   color: var(--w-gold);
 }
 .featuredAttr {
@@ -61,7 +64,7 @@
   font-family: var(--w-serif);
   font-style: italic;
   font-size: clamp(16px, 1.7vw, 19px);
-  color: #ceb88c; /* softer gold, like Marie's signature */
+  color: var(--w-gold); /* the name, gold */
 }
 /* Closing + signature: the block is only as wide as its longest line
    ("With joy and gratitude,"), so right-aligning the name drops its last

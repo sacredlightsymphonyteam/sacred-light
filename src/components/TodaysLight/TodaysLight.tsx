@@ -44,7 +44,7 @@ export default function TodaysLight() {
                 {featured.title && <p className={styles.featuredTitle}>{featured.title}</p>}
                 {splitParagraphs(featured.message).map((para, i) => (
                   <p key={i} className={styles.featuredMsg}>
-                    {para}
+                    {renderGold(para)}
                   </p>
                 ))}
                 <p className={styles.featuredAttr}>
@@ -115,4 +115,22 @@ function splitParagraphs(text: string): string[] {
     .map((p) => p.trim())
     .filter(Boolean)
   return parts.length ? parts : [text.trim()]
+}
+
+/**
+ * Render a paragraph, turning any text wrapped in **double asterisks** gold.
+ * Lets a curator choose which lines are gold per message (title + name are
+ * always gold via the template); everything else stays charcoal.
+ */
+function renderGold(text: string) {
+  // Split on **…** keeping the captured inner text; odd indices are the matches.
+  return text.split(/\*\*(.+?)\*\*/gs).map((part, i) =>
+    i % 2 === 1 ? (
+      <span key={i} className={styles.goldText}>
+        {part}
+      </span>
+    ) : (
+      part
+    ),
+  )
 }
