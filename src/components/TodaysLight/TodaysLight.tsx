@@ -41,6 +41,7 @@ export default function TodaysLight() {
                 <p className={styles.date}>{formatDate(featured.featured_date)}</p>
               )}
               <div className={styles.letter}>
+                {featured.title && <p className={styles.featuredTitle}>{featured.title}</p>}
                 {splitParagraphs(featured.message).map((para, i) => (
                   <p key={i} className={styles.featuredMsg}>
                     {para}

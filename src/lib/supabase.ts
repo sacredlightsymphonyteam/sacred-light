@@ -66,6 +66,7 @@ export interface ContributionRow {
 /** The one message shown in the homepage's Today's Light section (Section 2b). */
 export interface FeaturedMessage {
   id: string
+  title: string | null
   message: string
   name: string
   location: string | null
@@ -79,10 +80,9 @@ export interface FeaturedMessage {
  */
 export async function getFeaturedMessage(): Promise<FeaturedMessage | null> {
   if (!supabase) return null
-  const { data, error } = await supabase
-    .from(FEATURED_VIEW)
-    .select('id, message, name, location, featured_date')
-    .maybeSingle()
+  // select('*') so this keeps working whether or not the view exposes `title`
+  // yet (the view is updated separately in schema.sql §6).
+  const { data, error } = await supabase.from(FEATURED_VIEW).select('*').maybeSingle()
   if (error) return null
   return (data as FeaturedMessage) ?? null
 }

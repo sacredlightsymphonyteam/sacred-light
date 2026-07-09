@@ -115,7 +115,7 @@ create unique index if not exists contributions_one_featured
 -- expose just the one approved + featured row to the anon key without opening
 -- up the rest of the table. If nothing is featured it returns no rows.
 create or replace view public.featured_message as
-  select id, message, name, location, featured_date
+  select id, title, message, name, location, featured_date
   from public.contributions
   where is_featured = true and status = 'approved'
   limit 1;
