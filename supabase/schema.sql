@@ -119,7 +119,10 @@ create unique index if not exists contributions_one_featured
 -- A security-definer view (default) runs with the owner's rights, so it can
 -- expose just the one approved + featured row to the anon key without opening
 -- up the rest of the table. If nothing is featured it returns no rows.
-create or replace view public.featured_message as
+-- DROP + CREATE (not "create or replace"): replace can't reorder/insert view
+-- columns, which errors once new columns (title, featured_html) are added.
+drop view if exists public.featured_message;
+create view public.featured_message as
   select id, title, message, name, location, featured_date, featured_html
   from public.contributions
   where is_featured = true and status = 'approved'
