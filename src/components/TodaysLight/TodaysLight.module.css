@@ -53,10 +53,10 @@
 }
 .featuredMsg {
   white-space: pre-line; /* keep line breaks within a paragraph, tidy spacing */
-  color: var(--w-graphite); /* charcoal by default; wrap **…** for gold */
+  color: var(--w-gold); /* gold by default; wrap **…** for soft charcoal */
 }
-.goldText {
-  color: var(--w-gold);
+.mutedText {
+  color: var(--w-graphite);
 }
 .featuredAttr {
   margin-top: 1.6em;
