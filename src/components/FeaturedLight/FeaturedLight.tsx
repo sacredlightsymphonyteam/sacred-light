@@ -19,7 +19,7 @@ export type FeaturedContent = {
   date?: string
 }
 
-export default function FeaturedLight({ title, message, name, location, date }: FeaturedContent) {
+export default function FeaturedLight({ title, message, name, date }: FeaturedContent) {
   return (
     <>
       {date && <p className={styles.date}>{date}</p>}
@@ -31,12 +31,7 @@ export default function FeaturedLight({ title, message, name, location, date }: 
           </p>
         ))}
       </div>
-      {name && (
-        <p className={styles.attr}>
-          {renderRich(name)}
-          {location ? ` · ${location}` : ''}
-        </p>
-      )}
+      {name && <p className={styles.attr}>{renderRich(name)}</p>}
     </>
   )
 }
