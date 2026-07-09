@@ -6,7 +6,6 @@ import {
   type ContributionRow,
   type ContributionStatus,
 } from '../../lib/supabase'
-import FeaturedLight from '../../components/FeaturedLight/FeaturedLight'
 import styles from './Admin.module.css'
 
 type Filter = ContributionStatus | 'all' | 'in_book'
@@ -21,6 +20,26 @@ const FILTERS: { key: Filter; label: string }[] = [
 ]
 
 const isImage = (url: string) => /\.(png|jpe?g|gif|webp|avif|svg)(\?|$)/i.test(url)
+
+// One Light editor colours (match the site's gold / charcoal).
+const GOLD = '#b79a63'
+const CHARCOAL = '#1b1815'
+
+const escapeHtml = (s: string) =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+
+/** Initial HTML for the One Light canvas: reuse curated HTML if present, else
+ *  build from the raw fields with defaults (title + name gold, message charcoal). */
+function initialHtml(r: ContributionRow): string {
+  if (r.featured_html) return r.featured_html
+  const gold = (s: string) => `<div><span style="color:${GOLD}">${escapeHtml(s)}</span></div>`
+  const plain = (s: string) => `<div>${escapeHtml(s).replace(/\n/g, '<br>')}</div>`
+  const parts: string[] = []
+  if (r.title) parts.push(gold(r.title))
+  if (r.message) parts.push(plain(r.message))
+  if (r.name) parts.push(gold(r.name))
+  return parts.join('') || '<div></div>'
+}
 
 /** Moderation dashboard — review, approve/reject, and curate the Book. */
 export default function AdminDashboard() {
@@ -37,12 +56,10 @@ export default function AdminDashboard() {
   const [error, setError] = useState('')
   const [busyId, setBusyId] = useState<string | null>(null)
 
-  // One Light editor (format + preview a message before featuring it).
+  // One Light editor — edit + format the featured message in place (WYSIWYG).
   const [featuringId, setFeaturingId] = useState<string | null>(null)
-  const [ftTitle, setFtTitle] = useState('')
-  const [ftMessage, setFtMessage] = useState('')
-  const [ftName, setFtName] = useState('')
-  const msgRef = useRef<HTMLTextAreaElement>(null)
+  const [ftInitial, setFtInitial] = useState('')
+  const canvasRef = useRef<HTMLDivElement>(null)
 
   const toggleExpand = (id: string) =>
     setExpanded((prev) => {
@@ -201,36 +218,29 @@ export default function AdminDashboard() {
     void load()
   }
 
-  // ── One Light editor ──────────────────────────────────────────────────
+  // ── One Light editor (edit + format in place) ─────────────────────────
   function openFeatureEditor(r: ContributionRow) {
+    setFtInitial(initialHtml(r))
     setFeaturingId(r.id)
-    setFtTitle(r.title ?? '')
-    setFtMessage(r.message ?? '')
-    setFtName(r.name ?? '')
   }
 
-  /** Wrap the current selection in the message box with a formatting tag. */
-  function wrapSelection(tag: 'g' | 'b' | 'i') {
-    const ta = msgRef.current
-    if (!ta) return
-    const start = ta.selectionStart
-    const end = ta.selectionEnd
-    if (start === end) return // nothing selected
-    const v = ftMessage
-    const next = `${v.slice(0, start)}[${tag}]${v.slice(start, end)}[/${tag}]${v.slice(end)}`
-    setFtMessage(next)
-    requestAnimationFrame(() => {
-      ta.focus()
-      const s = start + 3 // "[g]"
-      ta.setSelectionRange(s, s + (end - start))
-    })
+  // Seed the editable canvas once when it opens (uncontrolled — React must not
+  // re-render its contents, or the caret jumps).
+  useEffect(() => {
+    if (featuringId && canvasRef.current) canvasRef.current.innerHTML = ftInitial
+  }, [featuringId, ftInitial])
+
+  const format = (cmd: 'bold' | 'italic') => document.execCommand(cmd)
+  const setColor = (hex: string) => {
+    document.execCommand('styleWithCSS', false, 'true')
+    document.execCommand('foreColor', false, hex)
   }
 
-  /** Save the edited title/message/name and feature it as the One Light. */
+  /** Save the formatted One Light HTML and feature it (keeps the raw fields). */
   async function saveAndFeature(id: string) {
-    if (!supabase) return
+    if (!supabase || !canvasRef.current) return
     setBusyId(id)
-    // Clear any currently-featured message (one at a time).
+    const html = canvasRef.current.innerHTML
     const { error: clearErr } = await supabase
       .from(CONTRIBUTIONS_TABLE)
       .update({ is_featured: false })
@@ -243,13 +253,7 @@ export default function AdminDashboard() {
     const today = new Date().toISOString().slice(0, 10)
     const { error: err } = await supabase
       .from(CONTRIBUTIONS_TABLE)
-      .update({
-        title: ftTitle.trim() || null,
-        message: ftMessage,
-        name: ftName.trim(),
-        is_featured: true,
-        featured_date: today,
-      })
+      .update({ featured_html: html, is_featured: true, featured_date: today })
       .eq('id', id)
     setBusyId(null)
     if (err) {
@@ -534,55 +538,51 @@ export default function AdminDashboard() {
 
                               {featuringId === r.id && (
                                 <div className={styles.oneLightEditor}>
-                                  <p className={styles.editorHead}>One Light — format &amp; preview</p>
-
-                                  <label className={styles.editorLabel}>
-                                    Title
-                                    <input
-                                      className={styles.editorInput}
-                                      value={ftTitle}
-                                      onChange={(e) => setFtTitle(e.target.value)}
-                                    />
-                                  </label>
+                                  <p className={styles.editorHead}>
+                                    One Light — click into the text below and edit it directly
+                                  </p>
 
                                   <div className={styles.toolbar}>
-                                    <button type="button" onClick={() => wrapSelection('g')}>
+                                    <button
+                                      type="button"
+                                      onMouseDown={(e) => e.preventDefault()}
+                                      onClick={() => setColor(GOLD)}
+                                    >
                                       Gold
                                     </button>
-                                    <button type="button" onClick={() => wrapSelection('b')}>
+                                    <button
+                                      type="button"
+                                      onMouseDown={(e) => e.preventDefault()}
+                                      onClick={() => setColor(CHARCOAL)}
+                                    >
+                                      Normal
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onMouseDown={(e) => e.preventDefault()}
+                                      onClick={() => format('bold')}
+                                    >
                                       Bold
                                     </button>
-                                    <button type="button" onClick={() => wrapSelection('i')}>
+                                    <button
+                                      type="button"
+                                      onMouseDown={(e) => e.preventDefault()}
+                                      onClick={() => format('italic')}
+                                    >
                                       Italic
                                     </button>
                                     <span className={styles.toolbarHint}>
-                                      select text in the message, then click
+                                      select text, then click a button · type to edit
                                     </span>
                                   </div>
-                                  <textarea
-                                    ref={msgRef}
-                                    className={styles.editorTextarea}
-                                    value={ftMessage}
-                                    rows={6}
-                                    onChange={(e) => setFtMessage(e.target.value)}
-                                  />
 
-                                  <label className={styles.editorLabel}>
-                                    Name
-                                    <input
-                                      className={styles.editorInput}
-                                      value={ftName}
-                                      onChange={(e) => setFtName(e.target.value)}
-                                    />
-                                  </label>
-
-                                  <p className={styles.editorHead}>Preview</p>
+                                  {/* The ivory frame is the live preview AND the editor. */}
                                   <div className={styles.previewFrame}>
-                                    <FeaturedLight
-                                      title={ftTitle}
-                                      message={ftMessage}
-                                      name={ftName}
-                                      location={r.country}
+                                    <div
+                                      ref={canvasRef}
+                                      className={styles.canvas}
+                                      contentEditable
+                                      suppressContentEditableWarning
                                     />
                                   </div>
 

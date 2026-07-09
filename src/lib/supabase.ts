@@ -43,6 +43,7 @@ export interface ContributionRow {
   in_book: boolean
   is_featured: boolean
   featured_date: string | null
+  featured_html: string | null
   // Full funnel fields
   salutation: string | null
   first_name: string | null
@@ -71,6 +72,7 @@ export interface FeaturedMessage {
   name: string
   location: string | null
   featured_date: string | null
+  featured_html: string | null
 }
 
 /**

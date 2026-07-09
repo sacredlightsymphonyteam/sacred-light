@@ -105,6 +105,11 @@ alter table public.contributions
   add column if not exists is_featured boolean not null default false;
 alter table public.contributions
   add column if not exists featured_date date;
+-- Curated rich display of the featured message (safe HTML: bold/italic/gold/
+-- breaks), authored in the admin One Light editor. Optional; when null the
+-- homepage falls back to the plain title/message/name.
+alter table public.contributions
+  add column if not exists featured_html text;
 
 create unique index if not exists contributions_one_featured
   on public.contributions (is_featured)
@@ -115,7 +120,7 @@ create unique index if not exists contributions_one_featured
 -- expose just the one approved + featured row to the anon key without opening
 -- up the rest of the table. If nothing is featured it returns no rows.
 create or replace view public.featured_message as
-  select id, title, message, name, location, featured_date
+  select id, title, message, name, location, featured_date, featured_html
   from public.contributions
   where is_featured = true and status = 'approved'
   limit 1;

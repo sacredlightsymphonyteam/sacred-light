@@ -450,6 +450,24 @@
   padding: clamp(24px, 4vw, 44px);
   text-align: center;
 }
+/* The editable canvas IS the live preview — same type as the homepage One
+   Light. pre-wrap keeps the spacing/indentation the curator types. */
+.canvas {
+  max-width: 540px;
+  margin: 0 auto;
+  outline: none;
+  font-family: var(--w-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(18px, 1.9vw, 21px);
+  line-height: 1.9;
+  color: var(--w-graphite);
+  white-space: pre-wrap;
+}
+.canvas:focus {
+  outline: 1px dashed var(--gold-line);
+  outline-offset: 8px;
+}
 
 .cardHead {
   display: flex;

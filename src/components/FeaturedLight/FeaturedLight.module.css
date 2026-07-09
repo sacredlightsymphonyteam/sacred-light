@@ -49,3 +49,17 @@
 .gold {
   color: var(--w-gold);
 }
+
+/* Curated WYSIWYG content — charcoal by default; gold/bold/italic applied
+   inline by the editor. pre-wrap preserves the spacing/indentation as typed. */
+.displayBody {
+  max-width: 540px;
+  margin: 0 auto;
+  font-family: var(--w-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(18px, 1.9vw, 21px);
+  line-height: 1.9;
+  color: var(--w-graphite);
+  white-space: pre-wrap;
+}

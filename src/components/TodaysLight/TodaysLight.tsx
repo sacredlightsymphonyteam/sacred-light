@@ -41,7 +41,7 @@ export default function TodaysLight() {
               title={featured.title}
               message={featured.message}
               name={featured.name}
-              location={featured.location}
+              html={featured.featured_html}
               date={featured.featured_date ? formatDate(featured.featured_date) : undefined}
             />
           ) : (
