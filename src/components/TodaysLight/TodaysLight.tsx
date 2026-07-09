@@ -42,12 +42,23 @@ export default function TodaysLight() {
               )}
               <div className={styles.letter}>
                 {featured.title && <p className={styles.featuredTitle}>{featured.title}</p>}
-                {splitParagraphs(featured.message).map((para, i) => (
-                  <p key={i} className={styles.featuredMsg}>
-                    {para}
-                  </p>
-                ))}
-                <p className={styles.featuredAttr}>{renderSignature(featured.name, featured.location)}</p>
+                {(() => {
+                  const paras = splitParagraphs(featured.message)
+                  return paras.map((para, i) => {
+                    // A short trailing line ending in a comma (e.g. "Love,") is a
+                    // closing — render it charcoal; the rest of the message is gold.
+                    const closing = i === paras.length - 1 && isClosing(para)
+                    return (
+                      <p key={i} className={closing ? styles.featuredClosing : styles.featuredMsg}>
+                        {para}
+                      </p>
+                    )
+                  })
+                })()}
+                <p className={styles.featuredAttr}>
+                  {featured.name}
+                  {featured.location ? ` · ${featured.location}` : ''}
+                </p>
               </div>
             </>
           ) : (
@@ -114,30 +125,8 @@ function splitParagraphs(text: string): string[] {
   return parts.length ? parts : [text.trim()]
 }
 
-/**
- * Render the signature from the `name` field: the LAST line is the name (gold);
- * any lines above it (a closing such as "Love,") render in soft charcoal. So a
- * name of "Love,\nChen & Keren Marudi" shows "Love," charcoal and the name gold.
- */
-function renderSignature(name: string, location: string | null) {
-  const lines = name
-    .split('\n')
-    .map((s) => s.trim())
-    .filter(Boolean)
-  const nameLine = lines.length ? lines[lines.length - 1] : ''
-  const closing = lines.slice(0, -1)
-  return (
-    <>
-      {closing.map((line, i) => (
-        <span key={i} className={styles.valediction}>
-          {line}
-          <br />
-        </span>
-      ))}
-      <span className={styles.sigName}>
-        {nameLine}
-        {location ? ` · ${location}` : ''}
-      </span>
-    </>
-  )
+/** A short trailing line ending in a comma reads as a closing (e.g. "Love,"). */
+function isClosing(paragraph: string): boolean {
+  const t = paragraph.trim()
+  return !t.includes('\n') && t.length <= 24 && t.endsWith(',')
 }
