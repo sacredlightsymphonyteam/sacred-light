@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react'
 import { getFeaturedMessage, type FeaturedMessage } from '../../lib/supabase'
+import FeaturedLight from '../FeaturedLight/FeaturedLight'
 import styles from './TodaysLight.module.css'
 
 /**
  * ONE LIGHT FROM THE BOOK OF GRATITUDE (Section 2b, ivory).
  *
- * Shows the message an admin has marked as "featured" (chosen in the dashboard).
- * Until one is featured — or if the backend isn't reachable — it falls back to
- * Marie's letter, the first light. Admins rotate the featured message from
- * /admin, so publishing a new One Light is a one-click action (no code change).
+ * Shows the admin-featured message (rendered by the shared FeaturedLight, so it
+ * matches the admin preview exactly). Falls back to Marie's letter when nothing
+ * is featured or the backend isn't reachable. Admins rotate/format the featured
+ * message from /admin — publishing a new One Light is a one-click action.
  */
 export default function TodaysLight() {
   const [featured, setFeatured] = useState<FeaturedMessage | null>(null)
@@ -36,31 +37,13 @@ export default function TodaysLight() {
 
         <figure className={`${styles.frame} reveal`}>
           {featured ? (
-            <>
-              {featured.featured_date && (
-                <p className={styles.date}>{formatDate(featured.featured_date)}</p>
-              )}
-              <div className={styles.letter}>
-                {featured.title && <p className={styles.featuredTitle}>{featured.title}</p>}
-                {(() => {
-                  const paras = splitParagraphs(featured.message)
-                  return paras.map((para, i) => {
-                    // A short trailing line ending in a comma (e.g. "Love,") is a
-                    // closing — render it charcoal; the rest of the message is gold.
-                    const closing = i === paras.length - 1 && isClosing(para)
-                    return (
-                      <p key={i} className={closing ? styles.featuredClosing : styles.featuredMsg}>
-                        {para}
-                      </p>
-                    )
-                  })
-                })()}
-                <p className={styles.featuredAttr}>
-                  {featured.name}
-                  {featured.location ? ` · ${featured.location}` : ''}
-                </p>
-              </div>
-            </>
+            <FeaturedLight
+              title={featured.title}
+              message={featured.message}
+              name={featured.name}
+              location={featured.location}
+              date={featured.featured_date ? formatDate(featured.featured_date) : undefined}
+            />
           ) : (
             <>
               <p className={styles.date}>4 July 2026</p>
@@ -109,24 +92,4 @@ function formatDate(iso: string): string {
     month: 'long',
     year: 'numeric',
   })
-}
-
-/**
- * Split a submitted message into paragraphs on blank lines, so it renders with
- * the same paragraph rhythm as Marie's letter. Single line breaks within a
- * paragraph are preserved by CSS (white-space: pre-line). Falls back to the
- * whole message as one paragraph when there are no blank lines.
- */
-function splitParagraphs(text: string): string[] {
-  const parts = text
-    .split(/\n\s*\n/)
-    .map((p) => p.trim())
-    .filter(Boolean)
-  return parts.length ? parts : [text.trim()]
-}
-
-/** A short trailing line ending in a comma reads as a closing (e.g. "Love,"). */
-function isClosing(paragraph: string): boolean {
-  const t = paragraph.trim()
-  return !t.includes('\n') && t.length <= 24 && t.endsWith(',')
 }

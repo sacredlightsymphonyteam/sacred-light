@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useEffect, useState } from 'react'
+import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import {
   supabase,
@@ -6,6 +6,7 @@ import {
   type ContributionRow,
   type ContributionStatus,
 } from '../../lib/supabase'
+import FeaturedLight from '../../components/FeaturedLight/FeaturedLight'
 import styles from './Admin.module.css'
 
 type Filter = ContributionStatus | 'all' | 'in_book'
@@ -35,6 +36,13 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [busyId, setBusyId] = useState<string | null>(null)
+
+  // One Light editor (format + preview a message before featuring it).
+  const [featuringId, setFeaturingId] = useState<string | null>(null)
+  const [ftTitle, setFtTitle] = useState('')
+  const [ftMessage, setFtMessage] = useState('')
+  const [ftName, setFtName] = useState('')
+  const msgRef = useRef<HTMLTextAreaElement>(null)
 
   const toggleExpand = (id: string) =>
     setExpanded((prev) => {
@@ -190,6 +198,65 @@ export default function AdminDashboard() {
       setError(err.message)
       return
     }
+    void load()
+  }
+
+  // ── One Light editor ──────────────────────────────────────────────────
+  function openFeatureEditor(r: ContributionRow) {
+    setFeaturingId(r.id)
+    setFtTitle(r.title ?? '')
+    setFtMessage(r.message ?? '')
+    setFtName(r.name ?? '')
+  }
+
+  /** Wrap the current selection in the message box with a formatting tag. */
+  function wrapSelection(tag: 'g' | 'b' | 'i') {
+    const ta = msgRef.current
+    if (!ta) return
+    const start = ta.selectionStart
+    const end = ta.selectionEnd
+    if (start === end) return // nothing selected
+    const v = ftMessage
+    const next = `${v.slice(0, start)}[${tag}]${v.slice(start, end)}[/${tag}]${v.slice(end)}`
+    setFtMessage(next)
+    requestAnimationFrame(() => {
+      ta.focus()
+      const s = start + 3 // "[g]"
+      ta.setSelectionRange(s, s + (end - start))
+    })
+  }
+
+  /** Save the edited title/message/name and feature it as the One Light. */
+  async function saveAndFeature(id: string) {
+    if (!supabase) return
+    setBusyId(id)
+    // Clear any currently-featured message (one at a time).
+    const { error: clearErr } = await supabase
+      .from(CONTRIBUTIONS_TABLE)
+      .update({ is_featured: false })
+      .eq('is_featured', true)
+    if (clearErr) {
+      setBusyId(null)
+      setError(clearErr.message)
+      return
+    }
+    const today = new Date().toISOString().slice(0, 10)
+    const { error: err } = await supabase
+      .from(CONTRIBUTIONS_TABLE)
+      .update({
+        title: ftTitle.trim() || null,
+        message: ftMessage,
+        name: ftName.trim(),
+        is_featured: true,
+        featured_date: today,
+      })
+      .eq('id', id)
+    setBusyId(null)
+    if (err) {
+      setError(err.message)
+      return
+    }
+    setFeaturingId(null)
     void load()
   }
 
@@ -454,7 +521,88 @@ export default function AdminDashboard() {
                                     {r.is_featured ? '★ Featured today' : '☆ Feature'}
                                   </button>
                                 )}
+                                {r.status === 'approved' && featuringId !== r.id && (
+                                  <button
+                                    className={styles.featuredBtn}
+                                    onClick={() => openFeatureEditor(r)}
+                                    title="Format the message and preview it as One Light"
+                                  >
+                                    ✦ Format &amp; preview
+                                  </button>
+                                )}
                               </div>
+
+                              {featuringId === r.id && (
+                                <div className={styles.oneLightEditor}>
+                                  <p className={styles.editorHead}>One Light — format &amp; preview</p>
+
+                                  <label className={styles.editorLabel}>
+                                    Title
+                                    <input
+                                      className={styles.editorInput}
+                                      value={ftTitle}
+                                      onChange={(e) => setFtTitle(e.target.value)}
+                                    />
+                                  </label>
+
+                                  <div className={styles.toolbar}>
+                                    <button type="button" onClick={() => wrapSelection('g')}>
+                                      Gold
+                                    </button>
+                                    <button type="button" onClick={() => wrapSelection('b')}>
+                                      Bold
+                                    </button>
+                                    <button type="button" onClick={() => wrapSelection('i')}>
+                                      Italic
+                                    </button>
+                                    <span className={styles.toolbarHint}>
+                                      select text in the message, then click
+                                    </span>
+                                  </div>
+                                  <textarea
+                                    ref={msgRef}
+                                    className={styles.editorTextarea}
+                                    value={ftMessage}
+                                    rows={6}
+                                    onChange={(e) => setFtMessage(e.target.value)}
+                                  />
+
+                                  <label className={styles.editorLabel}>
+                                    Name
+                                    <input
+                                      className={styles.editorInput}
+                                      value={ftName}
+                                      onChange={(e) => setFtName(e.target.value)}
+                                    />
+                                  </label>
+
+                                  <p className={styles.editorHead}>Preview</p>
+                                  <div className={styles.previewFrame}>
+                                    <FeaturedLight
+                                      title={ftTitle}
+                                      message={ftMessage}
+                                      name={ftName}
+                                      location={r.country}
+                                    />
+                                  </div>
+
+                                  <div className={styles.actions}>
+                                    <button
+                                      className={styles.featuredActive}
+                                      disabled={busyId === r.id}
+                                      onClick={() => saveAndFeature(r.id)}
+                                    >
+                                      Save &amp; Feature
+                                    </button>
+                                    <button
+                                      className={styles.inBookBtn}
+                                      onClick={() => setFeaturingId(null)}
+                                    >
+                                      Cancel
+                                    </button>
+                                  </div>
+                                </div>
+                              )}
                             </div>
                           </td>
                         </tr>

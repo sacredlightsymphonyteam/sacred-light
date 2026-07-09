@@ -364,6 +364,93 @@
   padding: 18px 20px 22px;
 }
 
+/* ── One Light editor (format + live preview before featuring) ── */
+.oneLightEditor {
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--gold-line-faint);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 720px;
+}
+.editorHead {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+}
+.editorLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--warm-grey);
+}
+.editorInput,
+.editorTextarea {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--gold-line-faint);
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-family: var(--font-display);
+  font-size: 16px;
+  color: var(--quote-light);
+}
+.editorTextarea {
+  resize: vertical;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+.editorInput:focus,
+.editorTextarea:focus {
+  outline: none;
+  border-color: var(--gold-line-strong);
+}
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.toolbar button {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+  background: none;
+  border: 1px solid var(--gold-line);
+  border-radius: 6px;
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: all 0.25s var(--ease);
+}
+.toolbar button:hover {
+  background: rgba(200, 168, 75, 0.1);
+}
+.toolbarHint {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: var(--warm-grey);
+  opacity: 0.8;
+}
+/* The preview renders on the ivory homepage surface so it matches exactly. */
+.previewFrame {
+  background: var(--w-ivory);
+  border: 1px solid var(--w-gold);
+  border-radius: 8px;
+  padding: clamp(24px, 4vw, 44px);
+  text-align: center;
+}
+
 .cardHead {
   display: flex;
   align-items: center;

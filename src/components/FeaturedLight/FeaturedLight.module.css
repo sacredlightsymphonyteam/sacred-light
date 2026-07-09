@@ -1,0 +1,51 @@
+/* Inner content of a featured "One Light" message. The frame is provided by
+   the caller; these are the text styles, shared by homepage + admin preview. */
+
+.date {
+  font-family: var(--w-sans);
+  font-weight: 300;
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--w-gold);
+  margin-bottom: 36px;
+}
+
+.title {
+  font-family: var(--w-serif);
+  font-size: clamp(22px, 2.6vw, 30px);
+  line-height: 1.3;
+  color: var(--w-gold); /* title gold by default */
+  margin-bottom: 0.8em;
+}
+
+.body {
+  max-width: 540px;
+  margin: 0 auto;
+  font-family: var(--w-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(18px, 1.9vw, 21px);
+  line-height: 1.9;
+  color: var(--w-graphite); /* message charcoal by default; [g] for gold */
+}
+.msg {
+  white-space: pre-line; /* keep single line breaks within a paragraph */
+}
+.msg + .msg {
+  margin-top: 1.4em;
+}
+
+.attr {
+  margin-top: 1.8em;
+  text-align: right;
+  font-family: var(--w-serif);
+  font-style: italic;
+  font-size: clamp(16px, 1.7vw, 19px);
+  color: var(--w-gold); /* name gold by default */
+}
+
+/* Inline formatting produced by the tags */
+.gold {
+  color: var(--w-gold);
+}
