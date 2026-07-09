@@ -38,6 +38,19 @@
 .verse {
   color: var(--w-gold);
 }
+
+/* A featured contributor message (vs. Marie's letter): the message text keeps
+   line breaks; a quiet italic attribution sits below. */
+.featuredMsg {
+  white-space: pre-line; /* keep line breaks within a paragraph, tidy spacing */
+}
+.featuredAttr {
+  margin-top: 1.8em;
+  font-family: var(--w-serif);
+  font-style: italic;
+  font-size: clamp(16px, 1.7vw, 19px);
+  color: var(--w-graphite-soft);
+}
 /* Closing + signature: the block is only as wide as its longest line
    ("With joy and gratitude,"), so right-aligning the name drops its last
    letter under that line's comma. */
