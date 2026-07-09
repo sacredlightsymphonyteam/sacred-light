@@ -53,10 +53,7 @@
 }
 .featuredMsg {
   white-space: pre-line; /* keep line breaks within a paragraph, tidy spacing */
-  color: var(--w-gold); /* gold by default; wrap **…** for soft charcoal */
-}
-.mutedText {
-  color: var(--w-graphite);
+  color: var(--w-gold); /* the gratitude message — gold */
 }
 .featuredAttr {
   margin-top: 1.6em;
@@ -64,7 +61,13 @@
   font-family: var(--w-serif);
   font-style: italic;
   font-size: clamp(16px, 1.7vw, 19px);
-  color: var(--w-gold); /* the name, gold */
+}
+/* Signature: closing line(s) charcoal, the name gold. */
+.valediction {
+  color: var(--w-graphite);
+}
+.sigName {
+  color: var(--w-gold);
 }
 /* Closing + signature: the block is only as wide as its longest line
    ("With joy and gratitude,"), so right-aligning the name drops its last

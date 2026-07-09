@@ -44,13 +44,10 @@ export default function TodaysLight() {
                 {featured.title && <p className={styles.featuredTitle}>{featured.title}</p>}
                 {splitParagraphs(featured.message).map((para, i) => (
                   <p key={i} className={styles.featuredMsg}>
-                    {renderMessage(para)}
+                    {para}
                   </p>
                 ))}
-                <p className={styles.featuredAttr}>
-                  {featured.name}
-                  {featured.location ? ` · ${featured.location}` : ''}
-                </p>
+                <p className={styles.featuredAttr}>{renderSignature(featured.name, featured.location)}</p>
               </div>
             </>
           ) : (
@@ -118,19 +115,29 @@ function splitParagraphs(text: string): string[] {
 }
 
 /**
- * Render a paragraph. A featured message is GOLD by default (the "light");
- * wrap any text in **double asterisks** to render it in soft charcoal instead
- * — e.g. a closing like "Love,". Title + name are always gold via the template.
+ * Render the signature from the `name` field: the LAST line is the name (gold);
+ * any lines above it (a closing such as "Love,") render in soft charcoal. So a
+ * name of "Love,\nChen & Keren Marudi" shows "Love," charcoal and the name gold.
  */
-function renderMessage(text: string) {
-  // Split on **…** keeping the captured inner text; odd indices are the matches.
-  return text.split(/\*\*(.+?)\*\*/gs).map((part, i) =>
-    i % 2 === 1 ? (
-      <span key={i} className={styles.mutedText}>
-        {part}
+function renderSignature(name: string, location: string | null) {
+  const lines = name
+    .split('\n')
+    .map((s) => s.trim())
+    .filter(Boolean)
+  const nameLine = lines.length ? lines[lines.length - 1] : ''
+  const closing = lines.slice(0, -1)
+  return (
+    <>
+      {closing.map((line, i) => (
+        <span key={i} className={styles.valediction}>
+          {line}
+          <br />
+        </span>
+      ))}
+      <span className={styles.sigName}>
+        {nameLine}
+        {location ? ` · ${location}` : ''}
       </span>
-    ) : (
-      part
-    ),
+    </>
   )
 }
