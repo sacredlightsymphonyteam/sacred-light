@@ -1,6 +1,10 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { getConstellationLights, type ConstellationLight } from '../../lib/supabase'
 import styles from './ConstellationField.module.css'
+
+// Layout effect on the client (so tooltip clamping happens before paint, no
+// flicker); plain effect during pre-render where there's no DOM to measure.
+const useIsoLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect
 
 /**
  * The Living Constellation field — styled after the earlier Sacred Light
@@ -40,11 +44,27 @@ export default function ConstellationField({
   const lightsRef = useRef<ConstellationLight[]>([])
   const hoveredRef = useRef<Star | null>(null)
   const dimmedRef = useRef(dimmed)
+  const tipRef = useRef<HTMLDivElement>(null)
   const [tip, setTip] = useState<Tip | null>(null)
 
   useEffect(() => {
     dimmedRef.current = dimmed
   }, [dimmed])
+
+  // Keep the hover tooltip fully on-screen: shift it horizontally if it would
+  // spill past a viewport edge, and flip it below the point if it's near the top.
+  useIsoLayoutEffect(() => {
+    const el = tipRef.current
+    if (!el || !tip) return
+    const pad = 8
+    el.style.transform = 'translate(-50%, calc(-100% - 12px))'
+    const rect = el.getBoundingClientRect()
+    let dx = 0
+    if (rect.left < pad) dx = pad - rect.left
+    else if (rect.right > window.innerWidth - pad) dx = window.innerWidth - pad - rect.right
+    const below = rect.top < pad
+    el.style.transform = `translate(calc(-50% + ${dx}px), ${below ? '12px' : 'calc(-100% - 12px)'})`
+  }, [tip])
 
   useEffect(() => {
     void getConstellationLights().then((l) => {
@@ -135,9 +155,11 @@ export default function ConstellationField({
     const draw = (now: number) => {
       // Build one point per message once loaded — born from the source, staggered.
       if (!built && lightsRef.current.length) {
+        // Inset positions a little so no point (or its tooltip) hugs the edge.
+        const MARGIN = 0.06
         lightsRef.current.forEach((p, i) => {
-          const tx = p.constellation_x * W
-          const ty = p.constellation_y * H
+          const tx = (MARGIN + p.constellation_x * (1 - 2 * MARGIN)) * W
+          const ty = (MARGIN + p.constellation_y * (1 - 2 * MARGIN)) * H
           const born = now + i * 320
           stars.push({
             x: cx,
@@ -255,7 +277,12 @@ export default function ConstellationField({
       <div className={styles.atmosphere} aria-hidden="true" />
       <canvas ref={canvasRef} className={styles.field} aria-hidden="true" />
       {tip && (
-        <div className={styles.tooltip} style={{ left: tip.x, top: tip.y }} aria-hidden="true">
+        <div
+          ref={tipRef}
+          className={styles.tooltip}
+          style={{ left: tip.x, top: tip.y }}
+          aria-hidden="true"
+        >
           {tip.text}
         </div>
       )}

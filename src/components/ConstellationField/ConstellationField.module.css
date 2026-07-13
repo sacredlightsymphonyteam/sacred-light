@@ -29,6 +29,9 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
   white-space: nowrap;
+  max-width: calc(100vw - 16px);
+  overflow: hidden;
+  text-overflow: ellipsis;
   color: #ede0c4;
   background: rgba(15, 14, 12, 0.85);
   border-radius: 2px;
