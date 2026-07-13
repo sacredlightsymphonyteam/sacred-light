@@ -24,6 +24,10 @@ export const SETTINGS_TABLE = 'app_settings'
 export const CREDITS_TABLE = 'credits'
 /** Security-definer view exposing only the one featured message's safe columns. */
 export const FEATURED_VIEW = 'featured_message'
+/** Security-definer view: all approved points of light (safe columns, no email). */
+export const CONSTELLATION_VIEW = 'constellation_lights'
+/** Single-row table holding the cached, realtime "total lights" counter. */
+export const CONSTELLATION_SETTINGS_TABLE = 'constellation_settings'
 /** Storage bucket that holds optional contribution uploads (photo/signature/artwork). */
 export const UPLOADS_BUCKET = 'gratitude-uploads'
 
@@ -44,6 +48,12 @@ export interface ContributionRow {
   is_featured: boolean
   featured_date: string | null
   featured_html: string | null
+  // Living Constellation (Phase 2)
+  light_reference: string | null
+  constellation_x: number | null
+  constellation_y: number | null
+  message_fragment: string | null
+  personal_url: string | null
   // Full funnel fields
   salutation: string | null
   first_name: string | null
@@ -87,6 +97,38 @@ export async function getFeaturedMessage(): Promise<FeaturedMessage | null> {
   const { data, error } = await supabase.from(FEATURED_VIEW).select('*').maybeSingle()
   if (error) return null
   return (data as FeaturedMessage) ?? null
+}
+
+/** One approved point of light in the Living Constellation (safe columns). */
+export interface ConstellationLight {
+  light_reference: string
+  constellation_x: number
+  constellation_y: number
+  name: string
+  country: string | null
+  message_fragment: string | null
+}
+
+/**
+ * All approved points of light for the constellation field, via a view that
+ * exposes only safe columns (no email). Empty array if unavailable.
+ */
+export async function getConstellationLights(): Promise<ConstellationLight[]> {
+  if (!supabase) return []
+  const { data, error } = await supabase.from(CONSTELLATION_VIEW).select('*')
+  if (error) return []
+  return (data ?? []) as ConstellationLight[]
+}
+
+/** Cached total number of approved lights (the "N points of light" counter). */
+export async function getTotalLights(): Promise<number> {
+  if (!supabase) return 0
+  const { data, error } = await supabase
+    .from(CONSTELLATION_SETTINGS_TABLE)
+    .select('total_lights')
+    .maybeSingle()
+  if (error) return 0
+  return (data?.total_lights as number) ?? 0
 }
 
 /** One credit row (a name within a tier) for Our Gratitude in The Circle. */

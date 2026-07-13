@@ -263,3 +263,97 @@ drop trigger if exists trg_send_email on public.contributions;
 create trigger trg_send_email
   after insert or update on public.contributions
   for each row execute function public.notify_send_email();
+
+-- 12) Living Constellation of Light (Phase 2) --------------------------------
+-- Each approved message becomes a "point of light" (never "star"). Every point
+-- has a public reference (LIGHT-0042), a personal URL, and a fixed position in
+-- the field. Positions use an R2 low-discrepancy sequence (plastic constant)
+-- seeded by the sequential number, so a light sits in the SAME place on every
+-- device and the field spreads evenly without clustering.
+alter table public.contributions
+  add column if not exists light_reference  text unique,
+  add column if not exists constellation_x  double precision,
+  add column if not exists constellation_y  double precision,
+  add column if not exists message_fragment text,     -- 1-3 sentences, chosen at approval
+  add column if not exists personal_url     text;
+
+-- Extend the approval trigger: when a row first becomes approved and gets its
+-- sequential number, also derive the light reference, personal URL and its
+-- point position. (star_id stays as the internal counter — production still
+-- reads it and the DB is shared, so we don't rename it; light_reference is the
+-- public id.)
+create or replace function public.assign_star_id()
+returns trigger language plpgsql as $$
+declare
+  n bigint;
+  pad text;
+begin
+  if new.status = 'approved' and new.star_id is null then
+    select coalesce(max(star_id), 0) + 1 into n from public.contributions;
+    pad := lpad(n::text, 4, '0');
+    new.star_id := n;
+    new.light_reference := 'LIGHT-' || pad;
+    new.personal_url := '/constellation/light-' || pad;
+    -- R2 low-discrepancy sequence → even, non-clustering, deterministic.
+    new.constellation_x := (0.5 + 0.7548776662466927 * n) - floor(0.5 + 0.7548776662466927 * n);
+    new.constellation_y := (0.5 + 0.5698402909980532 * n) - floor(0.5 + 0.5698402909980532 * n);
+  end if;
+  return new;
+end;
+$$;
+
+-- Backfill approved lights that predate these columns.
+update public.contributions
+set light_reference = 'LIGHT-' || lpad(star_id::text, 4, '0'),
+    personal_url    = '/constellation/light-' || lpad(star_id::text, 4, '0'),
+    constellation_x = (0.5 + 0.7548776662466927 * star_id) - floor(0.5 + 0.7548776662466927 * star_id),
+    constellation_y = (0.5 + 0.5698402909980532 * star_id) - floor(0.5 + 0.5698402909980532 * star_id)
+where status = 'approved' and star_id is not null and light_reference is null;
+
+-- Cached counter for the "N points of light — and growing" display (real-time).
+create table if not exists public.constellation_settings (
+  id           integer primary key default 1,
+  total_lights integer not null default 0,
+  check (id = 1)
+);
+insert into public.constellation_settings (id, total_lights)
+values (1, (select count(*) from public.contributions where status = 'approved'))
+on conflict (id) do update set total_lights = excluded.total_lights;
+
+alter table public.constellation_settings enable row level security;
+drop policy if exists "anyone reads constellation settings" on public.constellation_settings;
+create policy "anyone reads constellation settings"
+  on public.constellation_settings for select to public using (true);
+grant select on public.constellation_settings to anon, authenticated;
+
+-- Keep the counter current whenever approvals change (fires the realtime UPDATE).
+create or replace function public.refresh_total_lights()
+returns trigger language plpgsql security definer as $$
+begin
+  update public.constellation_settings
+  set total_lights = (select count(*) from public.contributions where status = 'approved')
+  where id = 1;
+  return null;
+end;
+$$;
+drop trigger if exists trg_total_lights on public.contributions;
+create trigger trg_total_lights
+  after insert or delete or update of status on public.contributions
+  for each statement execute function public.refresh_total_lights();
+
+-- Public read of all approved points — safe columns only (no email). A
+-- security-definer view lets the anon key read the field without table access.
+drop view if exists public.constellation_lights;
+create view public.constellation_lights as
+  select light_reference,
+         constellation_x,
+         constellation_y,
+         coalesce(display_name, first_name, name) as name,
+         country,
+         message_fragment
+  from public.contributions
+  where status = 'approved' and light_reference is not null;
+
+grant select on public.constellation_lights to anon, authenticated;
+
+notify pgrst, 'reload schema';
