@@ -4,7 +4,8 @@
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background: radial-gradient(circle at 50% 48%, #0d2a66 0%, #061233 22%, #020615 60%);
+  /* Dark midnight blue — deeper/bluer than before, softer central glow. */
+  background: radial-gradient(circle at 50% 48%, #17305e 0%, #0b1428 34%, #070a14 68%);
 }
 .field {
   position: absolute;

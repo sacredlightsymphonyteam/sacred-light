@@ -3,7 +3,7 @@
 .stage {
   position: relative;
   min-height: 100dvh;
-  background: #020615; /* --field-deep, matches the field atmosphere */
+  background: #070a14; /* dark midnight blue — matches the field atmosphere edge */
   overflow: hidden;
 }
 .fieldWrap {
