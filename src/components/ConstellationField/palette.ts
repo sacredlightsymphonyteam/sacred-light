@@ -26,9 +26,9 @@ export type Palette = {
 // points of light stay warm gold-white — the space is blue, the lights are not.
 const GALAXY: Palette = {
   id: 'galaxy',
-  base: '#060a16',
+  base: '#02040a',
   atmosphere:
-    'radial-gradient(ellipse at 50% 46%, rgba(150,180,240,0.07) 0%, transparent 42%), radial-gradient(ellipse at 50% 50%, #0e1d3a 0%, #0a1428 32%, #060a16 66%)',
+    'radial-gradient(ellipse at 50% 47%, rgba(130,165,230,0.05) 0%, transparent 36%), radial-gradient(ellipse at 50% 50%, #08132a 0%, #040a18 28%, #02040a 58%)',
   dustRgb: '150,178,235',
   rippleRgb: '245,215,122',
   rippleAlpha: 0.2,
