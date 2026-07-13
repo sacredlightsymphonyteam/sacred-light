@@ -4,8 +4,9 @@
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  /* Dark midnight blue — deeper/bluer than before, softer central glow. */
-  background: radial-gradient(circle at 50% 48%, #17305e 0%, #0b1428 34%, #070a14 68%);
+  /* Neutral dark base; the active palette's gradient is applied inline by JS
+     (see palette.ts / getPalette) so switching palettes needs no CSS change. */
+  background: #08080b;
 }
 .field {
   position: absolute;

@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { getConstellationLights, type ConstellationLight } from '../../lib/supabase'
+import { getPalette } from './palette'
 import styles from './ConstellationField.module.css'
 
 // Layout effect on the client (so tooltip clamping happens before paint, no
@@ -41,6 +42,7 @@ export default function ConstellationField({
   dimmed?: boolean
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const atmosphereRef = useRef<HTMLDivElement>(null)
   const lightsRef = useRef<ConstellationLight[]>([])
   const hoveredRef = useRef<Star | null>(null)
   const dimmedRef = useRef(dimmed)
@@ -77,6 +79,8 @@ export default function ConstellationField({
     if (!ctx) return
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const dpr = Math.min(window.devicePixelRatio || 1, 2)
+    const palette = getPalette()
+    if (atmosphereRef.current) atmosphereRef.current.style.background = palette.atmosphere
 
     let W = 0
     let H = 0
@@ -188,7 +192,7 @@ export default function ConstellationField({
         const a = (0.1 + Math.sin(d.tw) * 0.06) * fade
         ctx.beginPath()
         ctx.arc(d.x * W, d.y * H, d.r, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(160,190,255,${a})`
+        ctx.fillStyle = `rgba(${palette.dustRgb},${a})`
         ctx.fill()
       }
 
@@ -205,7 +209,7 @@ export default function ConstellationField({
         const r = Math.max(0.01, prog * Math.hypot(rp.to.x - cx, rp.to.y - cy))
         ctx.beginPath()
         ctx.arc(cx, cy, r, 0, Math.PI * 2)
-        ctx.strokeStyle = `rgba(245,215,122,${(1 - prog) * 0.22 * fade})`
+        ctx.strokeStyle = `rgba(${palette.rippleRgb},${(1 - prog) * palette.rippleAlpha * fade})`
         ctx.lineWidth = 1 * dpr
         ctx.stroke()
       }
@@ -215,16 +219,16 @@ export default function ConstellationField({
       const pulse = reduce ? 1 : 1 + Math.sin(now / 900) * 0.12
       const sr = Math.max(0.01, sourceBaseR * pulse)
       const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, sr * 7)
-      grd.addColorStop(0, `rgba(255,255,255,${0.95 * si})`)
-      grd.addColorStop(0.25, `rgba(245,215,122,${0.6 * si})`)
-      grd.addColorStop(1, 'rgba(245,215,122,0)')
+      for (const [stop, rgb, alpha] of palette.source.glow) {
+        grd.addColorStop(stop, `rgba(${rgb},${alpha * si})`)
+      }
       ctx.beginPath()
       ctx.arc(cx, cy, sr * 7, 0, Math.PI * 2)
       ctx.fillStyle = grd
       ctx.fill()
       ctx.beginPath()
       ctx.arc(cx, cy, sr, 0, Math.PI * 2)
-      ctx.fillStyle = `rgba(255,255,255,${0.85 * si})`
+      ctx.fillStyle = `rgba(${palette.source.core.rgb},${palette.source.core.alpha * si})`
       ctx.fill()
 
       // Message lights: ease out from the source, then gently breathe.
@@ -244,16 +248,16 @@ export default function ConstellationField({
         const r = Math.max(0.01, s.r * e * hover)
         const a = breath * e * fade
         const g = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, r * 6)
-        g.addColorStop(0, `rgba(255,255,255,${0.5 * a})`)
-        g.addColorStop(0.3, `rgba(245,215,122,${0.35 * a})`)
-        g.addColorStop(1, 'rgba(245,215,122,0)')
+        for (const [stop, rgb, alpha] of palette.point.glow) {
+          g.addColorStop(stop, `rgba(${rgb},${alpha * a})`)
+        }
         ctx.beginPath()
         ctx.arc(s.x, s.y, r * 6, 0, Math.PI * 2)
         ctx.fillStyle = g
         ctx.fill()
         ctx.beginPath()
         ctx.arc(s.x, s.y, r, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(255,253,245,${a})`
+        ctx.fillStyle = `rgba(${palette.point.coreRgb},${a})`
         ctx.fill()
       }
 
@@ -274,7 +278,7 @@ export default function ConstellationField({
 
   return (
     <>
-      <div className={styles.atmosphere} aria-hidden="true" />
+      <div ref={atmosphereRef} className={styles.atmosphere} aria-hidden="true" />
       <canvas ref={canvasRef} className={styles.field} aria-hidden="true" />
       {tip && (
         <div
