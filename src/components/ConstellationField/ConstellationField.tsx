@@ -132,8 +132,10 @@ export default function ConstellationField() {
         const e = 1 - Math.pow(1 - ease, 3)
         s.x += (s.tx - s.x) * 0.06
         s.y += (s.ty - s.y) * 0.06
-        s.tw += reduce ? 0 : 0.02 * s.sp
-        const tw = reduce ? 1 : 0.7 + Math.sin(s.tw) * 0.3
+        // Breathing, not twinkling: slow pulse, gentle amplitude, soft phase
+        // offset per light so they don't breathe in mechanical unison.
+        s.tw += reduce ? 0 : 0.006 * s.sp
+        const tw = reduce ? 1 : 0.82 + Math.sin(s.tw) * 0.18
         const r = Math.max(0.01, s.r * e)
         const g = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, r * 6)
         g.addColorStop(0, `rgba(255,255,255,${0.5 * tw * e})`)
