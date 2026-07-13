@@ -3,27 +3,15 @@ import { getConstellationLights, type ConstellationLight } from '../../lib/supab
 import styles from './ConstellationField.module.css'
 
 /**
- * The Living Constellation field (Phase 2, Step 2 — the visible field).
+ * The Living Constellation field (Phase 2). Per the brief, EVERY point of light
+ * is one approved message — there is no decorative fake starfield. A blue
+ * "Tina" cross of light sits at the heart (from Marie's video), with a faint
+ * atmospheric haze for depth. The real contributor points glow warm gold, each
+ * breathing/twinkling, at their seeded positions. So the number of glowing
+ * points always equals the number of messages, and grows with the Book.
  *
- * A canvas cosmic field matching Marie's video: near-black blue-black ground,
- * a decorative starfield of cool blue/white twinkling stars for depth, the
- * blue "Tina" cross of light at the heart, and — layered on top — the real
- * contributor points of light in warm gold (one per approved message, at their
- * seeded positions). Gentle drift + slow zoom + breathing keep it alive.
- *
- * Hover / click / personal-URL zoom come in the next step; positions of the
- * real points are already computed here so hit-testing can hook in later.
+ * Hover / click / personal-URL zoom arrive in the next step.
  */
-type DecoStar = {
-  x: number // normalised 0..1
-  y: number
-  r: number // px radius
-  cool: boolean // blue vs white
-  phase: number
-  speed: number
-  depth: number // parallax factor 0..1
-}
-
 export default function ConstellationField() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const lightsRef = useRef<ConstellationLight[]>([])
@@ -38,18 +26,6 @@ export default function ConstellationField() {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
-    // Deterministic decorative starfield (seeded → stable across reloads).
-    const rand = mulberry32(20260707)
-    const stars: DecoStar[] = Array.from({ length: 340 }, () => ({
-      x: rand(),
-      y: rand(),
-      r: 0.4 + rand() * 1.5,
-      cool: rand() < 0.7,
-      phase: rand() * Math.PI * 2,
-      speed: 0.25 + rand() * 0.7,
-      depth: 0.15 + rand() * 0.85,
-    }))
 
     let w = 0
     let h = 0
@@ -68,46 +44,31 @@ export default function ConstellationField() {
     let raf = 0
 
     const draw = (now: number) => {
-      const t = reduce ? 0 : (now - start) / 1000
+      const t = (now - start) / 1000
 
-      // Ground
-      ctx.clearRect(0, 0, w, h)
+      // Ground + faint atmospheric haze (depth only — not countable stars)
+      ctx.globalCompositeOperation = 'source-over'
       ctx.fillStyle = '#08070A'
       ctx.fillRect(0, 0, w, h)
+      drawHaze(ctx, w, h, reduce ? 0 : t)
 
-      // Gentle camera: slow drift + subtle zoom breathing
-      const driftX = Math.sin(t * 0.05) * 14
-      const driftY = Math.cos(t * 0.04) * 10
-      const zoom = 1 + Math.sin(t * 0.03) * 0.02
+      const driftX = reduce ? 0 : Math.sin(t * 0.06) * 16
+      const driftY = reduce ? 0 : Math.cos(t * 0.05) * 12
 
       ctx.globalCompositeOperation = 'lighter'
 
-      // Decorative starfield (cool blue/white), parallax by depth
-      for (const s of stars) {
-        const tw = 0.35 + 0.65 * (0.5 + 0.5 * Math.sin(t * s.speed + s.phase))
-        const sx = s.x * w + driftX * s.depth
-        const sy = s.y * h + driftY * s.depth
-        const r = s.r * zoom
-        const col = s.cool ? '180, 210, 255' : '255, 255, 255'
-        const g = ctx.createRadialGradient(sx, sy, 0, sx, sy, r * 4)
-        g.addColorStop(0, `rgba(${col}, ${tw})`)
-        g.addColorStop(1, 'rgba(0,0,0,0)')
-        ctx.fillStyle = g
-        ctx.beginPath()
-        ctx.arc(sx, sy, r * 4, 0, Math.PI * 2)
-        ctx.fill()
-      }
+      // The blue "Tina" cross — the heart of the field
+      drawCross(ctx, w / 2 + driftX * 0.3, h * 0.46 + driftY * 0.3, Math.min(w, h) * 0.4, reduce ? 0 : t)
 
-      // The blue "Tina" cross of light — the heart of the field
-      drawCross(ctx, w / 2 + driftX * 0.3, h * 0.46 + driftY * 0.3, Math.min(w, h) * 0.42 * zoom, t)
-
-      // Real contributor points — warm gold, breathing, on top
-      for (let i = 0; i < lightsRef.current.length; i++) {
-        const p = lightsRef.current[i]
-        const breath = 0.55 + 0.45 * (0.5 + 0.5 * Math.sin(t * 0.6 + i * 1.7))
-        const px = p.constellation_x * w + driftX * 0.5
-        const py = p.constellation_y * h + driftY * 0.5
-        drawGoldPoint(ctx, px, py, breath * zoom)
+      // Real contributor points — one glowing gold light per message
+      const lights = lightsRef.current
+      for (let i = 0; i < lights.length; i++) {
+        const p = lights[i]
+        // clear, visible twinkle (0.45 → 1.0) with a per-light phase
+        const tw = reduce ? 0.9 : 0.45 + 0.55 * (0.5 + 0.5 * Math.sin(t * 1.1 + i * 2.3))
+        const px = p.constellation_x * w + driftX * 0.6
+        const py = p.constellation_y * h + driftY * 0.6
+        drawLight(ctx, px, py, tw)
       }
 
       ctx.globalCompositeOperation = 'source-over'
@@ -124,67 +85,101 @@ export default function ConstellationField() {
   return <canvas ref={canvasRef} className={styles.canvas} aria-hidden="true" />
 }
 
-/** Warm-gold contributor point: bright core + soft gold glow. */
-function drawGoldPoint(ctx: CanvasRenderingContext2D, x: number, y: number, a: number) {
-  const glow = ctx.createRadialGradient(x, y, 0, x, y, 16)
-  glow.addColorStop(0, `rgba(255, 224, 170, ${a})`)
-  glow.addColorStop(0.35, `rgba(183, 154, 99, ${a * 0.55})`)
-  glow.addColorStop(1, 'rgba(183,154,99,0)')
-  ctx.fillStyle = glow
-  ctx.beginPath()
-  ctx.arc(x, y, 16, 0, Math.PI * 2)
-  ctx.fill()
-  ctx.fillStyle = `rgba(255, 240, 210, ${Math.min(1, a + 0.2)})`
-  ctx.beginPath()
-  ctx.arc(x, y, 2.2, 0, Math.PI * 2)
-  ctx.fill()
+/** Faint blue atmospheric clouds for depth — deliberately not distinct stars. */
+function drawHaze(ctx: CanvasRenderingContext2D, w: number, h: number, t: number) {
+  ctx.globalCompositeOperation = 'lighter'
+  const blobs = [
+    [0.3, 0.4, 0.55],
+    [0.7, 0.55, 0.45],
+    [0.5, 0.7, 0.4],
+  ]
+  for (let i = 0; i < blobs.length; i++) {
+    const [bx, by, br] = blobs[i]
+    const drift = Math.sin(t * 0.04 + i) * 0.01
+    const cx = (bx + drift) * w
+    const cy = by * h
+    const r = br * Math.min(w, h)
+    const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r)
+    g.addColorStop(0, 'rgba(30, 50, 90, 0.10)')
+    g.addColorStop(1, 'rgba(8, 7, 10, 0)')
+    ctx.fillStyle = g
+    ctx.beginPath()
+    ctx.arc(cx, cy, r, 0, Math.PI * 2)
+    ctx.fill()
+  }
 }
 
-/** The blue diffraction cross (X) with a bright core and a slow pulse. */
-function drawCross(ctx: CanvasRenderingContext2D, cx: number, cy: number, size: number, t: number) {
-  const pulse = 0.85 + 0.15 * (0.5 + 0.5 * Math.sin(t * 0.5))
+/** One message = one glowing gold light: halo + sparkle + bright core. */
+function drawLight(ctx: CanvasRenderingContext2D, x: number, y: number, a: number) {
   ctx.save()
-  ctx.translate(cx, cy)
-  ctx.rotate(Math.PI / 4) // makes the beams read as an X
+  ctx.translate(x, y)
 
-  // Two crossed beams (horizontal + vertical after the 45° rotation)
+  // Warm gold halo
+  const halo = ctx.createRadialGradient(0, 0, 0, 0, 0, 26)
+  halo.addColorStop(0, `rgba(255, 224, 170, ${0.85 * a})`)
+  halo.addColorStop(0.3, `rgba(200, 160, 90, ${0.45 * a})`)
+  halo.addColorStop(1, 'rgba(183,154,99,0)')
+  ctx.fillStyle = halo
+  ctx.beginPath()
+  ctx.arc(0, 0, 26, 0, Math.PI * 2)
+  ctx.fill()
+
+  // Soft 4-point sparkle
+  ctx.rotate(Math.PI / 4)
   for (let k = 0; k < 2; k++) {
-    ctx.save()
-    ctx.rotate((k * Math.PI) / 2)
-    const grad = ctx.createLinearGradient(-size, 0, size, 0)
-    grad.addColorStop(0, 'rgba(120,180,255,0)')
-    grad.addColorStop(0.5, `rgba(150,200,255,${0.5 * pulse})`)
-    grad.addColorStop(1, 'rgba(120,180,255,0)')
-    ctx.fillStyle = grad
+    ctx.rotate(Math.PI / 2)
+    const len = 22
+    const g = ctx.createLinearGradient(-len, 0, len, 0)
+    g.addColorStop(0, 'rgba(255,224,170,0)')
+    g.addColorStop(0.5, `rgba(255,236,200,${0.6 * a})`)
+    g.addColorStop(1, 'rgba(255,224,170,0)')
+    ctx.fillStyle = g
     ctx.beginPath()
-    ctx.moveTo(-size, 0)
-    ctx.lineTo(0, -size * 0.06)
-    ctx.lineTo(size, 0)
-    ctx.lineTo(0, size * 0.06)
+    ctx.moveTo(-len, 0)
+    ctx.lineTo(0, -1.3)
+    ctx.lineTo(len, 0)
+    ctx.lineTo(0, 1.3)
     ctx.closePath()
     ctx.fill()
-    ctx.restore()
   }
+  ctx.rotate(-Math.PI / 4)
 
-  // Core glow
-  const core = ctx.createRadialGradient(0, 0, 0, 0, 0, size * 0.18)
-  core.addColorStop(0, `rgba(255,255,255,${0.95 * pulse})`)
-  core.addColorStop(0.4, `rgba(190,220,255,${0.6 * pulse})`)
-  core.addColorStop(1, 'rgba(120,180,255,0)')
-  ctx.fillStyle = core
+  // Bright core
+  ctx.fillStyle = `rgba(255, 246, 226, ${Math.min(1, a + 0.15)})`
   ctx.beginPath()
-  ctx.arc(0, 0, size * 0.18, 0, Math.PI * 2)
+  ctx.arc(0, 0, 2.6, 0, Math.PI * 2)
   ctx.fill()
   ctx.restore()
 }
 
-/** Small seeded PRNG so the decorative field is identical on every load. */
-function mulberry32(a: number) {
-  return function () {
-    a |= 0
-    a = (a + 0x6d2b79f5) | 0
-    let t = Math.imul(a ^ (a >>> 15), 1 | a)
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+/** The blue diffraction cross (X) with a bright core and a slow pulse. */
+function drawCross(ctx: CanvasRenderingContext2D, cx: number, cy: number, size: number, t: number) {
+  const pulse = 0.8 + 0.2 * (0.5 + 0.5 * Math.sin(t * 0.5))
+  ctx.save()
+  ctx.translate(cx, cy)
+  ctx.rotate(Math.PI / 4)
+  for (let k = 0; k < 2; k++) {
+    ctx.rotate(Math.PI / 2)
+    const grad = ctx.createLinearGradient(-size, 0, size, 0)
+    grad.addColorStop(0, 'rgba(120,180,255,0)')
+    grad.addColorStop(0.5, `rgba(160,205,255,${0.6 * pulse})`)
+    grad.addColorStop(1, 'rgba(120,180,255,0)')
+    ctx.fillStyle = grad
+    ctx.beginPath()
+    ctx.moveTo(-size, 0)
+    ctx.lineTo(0, -size * 0.05)
+    ctx.lineTo(size, 0)
+    ctx.lineTo(0, size * 0.05)
+    ctx.closePath()
+    ctx.fill()
   }
+  const core = ctx.createRadialGradient(0, 0, 0, 0, 0, size * 0.2)
+  core.addColorStop(0, `rgba(255,255,255,${0.98 * pulse})`)
+  core.addColorStop(0.4, `rgba(190,220,255,${0.65 * pulse})`)
+  core.addColorStop(1, 'rgba(120,180,255,0)')
+  ctx.fillStyle = core
+  ctx.beginPath()
+  ctx.arc(0, 0, size * 0.2, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.restore()
 }
