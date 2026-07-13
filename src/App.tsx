@@ -28,6 +28,11 @@ export const routes: RouteRecord[] = [
     element: <Constellation />,
   },
   {
+    // Personal light URL (client-rendered via the SPA fallback in netlify.toml).
+    path: '/constellation/:ref',
+    element: <Constellation />,
+  },
+  {
     path: '/admin/login',
     element: <AdminLogin />,
   },

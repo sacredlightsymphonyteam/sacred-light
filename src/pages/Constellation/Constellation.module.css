@@ -57,3 +57,79 @@
 .invite :global(.sls-cta) {
   pointer-events: auto;
 }
+
+/* One-time owner welcome (STATE 3) — fades in, holds, fades out over ~5s. */
+.welcome {
+  position: absolute;
+  top: clamp(88px, 14vh, 160px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  max-width: min(90vw, 560px);
+  padding: 14px 24px;
+  text-align: center;
+  font-family: var(--w-serif);
+  font-style: italic;
+  font-size: clamp(15px, 2vw, 19px);
+  line-height: 1.5;
+  color: var(--w-ivory);
+  background: rgba(15, 14, 12, 0.82);
+  border: 0.5px solid var(--w-gold-soft);
+  border-radius: 3px;
+  animation: welcomeCycle 5s ease forwards;
+}
+@keyframes welcomeCycle {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -8px);
+  }
+  12% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  85% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* Personal-URL reference not found among approved lights. */
+.notFound {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  max-width: min(90vw, 460px);
+  padding: 28px 32px;
+  text-align: center;
+  background: rgba(15, 14, 12, 0.92);
+  border: 0.5px solid var(--w-gold-soft);
+  border-radius: 3px;
+}
+.notFoundLead {
+  font-family: var(--w-serif);
+  font-style: italic;
+  font-size: clamp(18px, 2.4vw, 22px);
+  color: var(--w-ivory);
+  margin-bottom: 10px;
+}
+.notFoundBody {
+  font-family: var(--w-sans);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--w-ivory-mute);
+}
+.notFoundBody a {
+  color: var(--w-gold);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .welcome {
+    animation: none;
+  }
+}

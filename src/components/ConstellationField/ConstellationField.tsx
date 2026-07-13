@@ -18,6 +18,11 @@ const useIsoLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : use
  * STATE 2 (exploration): hovering a point brightens it and shows a small
  * `FIRST NAME · COUNTRY` tooltip; clicking a point calls `onSelect` so the page
  * can open the message panel (and the field dims while it's open).
+ *
+ * STATE 3 (personal URL): when `focusRef` is a light's reference, the field
+ * eases a camera zoom in to that point (which glows gold), then calls
+ * `onFocusReady` so the page can auto-open its panel. `onFocusReady(null)` fires
+ * if the reference isn't among the approved lights.
  */
 type Star = {
   x: number
@@ -37,9 +42,13 @@ type Tip = { x: number; y: number; text: string }
 export default function ConstellationField({
   onSelect,
   dimmed = false,
+  focusRef = null,
+  onFocusReady,
 }: {
   onSelect?: (light: ConstellationLight) => void
   dimmed?: boolean
+  focusRef?: string | null
+  onFocusReady?: (light: ConstellationLight | null) => void
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const atmosphereRef = useRef<HTMLDivElement>(null)
@@ -47,11 +56,21 @@ export default function ConstellationField({
   const hoveredRef = useRef<Star | null>(null)
   const dimmedRef = useRef(dimmed)
   const tipRef = useRef<HTMLDivElement>(null)
+  // Camera for the personal-URL zoom; identity (s=1, centred) at rest.
+  const camRef = useRef({ s: 1, fx: 0, fy: 0 })
+  const focusRefRef = useRef<string | null>(focusRef)
+  const onFocusReadyRef = useRef(onFocusReady)
   const [tip, setTip] = useState<Tip | null>(null)
 
   useEffect(() => {
     dimmedRef.current = dimmed
   }, [dimmed])
+  useEffect(() => {
+    focusRefRef.current = focusRef
+  }, [focusRef])
+  useEffect(() => {
+    onFocusReadyRef.current = onFocusReady
+  }, [onFocusReady])
 
   // Keep the hover tooltip fully on-screen: shift it horizontally if it would
   // spill past a viewport edge, and flip it below the point if it's near the top.
@@ -86,11 +105,23 @@ export default function ConstellationField({
     let H = 0
     let cx = 0
     let cy = 0
+    // Personal-URL focus state (set once lights are built).
+    const cam = camRef.current
+    let focusStar: Star | null = null
+    let focusStart = 0 // timestamp to begin the zoom; 0 = not scheduled
+    let readyFired = false
+    const FOCUS_SCALE = 2.6
+    const FOCUS_DELAY = 1500
     const resize = () => {
       W = canvas.width = Math.round(canvas.clientWidth * dpr)
       H = canvas.height = Math.round(canvas.clientHeight * dpr)
       cx = W / 2
       cy = H * 0.48
+      if (!focusStar) {
+        cam.s = 1
+        cam.fx = W / 2
+        cam.fy = H / 2
+      }
     }
     resize()
     window.addEventListener('resize', resize)
@@ -113,8 +144,11 @@ export default function ConstellationField({
 
     const starAt = (clientX: number, clientY: number): Star | null => {
       const rect = canvas.getBoundingClientRect()
-      const mx = (clientX - rect.left) * dpr
-      const my = (clientY - rect.top) * dpr
+      // Screen (device px) → world, inverting the current camera transform.
+      const sx = (clientX - rect.left) * dpr
+      const sy = (clientY - rect.top) * dpr
+      const mx = (sx - W / 2) / cam.s + cam.fx
+      const my = (sy - H / 2) / cam.s + cam.fy
       let best: Star | null = null
       let bestD = Infinity
       for (const s of stars) {
@@ -135,7 +169,14 @@ export default function ConstellationField({
         const rect = canvas.getBoundingClientRect()
         const first = (s.light.name || '').trim().split(/\s+/)[0] || 'A light'
         const country = s.light.country ? ` · ${s.light.country}` : ''
-        setTip({ x: rect.left + s.x / dpr, y: rect.top + s.y / dpr, text: `${first}${country}` })
+        // World → screen through the current camera transform.
+        const screenX = W / 2 + cam.s * (s.x - cam.fx)
+        const screenY = H / 2 + cam.s * (s.y - cam.fy)
+        setTip({
+          x: rect.left + screenX / dpr,
+          y: rect.top + screenY / dpr,
+          text: `${first}${country}`,
+        })
       } else {
         setTip(null)
       }
@@ -179,12 +220,47 @@ export default function ConstellationField({
           ripples.push({ t: born, to: { x: tx, y: ty } })
         })
         built = true
+        // Personal URL: find the requested light and schedule the zoom-in.
+        if (focusRefRef.current) {
+          const want = focusRefRef.current.toUpperCase()
+          focusStar = stars.find((s) => s.light.light_reference?.toUpperCase() === want) ?? null
+          focusStart = now + FOCUS_DELAY
+        }
+      }
+
+      // Camera: ease toward the focused point after a beat (personal URL), or
+      // back out to the whole field when focus is released (panel closed).
+      const focusActive = !!focusRefRef.current
+      const wantFocus = focusActive && !!focusStar && focusStart > 0 && now >= focusStart
+      const tS = wantFocus ? FOCUS_SCALE : 1
+      const tfx = wantFocus && focusStar ? focusStar.tx : W / 2
+      const tfy = wantFocus && focusStar ? focusStar.ty : H / 2
+      cam.s += (tS - cam.s) * 0.045
+      cam.fx += (tfx - cam.fx) * 0.045
+      cam.fy += (tfy - cam.fy) * 0.045
+      if (focusActive && focusStart > 0 && now >= focusStart && !readyFired) {
+        if (focusStar) {
+          // Open the panel once the zoom has mostly arrived.
+          if (cam.s > FOCUS_SCALE * 0.86) {
+            readyFired = true
+            onFocusReadyRef.current?.(focusStar.light)
+          }
+        } else {
+          readyFired = true
+          onFocusReadyRef.current?.(null) // reference not among approved lights
+        }
       }
 
       ctx.clearRect(0, 0, W, H) // transparent — the CSS atmosphere shows behind
 
       // While a message panel is open, the whole field eases down to ~0.4.
       const fade = dimmedRef.current ? 0.4 : 1
+
+      // Everything below draws in world coordinates through the camera.
+      ctx.save()
+      ctx.translate(W / 2, H / 2)
+      ctx.scale(cam.s, cam.s)
+      ctx.translate(-cam.fx, -cam.fy)
 
       // Dust
       for (const d of dust) {
@@ -243,10 +319,14 @@ export default function ConstellationField({
         // offset per light so they don't breathe in mechanical unison.
         s.tw += reduce ? 0 : 0.006 * s.sp
         const breath = reduce ? 1 : 0.82 + Math.sin(s.tw) * 0.18
-        // Hovered points brighten and grow slightly.
+        // Hovered points brighten and grow slightly; the focused point (personal
+        // URL) holds a larger, sustained gold glow.
         const hover = s === hoveredRef.current ? 1.15 : 1
-        const r = Math.max(0.01, s.r * e * hover)
-        const a = breath * e * fade
+        const focused = focusActive && s === focusStar
+        const r = Math.max(0.01, s.r * e * hover * (focused ? 1.6 : 1))
+        const a = focused
+          ? Math.min(1, (0.9 + Math.sin(now / 700) * 0.1) * e * fade)
+          : breath * e * fade
         const g = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, r * 6)
         for (const [stop, rgb, alpha] of palette.point.glow) {
           g.addColorStop(stop, `rgba(${rgb},${alpha * a})`)
@@ -260,6 +340,8 @@ export default function ConstellationField({
         ctx.fillStyle = `rgba(${palette.point.coreRgb},${a})`
         ctx.fill()
       }
+
+      ctx.restore() // end camera transform
 
       raf = requestAnimationFrame(draw)
     }
