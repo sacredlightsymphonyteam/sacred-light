@@ -28,7 +28,10 @@
   color: #bcd0f5; /* soft blue, matches the earlier constellation */
 }
 
-/* Invitation below the field */
+/* Invitation below the field — same deep navy as the constellation */
+.inviteSection {
+  background: #020615;
+}
 .invite {
   font-family: var(--w-serif);
   font-style: italic;

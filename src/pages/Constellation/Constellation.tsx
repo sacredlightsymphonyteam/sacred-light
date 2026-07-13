@@ -34,7 +34,7 @@ export default function Constellation() {
         </div>
       </section>
 
-      <section className="section light" aria-label="Add your light">
+      <section className={`section ${styles.inviteSection}`} aria-label="Add your light">
         <div className="inner">
           <p className={styles.invite}>
             Your message matters.
