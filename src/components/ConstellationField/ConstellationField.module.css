@@ -16,3 +16,21 @@
   height: 100%;
   background: transparent;
 }
+
+/* Hover label: FIRST NAME · COUNTRY — sits just above the point. */
+.tooltip {
+  position: fixed;
+  z-index: 5;
+  transform: translate(-50%, calc(-100% - 12px));
+  padding: 5px 10px;
+  font-family: var(--w-sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: #ede0c4;
+  background: rgba(15, 14, 12, 0.85);
+  border-radius: 2px;
+  pointer-events: none;
+}

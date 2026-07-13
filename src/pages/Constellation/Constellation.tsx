@@ -1,18 +1,24 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import TopBanner from '../../components/TopBanner/TopBanner'
 import ConstellationField from '../../components/ConstellationField/ConstellationField'
+import ConstellationPanel from '../../components/ConstellationPanel/ConstellationPanel'
 import Footer from '../../components/Footer/Footer'
 import Seo from '../../components/Seo/Seo'
 import { SITE_URL } from '../../lib/site'
+import type { ConstellationLight } from '../../lib/supabase'
 import styles from './Constellation.module.css'
 
 /**
- * The Living Constellation of Light (Phase 2). Step 2 = the field itself:
- * a cosmic canvas with the blue "Tina" cross at its heart and the real
- * contributor points of light in warm gold. Hover / click / personal-URL /
- * counter / search arrive in later steps.
+ * The Living Constellation of Light (Phase 2).
+ * STATE 1 (first arrival): the immersive field + title + invitation.
+ * STATE 2 (exploration): hover a point for a name/country tooltip; click to
+ * open its message panel while the field dims behind.
+ * Personal-URL zoom, welcome banner, counter and Find-My-Light arrive next.
  */
 export default function Constellation() {
+  const [selected, setSelected] = useState<ConstellationLight | null>(null)
+
   return (
     <main>
       <Seo
@@ -26,7 +32,7 @@ export default function Constellation() {
 
       <section className={styles.stage} aria-label="The Living Constellation of Light">
         <div className={styles.fieldWrap}>
-          <ConstellationField />
+          <ConstellationField onSelect={setSelected} dimmed={selected !== null} />
         </div>
 
         <div className={styles.top}>
@@ -45,6 +51,8 @@ export default function Constellation() {
           </Link>
         </div>
       </section>
+
+      {selected && <ConstellationPanel light={selected} onClose={() => setSelected(null)} />}
 
       <Footer />
     </main>

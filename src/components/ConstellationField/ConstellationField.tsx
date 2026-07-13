@@ -1,21 +1,50 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { getConstellationLights, type ConstellationLight } from '../../lib/supabase'
 import styles from './ConstellationField.module.css'
 
 /**
  * The Living Constellation field — styled after the earlier Sacred Light
  * constellation: a warm white-gold SOURCE at the heart, and points of light
- * born from it that ripple outward and settle into a gentle gold twinkle,
- * over a deep-navy field with faint blue dust. Every point is one approved
- * message (no decorative fake stars); the field grows one light per message.
+ * born from it that ripple outward and settle into a gentle gold breath,
+ * over a deep midnight-blue field with faint blue dust. Every point is one
+ * approved message (no decorative fake points); the field grows one light per
+ * message.
+ *
+ * STATE 2 (exploration): hovering a point brightens it and shows a small
+ * `FIRST NAME · COUNTRY` tooltip; clicking a point calls `onSelect` so the page
+ * can open the message panel (and the field dims while it's open).
  */
-type Star = { x: number; y: number; tx: number; ty: number; r: number; born: number; tw: number; sp: number }
+type Star = {
+  x: number
+  y: number
+  tx: number
+  ty: number
+  r: number
+  born: number
+  tw: number
+  sp: number
+  light: ConstellationLight
+}
 type Ripple = { t: number; to: { x: number; y: number } }
 type Dust = { x: number; y: number; r: number; tw: number; sp: number }
+type Tip = { x: number; y: number; text: string }
 
-export default function ConstellationField() {
+export default function ConstellationField({
+  onSelect,
+  dimmed = false,
+}: {
+  onSelect?: (light: ConstellationLight) => void
+  dimmed?: boolean
+}) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const lightsRef = useRef<ConstellationLight[]>([])
+  const hoveredRef = useRef<Star | null>(null)
+  const dimmedRef = useRef(dimmed)
+  const [tip, setTip] = useState<Tip | null>(null)
+
+  useEffect(() => {
+    dimmedRef.current = dimmed
+  }, [dimmed])
 
   useEffect(() => {
     void getConstellationLights().then((l) => {
@@ -55,8 +84,56 @@ export default function ConstellationField() {
     let built = false
     let raf = 0
 
+    // Distance (device px) within which a point counts as hovered/clicked.
+    const hitRadius = (s: Star) => Math.max(s.r * 6, 16 * dpr)
+
+    const starAt = (clientX: number, clientY: number): Star | null => {
+      const rect = canvas.getBoundingClientRect()
+      const mx = (clientX - rect.left) * dpr
+      const my = (clientY - rect.top) * dpr
+      let best: Star | null = null
+      let bestD = Infinity
+      for (const s of stars) {
+        const d = Math.hypot(mx - s.x, my - s.y)
+        if (d < bestD) {
+          bestD = d
+          best = s
+        }
+      }
+      return best && bestD <= hitRadius(best) ? best : null
+    }
+
+    const onMove = (e: MouseEvent) => {
+      const s = starAt(e.clientX, e.clientY)
+      hoveredRef.current = s
+      canvas.style.cursor = s ? 'pointer' : 'default'
+      if (s) {
+        const rect = canvas.getBoundingClientRect()
+        const first = (s.light.name || '').trim().split(/\s+/)[0] || 'A light'
+        const country = s.light.country ? ` · ${s.light.country}` : ''
+        setTip({ x: rect.left + s.x / dpr, y: rect.top + s.y / dpr, text: `${first}${country}` })
+      } else {
+        setTip(null)
+      }
+    }
+    const onLeave = () => {
+      hoveredRef.current = null
+      canvas.style.cursor = 'default'
+      setTip(null)
+    }
+    const onClick = (e: MouseEvent) => {
+      const s = starAt(e.clientX, e.clientY)
+      if (s && onSelect) {
+        setTip(null)
+        onSelect(s.light)
+      }
+    }
+    canvas.addEventListener('mousemove', onMove)
+    canvas.addEventListener('mouseleave', onLeave)
+    canvas.addEventListener('click', onClick)
+
     const draw = (now: number) => {
-      // Build one star per message once loaded — born from the source, staggered.
+      // Build one point per message once loaded — born from the source, staggered.
       if (!built && lightsRef.current.length) {
         lightsRef.current.forEach((p, i) => {
           const tx = p.constellation_x * W
@@ -71,6 +148,7 @@ export default function ConstellationField() {
             born,
             tw: Math.random() * Math.PI * 2,
             sp: Math.random() * 0.9 + 0.4,
+            light: p,
           })
           ripples.push({ t: born, to: { x: tx, y: ty } })
         })
@@ -79,10 +157,13 @@ export default function ConstellationField() {
 
       ctx.clearRect(0, 0, W, H) // transparent — the CSS atmosphere shows behind
 
+      // While a message panel is open, the whole field eases down to ~0.4.
+      const fade = dimmedRef.current ? 0.4 : 1
+
       // Dust
       for (const d of dust) {
         d.tw += reduce ? 0 : 0.01 * d.sp
-        const a = 0.1 + Math.sin(d.tw) * 0.06
+        const a = (0.1 + Math.sin(d.tw) * 0.06) * fade
         ctx.beginPath()
         ctx.arc(d.x * W, d.y * H, d.r, 0, Math.PI * 2)
         ctx.fillStyle = `rgba(160,190,255,${a})`
@@ -102,13 +183,13 @@ export default function ConstellationField() {
         const r = Math.max(0.01, prog * Math.hypot(rp.to.x - cx, rp.to.y - cy))
         ctx.beginPath()
         ctx.arc(cx, cy, r, 0, Math.PI * 2)
-        ctx.strokeStyle = `rgba(245,215,122,${(1 - prog) * 0.22})`
+        ctx.strokeStyle = `rgba(245,215,122,${(1 - prog) * 0.22 * fade})`
         ctx.lineWidth = 1 * dpr
         ctx.stroke()
       }
 
       // The source — warm white-gold, softly pulsing (dims a little as the field grows)
-      const si = Math.max(0.3, 1 - stars.length * 0.03)
+      const si = Math.max(0.3, 1 - stars.length * 0.03) * fade
       const pulse = reduce ? 1 : 1 + Math.sin(now / 900) * 0.12
       const sr = Math.max(0.01, sourceBaseR * pulse)
       const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, sr * 7)
@@ -124,7 +205,7 @@ export default function ConstellationField() {
       ctx.fillStyle = `rgba(255,255,255,${0.85 * si})`
       ctx.fill()
 
-      // Message lights: ease out from the source, then gently twinkle
+      // Message lights: ease out from the source, then gently breathe.
       for (const s of stars) {
         if (now < s.born) continue
         const age = (now - s.born) / 1000
@@ -135,11 +216,14 @@ export default function ConstellationField() {
         // Breathing, not twinkling: slow pulse, gentle amplitude, soft phase
         // offset per light so they don't breathe in mechanical unison.
         s.tw += reduce ? 0 : 0.006 * s.sp
-        const tw = reduce ? 1 : 0.82 + Math.sin(s.tw) * 0.18
-        const r = Math.max(0.01, s.r * e)
+        const breath = reduce ? 1 : 0.82 + Math.sin(s.tw) * 0.18
+        // Hovered points brighten and grow slightly.
+        const hover = s === hoveredRef.current ? 1.15 : 1
+        const r = Math.max(0.01, s.r * e * hover)
+        const a = breath * e * fade
         const g = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, r * 6)
-        g.addColorStop(0, `rgba(255,255,255,${0.5 * tw * e})`)
-        g.addColorStop(0.3, `rgba(245,215,122,${0.35 * tw * e})`)
+        g.addColorStop(0, `rgba(255,255,255,${0.5 * a})`)
+        g.addColorStop(0.3, `rgba(245,215,122,${0.35 * a})`)
         g.addColorStop(1, 'rgba(245,215,122,0)')
         ctx.beginPath()
         ctx.arc(s.x, s.y, r * 6, 0, Math.PI * 2)
@@ -147,7 +231,7 @@ export default function ConstellationField() {
         ctx.fill()
         ctx.beginPath()
         ctx.arc(s.x, s.y, r, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(255,253,245,${tw * e})`
+        ctx.fillStyle = `rgba(255,253,245,${a})`
         ctx.fill()
       }
 
@@ -158,13 +242,23 @@ export default function ConstellationField() {
     return () => {
       cancelAnimationFrame(raf)
       window.removeEventListener('resize', resize)
+      canvas.removeEventListener('mousemove', onMove)
+      canvas.removeEventListener('mouseleave', onLeave)
+      canvas.removeEventListener('click', onClick)
     }
+    // onSelect is read via closure; the field is built once and kept stable.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
     <>
       <div className={styles.atmosphere} aria-hidden="true" />
       <canvas ref={canvasRef} className={styles.field} aria-hidden="true" />
+      {tip && (
+        <div className={styles.tooltip} style={{ left: tip.x, top: tip.y }} aria-hidden="true">
+          {tip.text}
+        </div>
+      )}
     </>
   )
 }
