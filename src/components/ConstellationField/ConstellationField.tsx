@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { getConstellationLights, type ConstellationLight } from '../../lib/supabase'
-import { getPalette } from './palette'
+import { CONSTELLATION_PALETTE } from './palette'
 import styles from './ConstellationField.module.css'
 
 // Layout effect on the client (so tooltip clamping happens before paint, no
@@ -79,7 +79,7 @@ export default function ConstellationField({
     if (!ctx) return
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const dpr = Math.min(window.devicePixelRatio || 1, 2)
-    const palette = getPalette()
+    const palette = CONSTELLATION_PALETTE
     if (atmosphereRef.current) atmosphereRef.current.style.background = palette.atmosphere
 
     let W = 0
