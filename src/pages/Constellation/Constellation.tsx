@@ -28,15 +28,14 @@ export default function Constellation() {
         <div className={styles.fieldWrap}>
           <ConstellationField />
         </div>
-        <div className={styles.overlay}>
+
+        <div className={styles.top}>
           <h1 className={`section-h swirl ${styles.title}`}>The Living Constellation of Light</h1>
           <p className={styles.subtitle}>Each point of light carries a message of gratitude.</p>
         </div>
-      </section>
 
-      <section className={`section ${styles.inviteSection}`} aria-label="Add your light">
-        <div className="inner">
-          <p className={styles.invite}>
+        <div className={styles.invite}>
+          <p className={styles.inviteLines}>
             Your message matters.
             <br />
             Your light matters.

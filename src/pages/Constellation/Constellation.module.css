@@ -1,4 +1,5 @@
-/* Immersive full-viewport field with the title quietly overlaid at the top. */
+/* One immersive full-viewport experience: the field fills the stage, with the
+   title overlaid near the top and the invitation overlaid near the bottom. */
 .stage {
   position: relative;
   min-height: 100dvh;
@@ -8,13 +9,18 @@
 .fieldWrap {
   position: absolute;
   inset: 0;
+  z-index: 0;
 }
-.overlay {
-  position: relative;
-  z-index: 1;
+
+.top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
   text-align: center;
-  padding: clamp(48px, 9vh, 120px) 24px 0;
-  pointer-events: none; /* the field beneath stays interactive (later steps) */
+  padding: clamp(40px, 8vh, 96px) 24px 0;
+  pointer-events: none;
 }
 .title {
   color: var(--w-ivory);
@@ -28,15 +34,26 @@
   color: #bcd0f5; /* soft blue, matches the earlier constellation */
 }
 
-/* Invitation below the field — same deep navy as the constellation */
-.inviteSection {
-  background: #020615;
-}
 .invite {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: clamp(32px, 8vh, 72px);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 26px;
+  text-align: center;
+  pointer-events: none; /* only the CTA is clickable */
+}
+.inviteLines {
   font-family: var(--w-serif);
   font-style: italic;
-  font-size: clamp(22px, 2.5vw, 32px);
+  font-size: clamp(20px, 2.4vw, 30px);
   line-height: 1.4;
   color: var(--w-gold);
-  margin-bottom: 40px;
+}
+.invite :global(.sls-cta) {
+  pointer-events: auto;
 }
