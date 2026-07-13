@@ -3,23 +3,13 @@ import { getConstellationLights, type ConstellationLight } from '../../lib/supab
 import styles from './ConstellationField.module.css'
 
 /**
- * The Living Constellation field. Every point of light is one approved message
- * (no decorative fake stars). The blue "Tina" cross is the luminous source at
- * the heart; each message light is BORN from the source and ripples outward to
- * its seeded position, then settles into a gentle gold twinkle — so the field
- * feels alive and literally grows one light per message. Faint blue dust adds
- * depth. (Aesthetic adapted from the earlier Sacred Light constellation.)
+ * The Living Constellation field — styled after the earlier Sacred Light
+ * constellation: a warm white-gold SOURCE at the heart, and points of light
+ * born from it that ripple outward and settle into a gentle gold twinkle,
+ * over a deep-navy field with faint blue dust. Every point is one approved
+ * message (no decorative fake stars); the field grows one light per message.
  */
-type Star = {
-  x: number
-  y: number
-  tx: number
-  ty: number
-  r: number
-  born: number
-  tw: number
-  sp: number
-}
+type Star = { x: number; y: number; tx: number; ty: number; r: number; born: number; tw: number; sp: number }
 type Ripple = { t: number; to: { x: number; y: number } }
 type Dust = { x: number; y: number; r: number; tw: number; sp: number }
 
@@ -47,12 +37,12 @@ export default function ConstellationField() {
       W = canvas.width = Math.round(canvas.clientWidth * dpr)
       H = canvas.height = Math.round(canvas.clientHeight * dpr)
       cx = W / 2
-      cy = H * 0.46
+      cy = H * 0.48
     }
     resize()
     window.addEventListener('resize', resize)
 
-    // Faint blue dust — depth only, not countable "stars".
+    const sourceBaseR = 9 * dpr
     const dust: Dust[] = Array.from({ length: 90 }, () => ({
       x: Math.random(),
       y: Math.random(),
@@ -60,17 +50,13 @@ export default function ConstellationField() {
       tw: Math.random() * Math.PI * 2,
       sp: Math.random() * 0.6 + 0.2,
     }))
-
     const stars: Star[] = []
     const ripples: Ripple[] = []
     let built = false
-
-    const start = performance.now()
     let raf = 0
 
     const draw = (now: number) => {
-      // Build the message lights once they've loaded — each born from the
-      // centre, staggered, and rippling out to its seeded position.
+      // Build one star per message once loaded — born from the source, staggered.
       if (!built && lightsRef.current.length) {
         lightsRef.current.forEach((p, i) => {
           const tx = p.constellation_x * W
@@ -81,29 +67,17 @@ export default function ConstellationField() {
             y: cy,
             tx,
             ty,
-            r: (Math.random() * 1.6 + 1.6) * dpr,
+            r: (Math.random() * 1.6 + 1.4) * dpr,
             born,
             tw: Math.random() * Math.PI * 2,
-            sp: Math.random() * 0.9 + 0.5,
+            sp: Math.random() * 0.9 + 0.4,
           })
           ripples.push({ t: born, to: { x: tx, y: ty } })
         })
         built = true
       }
 
-      // Ground + faint central atmosphere
-      ctx.globalCompositeOperation = 'source-over'
-      ctx.fillStyle = '#08070A'
-      ctx.fillRect(0, 0, W, H)
-      const atm = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(W, H) * 0.6)
-      atm.addColorStop(0, 'rgba(24, 38, 72, 0.5)')
-      atm.addColorStop(0.4, 'rgba(14, 20, 40, 0.25)')
-      atm.addColorStop(1, 'rgba(8, 7, 10, 0)')
-      ctx.fillStyle = atm
-      ctx.fillRect(0, 0, W, H)
-
-      const t = reduce ? 0 : now / 1000
-      ctx.globalCompositeOperation = 'lighter'
+      ctx.clearRect(0, 0, W, H) // transparent — the CSS atmosphere shows behind
 
       // Dust
       for (const d of dust) {
@@ -133,8 +107,22 @@ export default function ConstellationField() {
         ctx.stroke()
       }
 
-      // The blue "Tina" cross — the source at the heart
-      drawCross(ctx, cx, cy, Math.min(W, H) * 0.4, t, dpr)
+      // The source — warm white-gold, softly pulsing (dims a little as the field grows)
+      const si = Math.max(0.3, 1 - stars.length * 0.03)
+      const pulse = reduce ? 1 : 1 + Math.sin(now / 900) * 0.12
+      const sr = Math.max(0.01, sourceBaseR * pulse)
+      const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, sr * 7)
+      grd.addColorStop(0, `rgba(255,255,255,${0.95 * si})`)
+      grd.addColorStop(0.25, `rgba(245,215,122,${0.6 * si})`)
+      grd.addColorStop(1, 'rgba(245,215,122,0)')
+      ctx.beginPath()
+      ctx.arc(cx, cy, sr * 7, 0, Math.PI * 2)
+      ctx.fillStyle = grd
+      ctx.fill()
+      ctx.beginPath()
+      ctx.arc(cx, cy, sr, 0, Math.PI * 2)
+      ctx.fillStyle = `rgba(255,255,255,${0.85 * si})`
+      ctx.fill()
 
       // Message lights: ease out from the source, then gently twinkle
       for (const s of stars) {
@@ -145,11 +133,22 @@ export default function ConstellationField() {
         s.x += (s.tx - s.x) * 0.06
         s.y += (s.ty - s.y) * 0.06
         s.tw += reduce ? 0 : 0.02 * s.sp
-        const tw = reduce ? 0.95 : 0.6 + Math.sin(s.tw) * 0.4
-        drawLight(ctx, s.x, s.y, s.r, tw * e, dpr)
+        const tw = reduce ? 1 : 0.7 + Math.sin(s.tw) * 0.3
+        const r = Math.max(0.01, s.r * e)
+        const g = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, r * 6)
+        g.addColorStop(0, `rgba(255,255,255,${0.5 * tw * e})`)
+        g.addColorStop(0.3, `rgba(245,215,122,${0.35 * tw * e})`)
+        g.addColorStop(1, 'rgba(245,215,122,0)')
+        ctx.beginPath()
+        ctx.arc(s.x, s.y, r * 6, 0, Math.PI * 2)
+        ctx.fillStyle = g
+        ctx.fill()
+        ctx.beginPath()
+        ctx.arc(s.x, s.y, r, 0, Math.PI * 2)
+        ctx.fillStyle = `rgba(255,253,245,${tw * e})`
+        ctx.fill()
       }
 
-      ctx.globalCompositeOperation = 'source-over'
       raf = requestAnimationFrame(draw)
     }
     raf = requestAnimationFrame(draw)
@@ -158,81 +157,12 @@ export default function ConstellationField() {
       cancelAnimationFrame(raf)
       window.removeEventListener('resize', resize)
     }
-    // start referenced to keep t stable across resizes
-    void start
   }, [])
 
-  return <canvas ref={canvasRef} className={styles.canvas} aria-hidden="true" />
-}
-
-/** One message = one glowing gold light: gold halo + bright white core. */
-function drawLight(ctx: CanvasRenderingContext2D, x: number, y: number, r: number, a: number, dpr: number) {
-  const R = Math.max(0.01, r)
-  const g = ctx.createRadialGradient(x, y, 0, x, y, R * 7)
-  g.addColorStop(0, `rgba(255,255,255,${0.55 * a})`)
-  g.addColorStop(0.3, `rgba(245,215,122,${0.4 * a})`)
-  g.addColorStop(1, 'rgba(245,215,122,0)')
-  ctx.fillStyle = g
-  ctx.beginPath()
-  ctx.arc(x, y, R * 7, 0, Math.PI * 2)
-  ctx.fill()
-  // sparkle
-  ctx.save()
-  ctx.translate(x, y)
-  ctx.rotate(Math.PI / 4)
-  for (let k = 0; k < 2; k++) {
-    ctx.rotate(Math.PI / 2)
-    const len = R * 6
-    const sg = ctx.createLinearGradient(-len, 0, len, 0)
-    sg.addColorStop(0, 'rgba(255,236,200,0)')
-    sg.addColorStop(0.5, `rgba(255,240,210,${0.5 * a})`)
-    sg.addColorStop(1, 'rgba(255,236,200,0)')
-    ctx.fillStyle = sg
-    ctx.beginPath()
-    ctx.moveTo(-len, 0)
-    ctx.lineTo(0, -0.8 * dpr)
-    ctx.lineTo(len, 0)
-    ctx.lineTo(0, 0.8 * dpr)
-    ctx.closePath()
-    ctx.fill()
-  }
-  ctx.restore()
-  // core
-  ctx.beginPath()
-  ctx.arc(x, y, R, 0, Math.PI * 2)
-  ctx.fillStyle = `rgba(255,253,245,${a})`
-  ctx.fill()
-}
-
-/** The blue diffraction cross (X) source, with a bright core and slow pulse. */
-function drawCross(ctx: CanvasRenderingContext2D, cx: number, cy: number, size: number, t: number, dpr: number) {
-  const pulse = 0.8 + 0.2 * (0.5 + 0.5 * Math.sin(t * 0.5))
-  ctx.save()
-  ctx.translate(cx, cy)
-  ctx.rotate(Math.PI / 4)
-  for (let k = 0; k < 2; k++) {
-    ctx.rotate(Math.PI / 2)
-    const grad = ctx.createLinearGradient(-size, 0, size, 0)
-    grad.addColorStop(0, 'rgba(120,180,255,0)')
-    grad.addColorStop(0.5, `rgba(160,205,255,${0.6 * pulse})`)
-    grad.addColorStop(1, 'rgba(120,180,255,0)')
-    ctx.fillStyle = grad
-    ctx.beginPath()
-    ctx.moveTo(-size, 0)
-    ctx.lineTo(0, -size * 0.05)
-    ctx.lineTo(size, 0)
-    ctx.lineTo(0, size * 0.05)
-    ctx.closePath()
-    ctx.fill()
-  }
-  const core = ctx.createRadialGradient(0, 0, 0, 0, 0, size * 0.22)
-  core.addColorStop(0, `rgba(255,255,255,${0.98 * pulse})`)
-  core.addColorStop(0.4, `rgba(190,220,255,${0.65 * pulse})`)
-  core.addColorStop(1, 'rgba(120,180,255,0)')
-  ctx.fillStyle = core
-  ctx.beginPath()
-  ctx.arc(0, 0, size * 0.22, 0, Math.PI * 2)
-  ctx.fill()
-  void dpr
-  ctx.restore()
+  return (
+    <>
+      <div className={styles.atmosphere} aria-hidden="true" />
+      <canvas ref={canvasRef} className={styles.field} aria-hidden="true" />
+    </>
+  )
 }
