@@ -58,6 +58,76 @@
   pointer-events: auto;
 }
 
+/* Find My Light (search) — quiet, above the invitation. */
+.find {
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: min(92vw, 460px);
+}
+.findLabel {
+  font-family: var(--w-serif);
+  font-style: italic;
+  font-size: 18px;
+  color: rgba(244, 238, 227, 0.62); /* warm grey */
+}
+.findRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+}
+.findInput {
+  min-width: 220px;
+  font-family: var(--w-sans);
+  font-weight: 300;
+  font-size: 17px;
+  text-align: center;
+  color: var(--w-ivory);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(183, 154, 99, 0.4);
+  padding: 6px 4px;
+}
+.findInput::placeholder {
+  color: rgba(244, 238, 227, 0.4);
+}
+.findInput:focus {
+  outline: none;
+  border-bottom-color: var(--w-gold);
+}
+.findBtn {
+  font-family: var(--w-sans);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--w-gold);
+  background: transparent;
+  border: 1px solid var(--w-gold-soft);
+  border-radius: 999px;
+  padding: 9px 22px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.findBtn:hover,
+.findBtn:focus-visible {
+  background: rgba(183, 154, 99, 0.12);
+  border-color: var(--w-gold);
+  outline: none;
+}
+.findMiss {
+  font-family: var(--w-sans);
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.5;
+  color: rgba(244, 238, 227, 0.6);
+  max-width: 420px;
+}
+
 /* One-time owner welcome (STATE 3) — fades in, holds, fades out over ~5s. */
 .welcome {
   position: absolute;

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState, type FormEvent } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import TopBanner from '../../components/TopBanner/TopBanner'
 import ConstellationField from '../../components/ConstellationField/ConstellationField'
@@ -6,7 +6,7 @@ import ConstellationPanel from '../../components/ConstellationPanel/Constellatio
 import Footer from '../../components/Footer/Footer'
 import Seo from '../../components/Seo/Seo'
 import { SITE_URL } from '../../lib/site'
-import type { ConstellationLight } from '../../lib/supabase'
+import { getConstellationLights, type ConstellationLight } from '../../lib/supabase'
 import styles from './Constellation.module.css'
 
 /** Only the first 468 lights (18×26) get the one-time owner welcome. */
@@ -32,10 +32,48 @@ export default function Constellation() {
   const [isOwner, setIsOwner] = useState(false)
   const [released, setReleased] = useState(false) // zoom back out after viewing your light
 
+  // Find My Light: search by first name or reference → focus that point.
+  const [allLights, setAllLights] = useState<ConstellationLight[]>([])
+  const [query, setQuery] = useState('')
+  const [searchRef, setSearchRef] = useState<string | null>(null)
+  const [searchMiss, setSearchMiss] = useState(false)
+
   const shareUrl = focusReference ? `${SITE_URL}/constellation/${focusReference.toLowerCase()}` : ''
 
   // Reset the release flag if the URL points at a different light.
   useEffect(() => setReleased(false), [focusReference])
+
+  // Load the approved lights once, to resolve Find-My-Light searches locally.
+  useEffect(() => {
+    void getConstellationLights().then(setAllLights)
+  }, [])
+
+  const onSearch = (e: FormEvent) => {
+    e.preventDefault()
+    const raw = query.trim()
+    if (!raw) return
+    const lower = raw.toLowerCase()
+    const asRef = raw.toUpperCase().replace(/\s+/g, '')
+    const digits = raw.replace(/\D/g, '')
+    const match = allLights.find((l) => {
+      const r = l.light_reference.toUpperCase()
+      if (r === asRef) return true
+      if (digits && r === `LIGHT-${digits.padStart(4, '0')}`) return true
+      const name = (l.name || '').trim().toLowerCase()
+      return name === lower || name.split(/\s+/)[0] === lower
+    })
+    if (match) {
+      setSearchMiss(false)
+      setNotFound(false)
+      setReleased(false)
+      setSearchRef(match.light_reference.toUpperCase())
+    } else {
+      setSearchMiss(true)
+    }
+  }
+
+  // What the field should focus: a search result takes precedence over the URL.
+  const effectiveFocus = released ? null : (searchRef ?? focusReference)
 
   // Owner detection + one-time welcome (gated to the first WELCOME_MAX lights).
   useEffect(() => {
@@ -95,7 +133,7 @@ export default function Constellation() {
           <ConstellationField
             onSelect={setSelected}
             dimmed={selected !== null}
-            focusRef={released ? null : focusReference}
+            focusRef={effectiveFocus}
             onFocusReady={onFocusReady}
           />
         </div>
@@ -106,6 +144,35 @@ export default function Constellation() {
         </div>
 
         <div className={styles.invite}>
+          <form className={styles.find} onSubmit={onSearch}>
+            <label className={styles.findLabel} htmlFor="find-light">
+              Find your light
+            </label>
+            <div className={styles.findRow}>
+              <input
+                id="find-light"
+                className={styles.findInput}
+                type="text"
+                value={query}
+                onChange={(e) => {
+                  setQuery(e.target.value)
+                  if (searchMiss) setSearchMiss(false)
+                }}
+                placeholder="Your name or Light Reference"
+                autoComplete="off"
+              />
+              <button type="submit" className={styles.findBtn}>
+                Find My Light
+              </button>
+            </div>
+            {searchMiss && (
+              <p className={styles.findMiss}>
+                No light found with that name or reference. Please check your approval email for
+                your Light Reference.
+              </p>
+            )}
+          </form>
+
           <p className={styles.inviteLines}>
             Your message matters.
             <br />
@@ -137,7 +204,8 @@ export default function Constellation() {
         <ConstellationPanel
           light={selected}
           onClose={() => {
-            if (personal) setReleased(true)
+            // Zoom back out if this light was focused (personal URL or search).
+            if (personal || searchRef) setReleased(true)
             setSelected(null)
           }}
           personal={personal}

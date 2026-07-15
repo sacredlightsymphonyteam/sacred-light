@@ -112,6 +112,9 @@ export default function ConstellationField({
     let readyFired = false
     const FOCUS_SCALE = 3 // brief: 3× zoom on the personal URL point
     const FOCUS_DELAY = 1500
+    const SEARCH_DELAY = 250 // quicker reveal for Find-My-Light
+    let lastFocus: string | null | undefined = undefined
+    let focusChanges = 0
     const resize = () => {
       W = canvas.width = Math.round(canvas.clientWidth * dpr)
       H = canvas.height = Math.round(canvas.clientHeight * dpr)
@@ -220,12 +223,23 @@ export default function ConstellationField({
           ripples.push({ t: born, to: { x: tx, y: ty } })
         })
         built = true
-        // Personal URL: find the requested light and schedule the zoom-in.
+      }
+
+      // Resolve the focus target whenever it changes (personal URL or Find-My-
+      // Light). The first focus (from the URL) keeps the deliberate 1.5s delay;
+      // later changes (a search) reveal more quickly.
+      if (built && focusRefRef.current !== lastFocus) {
+        lastFocus = focusRefRef.current
+        readyFired = false
         if (focusRefRef.current) {
           const want = focusRefRef.current.toUpperCase()
           focusStar = stars.find((s) => s.light.light_reference?.toUpperCase() === want) ?? null
-          focusStart = now + FOCUS_DELAY
+          focusStart = now + (focusChanges === 0 ? FOCUS_DELAY : SEARCH_DELAY)
+        } else {
+          focusStar = null
+          focusStart = 0
         }
+        focusChanges++
       }
 
       // Camera: ease toward the focused point after a beat (personal URL), or
