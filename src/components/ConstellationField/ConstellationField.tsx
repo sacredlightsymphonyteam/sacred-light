@@ -110,7 +110,7 @@ export default function ConstellationField({
     let focusStar: Star | null = null
     let focusStart = 0 // timestamp to begin the zoom; 0 = not scheduled
     let readyFired = false
-    const FOCUS_SCALE = 2.6
+    const FOCUS_SCALE = 3 // brief: 3× zoom on the personal URL point
     const FOCUS_DELAY = 1500
     const resize = () => {
       W = canvas.width = Math.round(canvas.clientWidth * dpr)

@@ -88,12 +88,18 @@ export default function ConstellationPanel({
 
         {personal && (
           <div className={styles.personal}>
-            {personal.isOwner && <p className={styles.ownerNote}>This is your light.</p>}
+            {personal.isOwner && (
+              <p className={styles.ownerNote}>
+                This is your light within the Living Constellation. It will shine here for as long
+                as Sacred Light Symphony continues.
+              </p>
+            )}
             <p className={styles.philosophy}>
               No two lights are the same. Each one carries a unique expression of gratitude.
             </p>
 
-            <p className={styles.inviteLabel}>Invite another heart to add its light.</p>
+            <p className={styles.inviteLine}>Invite another heart to add its light.</p>
+            <p className={styles.shareLabel}>Share your light</p>
             <div className={styles.share}>
               <a className={styles.shareBtn} href={whatsappHref} target="_blank" rel="noopener noreferrer">
                 WhatsApp
