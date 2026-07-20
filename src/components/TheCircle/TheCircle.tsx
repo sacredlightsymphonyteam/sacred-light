@@ -46,12 +46,12 @@ const FALLBACK_TIERS: Tier[] = [
   {
     slug: 'artists-of-light',
     label: 'Artists of Light',
-    names: [{ name: 'Sharon Davson', role: 'Guardian of the Book of Gratitude' }],
+    names: [{ name: 'Sharon Silver Davson', role: 'Guardian of the Book of Gratitude' }],
   },
   {
-    slug: 'founding-partners',
-    label: 'Founding Partners',
-    names: [{ name: 'To be announced.', tba: true }],
+    slug: 'corporate-philanthropic-patrons',
+    label: 'Corporate & Philanthropic Patrons',
+    names: [{ name: 'Strategic Alignment Enquiries', role: 'alliances@sacredlightsymphony.org' }],
   },
 ]
 

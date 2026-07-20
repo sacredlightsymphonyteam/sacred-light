@@ -147,6 +147,33 @@
 .req {
   color: var(--gold-bright);
 }
+.optional {
+  color: var(--warm-grey);
+  font-style: italic;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* Gentle writing prompts above the message field. */
+.begin {
+  margin: 22px 0 6px;
+  text-align: center;
+}
+.begin > p {
+  margin: 4px 0;
+}
+.beginLead {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 16px;
+  color: var(--warm-grey);
+}
+.beginPrompt {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--gold-bright);
+}
 
 .input,
 .textarea {

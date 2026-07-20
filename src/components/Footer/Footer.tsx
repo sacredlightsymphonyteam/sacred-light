@@ -6,15 +6,16 @@ import styles from './Footer.module.css'
  * Circle + Footer brief.
  *
  * Social handle is @SacredLightSymphony across IG / FB / YouTube; each opens in
- * a new tab. (No LinkedIn yet — add here when there is one.)
+ * a new tab. LinkedIn URL is a placeholder ('#') until the real profile is set.
  */
 const SOCIALS: { label: string; href: string }[] = [
   { label: 'Instagram', href: 'https://www.instagram.com/sacredlightsymphony/' },
   { label: 'Facebook', href: 'https://www.facebook.com/SacredLightSymphony' },
   { label: 'YouTube', href: 'https://www.youtube.com/@SacredLightSymphony' },
+  { label: 'LinkedIn', href: '#' }, // TODO: real LinkedIn URL
 ]
 
-const EMAIL = 'sacredlightsymphony@protonmail.com'
+const EMAIL = 'alliances@sacredlightsymphony.org'
 
 export default function Footer() {
   const year = new Date().getFullYear()

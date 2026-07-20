@@ -146,6 +146,7 @@ alter table public.contributions
   add column if not exists social            text,
   add column if not exists title             text,
   add column if not exists display_name      text,
+  add column if not exists signature         text,
   add column if not exists music_url         text,
   add column if not exists video_url         text,
   add column if not exists newsletter_opt_in boolean not null default false,

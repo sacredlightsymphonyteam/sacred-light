@@ -27,6 +27,7 @@ export type Contribution = {
   // Section B — your message
   title?: string
   displayName?: string
+  signature?: string
   message: string
   displayLanguage: string
   // Section C — creative contribution (all optional)
@@ -141,6 +142,8 @@ export async function submitContribution(data: Contribution): Promise<SubmitResu
       social: data.social?.trim() || null,
       title: data.title?.trim() || null,
       display_name: data.displayName?.trim() || null,
+      // Only sent when filled, so inserts still work before the column is added.
+      ...(data.signature?.trim() ? { signature: data.signature.trim() } : {}),
       message: data.message.trim(),
       display_language: data.displayLanguage || null,
       music_url: data.musicUrl?.trim() || null,

@@ -141,6 +141,7 @@ export default function GratitudeForm() {
   // Section B — your message
   const [title, setTitle] = useState('')
   const [displayName, setDisplayName] = useState('')
+  const [signature, setSignature] = useState('')
   const [message, setMessage] = useState('')
   const [displayLanguage, setDisplayLanguage] = useState('')
   // Section C — creative
@@ -176,6 +177,7 @@ export default function GratitudeForm() {
     social: social || undefined,
     title: title || undefined,
     displayName: displayName || undefined,
+    signature: signature || undefined,
     message,
     displayLanguage,
     photo,
@@ -308,17 +310,19 @@ export default function GratitudeForm() {
       <div className={styles.poetic}>
         <p>
           Behind the global icon was a woman who showed us that it is possible to move through
-          darkness toward light and who never stopped inviting others to do the same. The Book of
-          Gratitude was born from that light. It continues through yours.
+          darkness toward light and who never stopped inviting others to do the same.
         </p>
+        <p>The Book of Gratitude was born from that light. It continues through yours.</p>
       </div>
 
       <div className={styles.stepIntro}>
+        <p>Take your time. There is no rush.</p>
         <p>
-          Take your time. There is no rush. What you write here will be carefully reviewed before it
-          becomes part of the Book of Gratitude and the Living Constellation of Light.
+          What you write here will become part of the Book of Gratitude and the Living Constellation
+          of Light.
         </p>
-        <p>There are no rules about length, style, or subject. The only invitation is sincerity.</p>
+        <p>There are no rules about length, style, or subject.</p>
+        <p>The only invitation is sincerity.</p>
       </div>
 
       <form className={styles.form} onSubmit={toReview} noValidate>
@@ -499,6 +503,27 @@ export default function GratitudeForm() {
             onChange={(e) => setDisplayName(e.target.value)}
           />
           <p className={styles.hint}>If left blank, your first name will be shown.</p>
+        </div>
+
+        <div className={styles.field}>
+          <label htmlFor="signature" className={styles.label}>
+            Beneath Your Signature <span className={styles.optional}>(optional)</span>
+          </label>
+          <textarea
+            id="signature"
+            className={styles.textarea}
+            rows={4}
+            placeholder="Title, organisation, website or social media profile."
+            value={signature}
+            onChange={(e) => setSignature(e.target.value)}
+          />
+        </div>
+
+        <div className={styles.begin}>
+          <p className={styles.beginLead}>A gentle place to begin…</p>
+          <p className={styles.beginPrompt}>What did Tina awaken in you?</p>
+          <p className={styles.beginPrompt}>What light would you like to pass on to others?</p>
+          <p className={styles.beginLead}>Or simply write whatever is in your heart.</p>
         </div>
 
         <div className={styles.field}>
