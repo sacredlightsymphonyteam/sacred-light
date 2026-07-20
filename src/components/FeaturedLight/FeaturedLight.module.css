@@ -45,6 +45,17 @@
   color: var(--w-gold); /* name gold by default */
 }
 
+/* "Beneath Your Signature" — small attribution block under the message. */
+.signature {
+  margin-top: 1em;
+  text-align: right;
+  white-space: pre-line;
+  font-family: var(--w-sans);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--w-ivory-mute);
+}
+
 /* Inline formatting produced by the tags */
 .gold {
   color: var(--w-gold);
