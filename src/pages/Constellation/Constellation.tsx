@@ -138,6 +138,11 @@ export default function Constellation() {
           />
         </div>
 
+        {/* Gradient vignette so points of light fade behind the text zones —
+            keeps the title (top) and invitation/search (bottom) clean to read. */}
+        <div className={styles.scrimTop} aria-hidden="true" />
+        <div className={styles.scrimBottom} aria-hidden="true" />
+
         <div className={styles.top}>
           <h1 className={`section-h swirl ${styles.title}`}>The Living Constellation of Light</h1>
           <p className={styles.subtitle}>Each point of light carries a message of gratitude.</p>

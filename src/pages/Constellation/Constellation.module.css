@@ -12,6 +12,38 @@
   z-index: 0;
 }
 
+/* Vignette scrims: dark base at the edges fading to transparent toward the
+   centre, so points of light don't clutter the title / invitation text. Above
+   the field (z-index 0) but below the text overlays (z-index 2). */
+.scrimTop,
+.scrimBottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+.scrimTop {
+  top: 0;
+  height: 32%;
+  background: linear-gradient(
+    to bottom,
+    #02040a 0%,
+    rgba(2, 4, 10, 0.55) 45%,
+    rgba(2, 4, 10, 0) 100%
+  );
+}
+.scrimBottom {
+  bottom: 0;
+  height: 46%;
+  background: linear-gradient(
+    to top,
+    #02040a 0%,
+    rgba(2, 4, 10, 0.62) 45%,
+    rgba(2, 4, 10, 0) 100%
+  );
+}
+
 .top {
   position: absolute;
   top: 0;
