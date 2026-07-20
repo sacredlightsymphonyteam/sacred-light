@@ -25,6 +25,7 @@ const organizationSchema = {
     'https://www.instagram.com/sacredlightsymphony/',
     'https://www.facebook.com/SacredLightSymphony',
     'https://www.youtube.com/@SacredLightSymphony',
+    'https://www.linkedin.com/company/sacredlightsymphony',
   ],
 }
 
