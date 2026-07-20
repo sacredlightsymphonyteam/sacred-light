@@ -106,6 +106,7 @@
   color: rgba(244, 238, 227, 0.62); /* warm grey */
 }
 .findRow {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -113,7 +114,8 @@
   gap: 14px;
 }
 .findInput {
-  min-width: 220px;
+  flex: 1 1 280px; /* grow to fit the placeholder; full-width when the row wraps */
+  min-width: 0;
   font-family: var(--w-sans);
   font-weight: 300;
   font-size: 17px;
