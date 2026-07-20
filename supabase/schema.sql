@@ -123,7 +123,7 @@ create unique index if not exists contributions_one_featured
 -- columns, which errors once new columns (title, featured_html) are added.
 drop view if exists public.featured_message;
 create view public.featured_message as
-  select id, title, message, name, location, featured_date, featured_html
+  select id, title, message, name, location, featured_date, featured_html, signature
   from public.contributions
   where is_featured = true and status = 'approved'
   limit 1;
@@ -200,8 +200,8 @@ from (values
   ('Founding Voices', 'founding-voices', 1, 'Rob Verhorst', 'Photographer', false),
   ('Founding Voices', 'founding-voices', 1, 'Markus Ernst', 'Mayor of Küsnacht', false),
   ('Creative Collaborators', 'creative-collaborators', 2, 'Serena Russignan & Mike Sommer', null, false),
-  ('Artists of Light', 'artists-of-light', 3, 'Sharon Davson', 'Guardian of the Book of Gratitude', false),
-  ('Founding Partners', 'founding-partners', 4, 'To be announced.', null, true)
+  ('Artists of Light', 'artists-of-light', 3, 'Sharon Silver Davson', 'Guardian of the Book of Gratitude', false),
+  ('Corporate & Philanthropic Patrons', 'corporate-philanthropic-patrons', 4, 'Strategic Alignment Enquiries', 'alliances@sacredlightsymphony.org', false)
 ) as v(tier_name, tier_slug, tier_order, name, role, is_placeholder)
 where not exists (select 1 from public.credits);
 

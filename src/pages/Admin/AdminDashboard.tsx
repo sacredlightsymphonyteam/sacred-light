@@ -446,6 +446,13 @@ export default function AdminDashboard() {
                               {r.title && <p className={styles.msgTitle}>{r.title}</p>}
                               <p className={styles.message}>{r.message}</p>
 
+                              {r.signature && (
+                                <p className={styles.signatureBlock}>
+                                  <span className={styles.signatureLabel}>Beneath signature</span>
+                                  {r.signature}
+                                </p>
+                              )}
+
                               <div className={styles.meta}>
                                 <strong>{displayName(r)}</strong>
                                 {(r.city || r.country) && (

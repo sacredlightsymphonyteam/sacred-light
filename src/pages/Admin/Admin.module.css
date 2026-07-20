@@ -584,6 +584,23 @@
   color: var(--warm-grey);
 }
 
+.signatureBlock {
+  margin-top: 10px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--warm-grey);
+  white-space: pre-line;
+}
+.signatureLabel {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+  margin-bottom: 3px;
+}
+
 .meta {
   font-family: var(--font-display);
   font-size: 15px;

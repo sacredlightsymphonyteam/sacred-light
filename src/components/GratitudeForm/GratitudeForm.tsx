@@ -263,6 +263,7 @@ export default function GratitudeForm() {
           </p>
           {title.trim() && <p className={styles.previewTitle}>{title.trim()}</p>}
           <p className={styles.previewMessage}>{message.trim()}</p>
+          {signature.trim() && <p className={styles.previewSignature}>{signature.trim()}</p>}
           {creatives.length > 0 && (
             <ul className={styles.previewCreative}>
               {creatives.map((c) => (

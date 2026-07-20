@@ -383,6 +383,14 @@
   color: var(--quote-light);
   white-space: pre-wrap;
 }
+.previewSignature {
+  margin-top: 16px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--warm-grey);
+  white-space: pre-line;
+}
 .previewCreative {
   margin: 24px auto 0;
   padding-top: 18px;

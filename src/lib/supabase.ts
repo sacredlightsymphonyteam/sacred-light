@@ -55,6 +55,7 @@ export interface ContributionRow {
   social: string | null
   title: string | null
   display_name: string | null
+  signature: string | null
   display_language: string | null
   music_url: string | null
   video_url: string | null
@@ -73,6 +74,7 @@ export interface FeaturedMessage {
   location: string | null
   featured_date: string | null
   featured_html: string | null
+  signature: string | null
 }
 
 /**
