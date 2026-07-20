@@ -200,7 +200,7 @@ from (values
   ('Founding Voices', 'founding-voices', 1, 'Rob Verhorst', 'Photographer', false),
   ('Founding Voices', 'founding-voices', 1, 'Markus Ernst', 'Mayor of Küsnacht', false),
   ('Creative Collaborators', 'creative-collaborators', 2, 'Serena Russignan & Mike Sommer', null, false),
-  ('Artists of Light', 'artists-of-light', 3, 'Sharon Silver Davson', 'Guardian of the Book of Gratitude', false),
+  ('Artists of Light', 'artists-of-light', 3, 'Sharon Davson', 'Guardian of the Book of Gratitude', false),
   ('Corporate & Philanthropic Patrons', 'corporate-philanthropic-patrons', 4, 'Strategic Alignment Enquiries', 'alliances@sacredlightsymphony.org', false)
 ) as v(tier_name, tier_slug, tier_order, name, role, is_placeholder)
 where not exists (select 1 from public.credits);

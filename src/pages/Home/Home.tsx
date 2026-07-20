@@ -312,7 +312,7 @@ export default function Home() {
               Küsnacht, where Tina Turner chose to make her home.
             </p>
             <p className="poetic">
-              Under the artistic stewardship of Sharon Silver Davson, Guardian of the Book of
+              Under the artistic stewardship of Sharon Davson, Guardian of the Book of
               Gratitude, this inaugural celebration will bridge the physical landscape of Küsnacht with
               a growing global network of shared human gratitude and resonance.
             </p>

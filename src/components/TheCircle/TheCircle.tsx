@@ -46,7 +46,7 @@ const FALLBACK_TIERS: Tier[] = [
   {
     slug: 'artists-of-light',
     label: 'Artists of Light',
-    names: [{ name: 'Sharon Silver Davson', role: 'Guardian of the Book of Gratitude' }],
+    names: [{ name: 'Sharon Davson', role: 'Guardian of the Book of Gratitude' }],
   },
   {
     slug: 'corporate-philanthropic-patrons',
