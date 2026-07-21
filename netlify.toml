@@ -2,6 +2,21 @@
   command = "npm run build"
   publish = "dist"
 
+# Redirect the .com domain (and its www) to the primary .org — a clean 301 so
+# the site lives on one canonical address (no duplicate content). Listed before
+# the SPA catch-all so these host-level rules win for .com requests.
+[[redirects]]
+  from = "https://sacredlightsymphony.com/*"
+  to = "https://sacredlightsymphony.org/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.sacredlightsymphony.com/*"
+  to = "https://sacredlightsymphony.org/:splat"
+  status = 301
+  force = true
+
 # SPA catch-all so deep links (e.g. personal star URLs) resolve to index.html
 [[redirects]]
   from = "/*"
