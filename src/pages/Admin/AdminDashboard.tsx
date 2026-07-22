@@ -242,6 +242,41 @@ export default function AdminDashboard() {
     document.execCommand('foreColor', false, hex)
   }
 
+  /**
+   * Resize the selected text. Sizes are relative (em) so they scale with the
+   * message and render identically in the preview and on the homepage. Passing
+   * null clears the size. Existing size spans in the selection are stripped
+   * first so sizes don't stack/nest.
+   */
+  const setSize = (em: string | null) => {
+    const canvas = canvasRef.current
+    const sel = window.getSelection()
+    if (!canvas || !sel || sel.rangeCount === 0 || sel.isCollapsed) return
+    const range = sel.getRangeAt(0)
+    if (!canvas.contains(range.commonAncestorContainer)) return
+
+    const frag = range.extractContents()
+    // Clear any font-size already inside the selection (prevents nesting).
+    frag.querySelectorAll('[style*="font-size"]').forEach((node) => {
+      const el = node as HTMLElement
+      el.style.fontSize = ''
+      if (!el.getAttribute('style')) el.removeAttribute('style')
+    })
+
+    if (em) {
+      const span = document.createElement('span')
+      span.style.fontSize = em
+      span.appendChild(frag)
+      range.insertNode(span)
+      sel.removeAllRanges()
+      const r = document.createRange()
+      r.selectNodeContents(span)
+      sel.addRange(r)
+    } else {
+      range.insertNode(frag)
+    }
+  }
+
   /** Save the formatted One Light HTML and feature it (keeps the raw fields). */
   async function saveAndFeature(id: string) {
     if (!supabase || !canvasRef.current) return
@@ -687,6 +722,30 @@ export default function AdminDashboard() {
                                       onClick={() => format('italic')}
                                     >
                                       Italic
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onMouseDown={(e) => e.preventDefault()}
+                                      onClick={() => setSize('0.8em')}
+                                      title="Make the selected text smaller"
+                                    >
+                                      Smaller
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onMouseDown={(e) => e.preventDefault()}
+                                      onClick={() => setSize('1.3em')}
+                                      title="Make the selected text larger"
+                                    >
+                                      Larger
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onMouseDown={(e) => e.preventDefault()}
+                                      onClick={() => setSize(null)}
+                                      title="Reset the selected text to the normal size"
+                                    >
+                                      Reset size
                                     </button>
                                     <span className={styles.toolbarHint}>
                                       select text, then click a button · type to edit

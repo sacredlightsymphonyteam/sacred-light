@@ -96,12 +96,27 @@ function walk(node: Node): ReactNode[] {
     const el = child as HTMLElement
     const tag = el.tagName
     const kids = walk(el)
+    const size = safeFontSize(el.style.fontSize)
+    const sizeStyle = size ? { fontSize: size } : undefined
     if (tag === 'B' || tag === 'STRONG') out.push(<strong key={i}>{kids}</strong>)
     else if (tag === 'I' || tag === 'EM') out.push(<em key={i}>{kids}</em>)
     else if (tag === 'BR') out.push(<br key={i} />)
-    else if (tag === 'DIV' || tag === 'P') out.push(<div key={i}>{kids}</div>)
-    else if (isGold(el)) out.push(<span key={i} className={styles.gold}>{kids}</span>)
+    else if (tag === 'DIV' || tag === 'P') out.push(<div key={i} style={sizeStyle}>{kids}</div>)
+    else if (isGold(el) || size)
+      out.push(
+        <span key={i} className={isGold(el) ? styles.gold : undefined} style={sizeStyle}>
+          {kids}
+        </span>,
+      )
     else out.push(<span key={i}>{kids}</span>) // strip any other styling, keep text
   })
   return out
+}
+
+/** Allow only known-safe font-size values (keywords or a number + unit). */
+function safeFontSize(value: string): string | undefined {
+  const v = value.trim().toLowerCase()
+  return /^(xx-small|x-small|small|medium|large|x-large|xx-large|smaller|larger|[\d.]+(px|em|rem|%))$/.test(v)
+    ? v
+    : undefined
 }
