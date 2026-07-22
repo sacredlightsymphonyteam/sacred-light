@@ -25,6 +25,7 @@ const organizationSchema = {
     'https://www.instagram.com/sacredlightsymphony/',
     'https://www.facebook.com/SacredLightSymphony',
     'https://www.youtube.com/@SacredLightSymphony',
+    'https://www.linkedin.com/company/sacredlightsymphony',
   ],
 }
 
@@ -98,11 +99,18 @@ export default function Home() {
       {/* ── Movement 2 — Charcoal Reflection (Book of Gratitude) ── */}
       <section className="section dark" aria-label="The Book of Gratitude">
         <div className="inner">
-          <h2 className="section-h reveal">A space for gratitude</h2>
+          <h2 className="section-h reveal">A Space for Gratitude</h2>
           <p className={`poetic-sub gold ${styles.heroSub} reveal`}>
-            Not spoken,
+            A Swiss Cultural Philanthropy Initiative
+          </p>
+          <p className={`poetic-sub ${styles.heroSub} reveal`}>
+            inspired by Tina Turner’s enduring Light,
             <br />
-            but held
+            illuminating hearts,
+            <br />
+            one at a time,
+            <br />
+            now and for generations to come.
           </p>
 
           <div className={`${styles.stanzaGroup} ${styles.bigStanza} ${styles.forWhat} reveal`}>
@@ -268,8 +276,9 @@ export default function Home() {
 
           <div className={`${styles.paraGroup} reveal`}>
             <p className="poetic">
-              Together, we are gently bringing into presence a new expression of human gratitude —
-              something the world has never experienced before.
+              Together, we are gently bringing into presence a unique expression of human gratitude,
+              anchoring the global resonance of Tina Turner’s enduring light into a living,
+              interconnected canvas the world has never experienced in this form before.
             </p>
             <p className="poetic gold">Your light becomes part of the first Living Constellation.</p>
           </div>
@@ -292,7 +301,7 @@ export default function Home() {
       {/* ── Movement 4 — Ivory Return (The Unveiling) ── */}
       <section className="section light" aria-label="The Unveiling">
         <div className="inner">
-          <h2 className="section-h swirl">The Unveiling</h2>
+          <h2 className="section-h swirl">The Unveiling &amp; Global Resonance</h2>
           <p className={`poetic-sub gold ${styles.heroSub} reveal`}>A moment the world will share,</p>
           <p className="poetic-sub gold reveal">where gratitude becomes presence.</p>
 
@@ -300,39 +309,31 @@ export default function Home() {
 
           <div className={`${styles.paraGroup} reveal`}>
             <p className="poetic">
-              On Thanksgiving, 26 November 2026 — Tina Turner’s birthday — Sacred Light Symphony will
-              unfold beside Lake Zurich in Switzerland and be shared with Messengers of Gratitude
-              around the world through a global livestream.
+              The first edition of the Book of Gratitude will be ceremonially opened in Switzerland, in
+              Küsnacht, where Tina Turner chose to make her home.
+            </p>
+            <p className="poetic">
+              Under the artistic stewardship of Sharon Davson, Guardian of the Book of
+              Gratitude, this inaugural celebration will bridge the physical landscape of Küsnacht with
+              a growing global network of shared human gratitude and resonance.
+            </p>
+            <p className="poetic">
+              Conceived as a meeting place for those who believe that beauty, gratitude and human
+              presence are not peripheral to the world, but essential to it, the occasion invites
+              meaningful encounters among cultural leaders, philanthropists, artists and visionaries
+              who share a commitment to a world where gratitude and human connection form the
+              foundation upon which a more compassionate world can flourish.
+            </p>
+            <p className="poetic">
+              Beyond Küsnacht, the celebration will invite people around the world to pause together in
+              a shared moment of resonance, connecting hearts across continents through one simple,
+              universal expression.
             </p>
           </div>
 
           <div className={`${styles.stanzaGroup} ${styles.spacedStanza} reveal`}>
-            <p className="stanza">Thousands of hearts</p>
-            <p className="stanza">One living constellation</p>
-            <p className="stanza gold">A new expression of human gratitude</p>
-          </div>
-
-          <div className={`${styles.paraGroup} reveal`}>
-            <p className="poetic">
-              The first edition of the Book of Gratitude will be ceremonially opened in Küsnacht, the
-              place Tina Turner chose as her home.
-            </p>
-            <p className="poetic">
-              What begins today as individual expressions of gratitude will gently come together
-              through a series of shared experiences, each offering a different expression of
-              gratitude, connection and presence.
-            </p>
-            <p className="poetic">
-              Artist Sharon Davson, Guardian of the Book of Gratitude, will invite guests to become
-              part of a living collective artwork, celebrating joy, presence and unity through the
-              universal language of art. Created together during the celebration, the artwork will
-              remain as a lasting testament to our shared humanity.
-            </p>
-            <p className="poetic">
-              The celebration will also invite people around the world to pause together in a shared
-              moment of resonance, connecting hearts across continents through one simple, universal
-              expression.
-            </p>
+            <p className="stanza">Together, we are illuminating the world:</p>
+            <p className="stanza gold">One message. One heart. One light at a time.</p>
           </div>
         </div>
       </section>

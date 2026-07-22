@@ -19,14 +19,24 @@ export type FeaturedContent = {
   name?: string | null
   date?: string
   html?: string | null
+  signature?: string | null
 }
 
-export default function FeaturedLight({ title, message, name, date, html }: FeaturedContent) {
+export default function FeaturedLight({
+  title,
+  message,
+  name,
+  date,
+  html,
+  signature,
+}: FeaturedContent) {
+  const sig = signature?.trim()
   if (html && html.trim()) {
     return (
       <>
         {date && <p className={styles.date}>{date}</p>}
         <div className={styles.displayBody}>{renderHtml(html)}</div>
+        {sig && <p className={styles.signature}>{sig}</p>}
       </>
     )
   }
@@ -43,6 +53,7 @@ export default function FeaturedLight({ title, message, name, date, html }: Feat
         ))}
       </div>
       {name && <p className={styles.attr}>{name}</p>}
+      {sig && <p className={styles.signature}>{sig}</p>}
     </>
   )
 }

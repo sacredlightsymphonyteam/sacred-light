@@ -1,6 +1,7 @@
 import type { RouteRecord } from 'vite-react-ssg'
 import Home from './pages/Home/Home'
 import Gratitude from './pages/Gratitude/Gratitude'
+import Constellation from './pages/Constellation/Constellation'
 import AdminLogin from './pages/Admin/AdminLogin'
 import AdminDashboard from './pages/Admin/AdminDashboard'
 import AdminCredits from './pages/Admin/AdminCredits'
@@ -21,6 +22,15 @@ export const routes: RouteRecord[] = [
   {
     path: '/gratitude',
     element: <Gratitude />,
+  },
+  {
+    path: '/constellation',
+    element: <Constellation />,
+  },
+  {
+    // Personal light URL (client-rendered via the SPA fallback in netlify.toml).
+    path: '/constellation/:ref',
+    element: <Constellation />,
   },
   {
     path: '/admin/login',

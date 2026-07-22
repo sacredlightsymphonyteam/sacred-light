@@ -1,0 +1,200 @@
+/* Message panel over a dimmed field (STATE 2). */
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(4, 7, 16, 0.55);
+  animation: scrimIn 0.35s ease both;
+}
+
+.panel {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  padding: 48px; /* brief: 48px all sides */
+  text-align: center;
+  background: rgba(15, 14, 12, 0.96);
+  border: 0.5px solid rgba(183, 154, 99, 0.3); /* barely-there gold line */
+  border-radius: 0; /* brief: clean edges, not rounded */
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
+  animation: panelIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@media (max-width: 480px) {
+  .panel {
+    padding: 32px;
+  }
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  padding: 4px 8px;
+  font-family: var(--w-sans);
+  font-size: 22px;
+  line-height: 1;
+  color: var(--w-ivory-mute);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.close:hover,
+.close:focus-visible {
+  color: var(--w-ivory);
+}
+
+.reference {
+  font-family: var(--w-sans);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--w-gold);
+}
+
+.who {
+  margin-top: 10px;
+  font-family: var(--w-sans);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(244, 238, 227, 0.6); /* warm grey */
+}
+
+.fragment {
+  margin-top: 26px;
+  font-family: var(--w-serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 20px; /* brief: Playfair italic 20px */
+  line-height: 1.8; /* brief: line-height 1.8 */
+  color: var(--w-ivory);
+}
+
+.holding {
+  margin-top: 26px;
+  font-family: var(--w-serif); /* brief: Playfair italic */
+  font-style: italic;
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(244, 238, 227, 0.6); /* warm grey */
+}
+
+/* Personal-URL extras (STATE 3). */
+.personal {
+  margin-top: 30px;
+  padding-top: 26px;
+  border-top: 0.5px solid var(--w-gold-soft);
+}
+/* Personal note (owner only) — brief: Playfair italic 16px warm grey. */
+.ownerNote {
+  font-family: var(--w-serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.6;
+  color: rgba(244, 238, 227, 0.6);
+  margin-bottom: 18px;
+}
+.philosophy {
+  font-family: var(--w-serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--w-ivory-soft);
+}
+/* Marie's added invitation, sits above the "Share your light" label. */
+.inviteLine {
+  margin-top: 26px;
+  font-family: var(--w-serif);
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--w-ivory);
+}
+/* Brief: sharing label — Playfair italic 16px warm grey. */
+.shareLabel {
+  margin-top: 10px;
+  font-family: var(--w-serif);
+  font-style: italic;
+  font-size: 16px;
+  color: rgba(244, 238, 227, 0.6);
+}
+.share {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+/* Brief: pill shape, quiet ivory border on dark. */
+.shareBtn {
+  padding: 8px 18px;
+  font-family: var(--w-sans);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--w-ivory);
+  background: transparent;
+  border: 0.5px solid rgba(244, 238, 227, 0.3);
+  border-radius: 999px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.shareBtn:hover,
+.shareBtn:focus-visible {
+  background: rgba(244, 238, 227, 0.08);
+  border-color: var(--w-ivory);
+  outline: none;
+}
+.addOwn {
+  display: inline-block;
+  margin-top: 22px;
+  font-family: var(--w-sans);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--w-gold);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+.addOwn:hover,
+.addOwn:focus-visible {
+  border-color: var(--w-gold);
+  outline: none;
+}
+
+@keyframes scrimIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes panelIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrim,
+  .panel {
+    animation: none;
+  }
+}

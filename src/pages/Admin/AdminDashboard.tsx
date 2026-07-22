@@ -6,6 +6,7 @@ import {
   type ContributionRow,
   type ContributionStatus,
 } from '../../lib/supabase'
+import { SITE_URL } from '../../lib/site'
 import styles from './Admin.module.css'
 
 type Filter = ContributionStatus | 'all' | 'in_book'
@@ -60,6 +61,11 @@ export default function AdminDashboard() {
   const [featuringId, setFeaturingId] = useState<string | null>(null)
   const [ftInitial, setFtInitial] = useState('')
   const canvasRef = useRef<HTMLDivElement>(null)
+
+  // Constellation fragment editing (per-row draft) + copy feedback.
+  const [fragmentDrafts, setFragmentDrafts] = useState<Record<string, string>>({})
+  const [copiedKey, setCopiedKey] = useState<string | null>(null)
+  const personalUrl = (ref: string) => `${SITE_URL}/constellation/${ref.toLowerCase()}`
 
   const toggleExpand = (id: string) =>
     setExpanded((prev) => {
@@ -264,6 +270,38 @@ export default function AdminDashboard() {
     void load()
   }
 
+  // Save the constellation fragment (1–3 sentences shown on the point of light).
+  async function saveFragment(id: string) {
+    if (!supabase) return
+    setBusyId(id)
+    const value = (fragmentDrafts[id] ?? '').trim()
+    const { error: err } = await supabase
+      .from(CONTRIBUTIONS_TABLE)
+      .update({ message_fragment: value || null })
+      .eq('id', id)
+    setBusyId(null)
+    if (err) {
+      setError(err.message)
+      return
+    }
+    setRows((prev) => prev.map((r) => (r.id === id ? { ...r, message_fragment: value || null } : r)))
+    setFragmentDrafts((d) => {
+      const next = { ...d }
+      delete next[id]
+      return next
+    })
+  }
+
+  function copyValue(text: string, key: string) {
+    navigator.clipboard
+      ?.writeText(text)
+      .then(() => {
+        setCopiedKey(key)
+        setTimeout(() => setCopiedKey(null), 1500)
+      })
+      .catch(() => {})
+  }
+
   async function signOut() {
     if (supabase) await supabase.auth.signOut()
     navigate('/admin/login', { replace: true })
@@ -446,6 +484,13 @@ export default function AdminDashboard() {
                               {r.title && <p className={styles.msgTitle}>{r.title}</p>}
                               <p className={styles.message}>{r.message}</p>
 
+                              {r.signature && (
+                                <p className={styles.signatureBlock}>
+                                  <span className={styles.signatureLabel}>Beneath signature</span>
+                                  {r.signature}
+                                </p>
+                              )}
+
                               <div className={styles.meta}>
                                 <strong>{displayName(r)}</strong>
                                 {(r.city || r.country) && (
@@ -504,6 +549,78 @@ export default function AdminDashboard() {
                                   )}
                                 </div>
                               )}
+
+                              <div className={styles.constellation}>
+                                <p className={styles.constHead}>Constellation</p>
+                                <label className={styles.fragLabel} htmlFor={`frag-${r.id}`}>
+                                  Select fragment for constellation display (1–3 sentences)
+                                </label>
+                                <textarea
+                                  id={`frag-${r.id}`}
+                                  className={styles.fragInput}
+                                  rows={2}
+                                  value={fragmentDrafts[r.id] ?? r.message_fragment ?? ''}
+                                  onChange={(e) =>
+                                    setFragmentDrafts((d) => ({ ...d, [r.id]: e.target.value }))
+                                  }
+                                  placeholder="A sentence or two from their message, shown on their point of light…"
+                                />
+                                <div className={styles.fragRow}>
+                                  <button
+                                    className={styles.featuredBtn}
+                                    disabled={busyId === r.id}
+                                    onClick={() => saveFragment(r.id)}
+                                  >
+                                    Save fragment
+                                  </button>
+
+                                  {r.status === 'approved' && r.light_reference ? (
+                                    <>
+                                      <span className={styles.refChip}>
+                                        <code>{r.light_reference}</code>
+                                        <button
+                                          type="button"
+                                          onClick={() => copyValue(r.light_reference!, `${r.id}:ref`)}
+                                        >
+                                          {copiedKey === `${r.id}:ref` ? 'Copied' : 'Copy'}
+                                        </button>
+                                      </span>
+                                      <span className={styles.refChip}>
+                                        <code>{personalUrl(r.light_reference)}</code>
+                                        <button
+                                          type="button"
+                                          onClick={() =>
+                                            copyValue(personalUrl(r.light_reference!), `${r.id}:url`)
+                                          }
+                                        >
+                                          {copiedKey === `${r.id}:url` ? 'Copied' : 'Copy'}
+                                        </button>
+                                      </span>
+                                    </>
+                                  ) : (
+                                    <span className={styles.fragHint}>
+                                      Light reference &amp; personal URL appear once approved.
+                                    </span>
+                                  )}
+                                </div>
+
+                                {r.status === 'approved' &&
+                                  r.constellation_x != null &&
+                                  r.constellation_y != null && (
+                                    <div
+                                      className={styles.constPreview}
+                                      title="Approximate position in the field"
+                                    >
+                                      <span
+                                        className={styles.constDot}
+                                        style={{
+                                          left: `${r.constellation_x * 100}%`,
+                                          top: `${r.constellation_y * 100}%`,
+                                        }}
+                                      />
+                                    </div>
+                                  )}
+                              </div>
 
                               <div className={styles.actions}>
                                 {r.status === 'approved' && (

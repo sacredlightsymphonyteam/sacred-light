@@ -4,8 +4,12 @@
 
 const SITE = 'https://sacredlightsymphony.org'
 const FORM_URL = `${SITE}/gratitude`
-const CONSTELLATION_URL = `${SITE}/#constellation` // Email 2 "Visit My Light" (interim)
 const NEWSLETTER_URL = `${SITE}/gratitude#newsletter`
+
+// The Living Constellation is not public yet. While false, the approval email
+// confirms the message WITHOUT the personal constellation link (the page is
+// unlisted / not launched). Flip to true at launch and redeploy this function.
+const CONSTELLATION_LIVE = false
 
 const C = {
   stone: '#eae4da',
@@ -72,6 +76,16 @@ const first = (r: Rec) => String(r.first_name || r.name || 'Friend').split(' ')[
 export function buildEmail(which: string, r: Rec): { subject: string; html: string } {
   const name = first(r)
 
+  // The contributor's Light Reference + personal URL. `light_reference` is set
+  // by the approval trigger; fall back to deriving it from star_id just in case.
+  const ref = String(
+    r.light_reference || (r.star_id != null ? 'LIGHT-' + String(r.star_id).padStart(4, '0') : ''),
+  )
+  const lightPath = ref ? `/constellation/${ref.toLowerCase()}` : '/constellation'
+  const personalUrl = `${SITE}${lightPath}` // clean link — for display + sharing
+  // Owner's one-time entry: ?welcome shows the welcome banner + owner note once.
+  const personalUrlWelcome = ref ? `${personalUrl}?welcome` : personalUrl
+
   if (which === 'received') {
     const inner =
       h1('Your message of gratitude has arrived') +
@@ -103,7 +117,7 @@ export function buildEmail(which: string, r: Rec): { subject: string; html: stri
   }
 
   if (which === 'approved') {
-    const lightId = r.star_id != null ? String(r.star_id) : '—'
+    const lightId = ref || '—'
     const inner =
       h1('Your light now shines within the Living Constellation') +
       p(`Dear ${name},`) +
@@ -111,9 +125,14 @@ export function buildEmail(which: string, r: Rec): { subject: string; html: stri
       stanza('Your message has become a light.') +
       p('Within the Living Constellation of Light — our growing visual expression of collective gratitude — your contribution now shines as a unique point of light, joining hearts from around the world.') +
       h2('Your Light') +
-      p(`Your Light Reference: <strong style="color:${C.graphite};">${lightId}</strong><br>Your personal link: <a href="${CONSTELLATION_URL}" style="color:${C.gold};">${CONSTELLATION_URL}</a>`) +
-      p('This is your personal place within the Living Constellation. You are invited to keep this link and share it with family and friends.') +
-      button(CONSTELLATION_URL, 'Visit My Light') +
+      (CONSTELLATION_LIVE
+        ? p(`Your Light Reference: <strong style="color:${C.graphite};">${lightId}</strong><br>Your personal link: <a href="${personalUrlWelcome}" style="color:${C.gold};">${personalUrl}</a>`) +
+          p('This is your personal place within the Living Constellation. You are invited to keep this link and share it with family and friends.') +
+          stanza('No two lights are the same.<br>Each one carries a unique expression of gratitude.') +
+          button(personalUrlWelcome, 'Visit My Light')
+        : p(`Your Light Reference: <strong style="color:${C.graphite};">${lightId}</strong>`) +
+          p('Your light has been placed within the Living Constellation of Light. As we prepare the Constellation for its unveiling, your personal link to find and share your light will follow soon.') +
+          stanza('No two lights are the same.<br>Each one carries a unique expression of gratitude.')) +
       h2('What Happens Next') +
       p('Your message is now safely preserved within the Book of Gratitude, which is being lovingly curated for its ceremonial unveiling.') +
       p('On 26 November 2026 — Thanksgiving and Tina Turner’s birthday — the first edition of the Book of Gratitude will be ceremonially unveiled during the inaugural Sacred Light Symphony celebration beside Lake Zurich in Switzerland.') +
@@ -163,7 +182,7 @@ export function buildEmail(which: string, r: Rec): { subject: string; html: stri
     button(bookUrl, 'Find my message in the Book of Gratitude') +
     h2('Your Light in the Living Constellation') +
     p('Your light continues to shine within the Living Constellation of Light. The constellation will keep growing, as Sacred Light Symphony continues its journey, year by year, heart by heart.') +
-    p(`Your personal Light link: <a href="${CONSTELLATION_URL}" style="color:${C.gold};">${CONSTELLATION_URL}</a>`) +
+    p(`Your personal Light link: <a href="${personalUrl}" style="color:${C.gold};">${personalUrl}</a>`) +
     rule() +
     stanza('“When everything is so dark,<br>you have to find some way to make the light.”') +
     `<p style="margin:0 0 16px;text-align:center;font-family:${SANS};font-size:13px;letter-spacing:0.18em;color:${C.gold};">~ TINA TURNER</p>` +

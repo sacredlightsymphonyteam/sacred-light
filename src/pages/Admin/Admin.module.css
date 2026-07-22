@@ -584,6 +584,23 @@
   color: var(--warm-grey);
 }
 
+.signatureBlock {
+  margin-top: 10px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--warm-grey);
+  white-space: pre-line;
+}
+.signatureLabel {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+  margin-bottom: 3px;
+}
+
 .meta {
   font-family: var(--font-display);
   font-size: 15px;
@@ -687,6 +704,108 @@
   background: var(--gold-bright);
   border-radius: 999px;
   padding: 3px 9px;
+}
+
+/* ── Constellation: fragment field + light reference / personal URL ── */
+.constellation {
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--gold-line-faint);
+  max-width: 720px;
+}
+.constHead {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+  margin-bottom: 12px;
+}
+.fragLabel {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--warm-grey);
+  margin-bottom: 6px;
+}
+.fragInput {
+  width: 100%;
+  font-family: var(--font-display);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--quote-light);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--gold-line-faint);
+  border-radius: 6px;
+  padding: 10px 12px;
+  resize: vertical;
+}
+.fragInput:focus {
+  outline: none;
+  border-color: var(--gold-line);
+}
+.fragRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+.refChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--warm-grey);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--gold-line-faint);
+  border-radius: 6px;
+  padding: 5px 6px 5px 10px;
+}
+.refChip code {
+  color: var(--quote-light);
+  max-width: 340px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.refChip button {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: none;
+  border: 1px solid var(--gold-line);
+  border-radius: 4px;
+  padding: 3px 8px;
+  cursor: pointer;
+}
+.fragHint {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-style: italic;
+  color: var(--warm-grey);
+}
+.constPreview {
+  position: relative;
+  width: 160px;
+  height: 90px;
+  margin-top: 12px;
+  background: #02040a;
+  border: 1px solid var(--gold-line-faint);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.constDot {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #f0d98c;
+  box-shadow: 0 0 6px 2px rgba(240, 217, 140, 0.6);
+  transform: translate(-50%, -50%);
 }
 
 /* --- Credits editor --- */

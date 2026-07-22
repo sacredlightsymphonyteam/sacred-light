@@ -42,6 +42,7 @@ export default function TodaysLight() {
               message={featured.message}
               name={featured.name}
               html={featured.featured_html}
+              signature={featured.signature}
               date={featured.featured_date ? formatDate(featured.featured_date) : undefined}
             />
           ) : (

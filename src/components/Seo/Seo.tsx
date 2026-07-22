@@ -13,6 +13,8 @@ type SeoProps = {
   type?: string
   /** Structured-data "fact sheet(s)" (JSON-LD) for this page. */
   jsonLd?: object | object[]
+  /** Keep this page out of search engines (e.g. unlisted pages). */
+  noindex?: boolean
 }
 
 /**
@@ -32,6 +34,7 @@ export default function Seo({
   image = DEFAULT_OG_IMAGE,
   type = 'website',
   jsonLd,
+  noindex = false,
 }: SeoProps) {
   const url = SITE_URL + path
   const imageUrl = image.startsWith('http') ? image : SITE_URL + image
@@ -41,6 +44,7 @@ export default function Seo({
     <>
       <title>{title}</title>
       <meta name="description" content={description} />
+      {noindex && <meta name="robots" content="noindex, nofollow" />}
       <link rel="canonical" href={url} />
 
       {/* Open Graph — previews on Facebook, WhatsApp, LinkedIn, iMessage, Slack */}
