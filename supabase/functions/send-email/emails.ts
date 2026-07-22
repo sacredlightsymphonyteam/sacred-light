@@ -6,6 +6,11 @@ const SITE = 'https://sacredlightsymphony.org'
 const FORM_URL = `${SITE}/gratitude`
 const NEWSLETTER_URL = `${SITE}/gratitude#newsletter`
 
+// The Living Constellation is not public yet. While false, the approval email
+// confirms the message WITHOUT the personal constellation link (the page is
+// unlisted / not launched). Flip to true at launch and redeploy this function.
+const CONSTELLATION_LIVE = false
+
 const C = {
   stone: '#eae4da',
   ivory: '#f4eee3',
@@ -120,10 +125,14 @@ export function buildEmail(which: string, r: Rec): { subject: string; html: stri
       stanza('Your message has become a light.') +
       p('Within the Living Constellation of Light — our growing visual expression of collective gratitude — your contribution now shines as a unique point of light, joining hearts from around the world.') +
       h2('Your Light') +
-      p(`Your Light Reference: <strong style="color:${C.graphite};">${lightId}</strong><br>Your personal link: <a href="${personalUrlWelcome}" style="color:${C.gold};">${personalUrl}</a>`) +
-      p('This is your personal place within the Living Constellation. You are invited to keep this link and share it with family and friends.') +
-      stanza('No two lights are the same.<br>Each one carries a unique expression of gratitude.') +
-      button(personalUrlWelcome, 'Visit My Light') +
+      (CONSTELLATION_LIVE
+        ? p(`Your Light Reference: <strong style="color:${C.graphite};">${lightId}</strong><br>Your personal link: <a href="${personalUrlWelcome}" style="color:${C.gold};">${personalUrl}</a>`) +
+          p('This is your personal place within the Living Constellation. You are invited to keep this link and share it with family and friends.') +
+          stanza('No two lights are the same.<br>Each one carries a unique expression of gratitude.') +
+          button(personalUrlWelcome, 'Visit My Light')
+        : p(`Your Light Reference: <strong style="color:${C.graphite};">${lightId}</strong>`) +
+          p('Your light has been placed within the Living Constellation of Light. As we prepare the Constellation for its unveiling, your personal link to find and share your light will follow soon.') +
+          stanza('No two lights are the same.<br>Each one carries a unique expression of gratitude.')) +
       h2('What Happens Next') +
       p('Your message is now safely preserved within the Book of Gratitude, which is being lovingly curated for its ceremonial unveiling.') +
       p('On 26 November 2026 — Thanksgiving and Tina Turner’s birthday — the first edition of the Book of Gratitude will be ceremonially unveiled during the inaugural Sacred Light Symphony celebration beside Lake Zurich in Switzerland.') +
