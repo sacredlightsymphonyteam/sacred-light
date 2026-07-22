@@ -104,12 +104,13 @@ export default function Home() {
             A Swiss Cultural Philanthropy Initiative
           </p>
           <p className={`poetic-sub ${styles.heroSub} reveal`}>
-            Celebrating Tina Turner’s enduring Light and Legacy
-          </p>
-          <p className={`poetic-sub gold ${styles.heroSub} reveal`}>
-            Not spoken,
+            inspired by Tina Turner’s enduring Light,
             <br />
-            but held
+            illuminating hearts,
+            <br />
+            one at a time,
+            <br />
+            now and for generations to come.
           </p>
 
           <div className={`${styles.stanzaGroup} ${styles.bigStanza} ${styles.forWhat} reveal`}>
