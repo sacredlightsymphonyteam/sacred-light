@@ -236,7 +236,11 @@ export default function AdminDashboard() {
     if (featuringId && canvasRef.current) canvasRef.current.innerHTML = ftInitial
   }, [featuringId, ftInitial])
 
-  const format = (cmd: 'bold' | 'italic') => document.execCommand(cmd)
+  const format = (cmd: 'bold' | 'italic') => {
+    // Emit semantic <b>/<i> tags (not CSS spans) so bold/italic render cleanly.
+    document.execCommand('styleWithCSS', false, 'false')
+    document.execCommand(cmd)
+  }
   const setColor = (hex: string) => {
     document.execCommand('styleWithCSS', false, 'true')
     document.execCommand('foreColor', false, hex)

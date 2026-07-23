@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { Fragment, type ReactNode } from 'react'
 import styles from './FeaturedLight.module.css'
 
 /**
@@ -96,21 +96,42 @@ function walk(node: Node): ReactNode[] {
     const el = child as HTMLElement
     const tag = el.tagName
     const kids = walk(el)
+    if (tag === 'BR') {
+      out.push(<br key={i} />)
+      return
+    }
     const size = safeFontSize(el.style.fontSize)
-    const sizeStyle = size ? { fontSize: size } : undefined
-    if (tag === 'B' || tag === 'STRONG') out.push(<strong key={i}>{kids}</strong>)
-    else if (tag === 'I' || tag === 'EM') out.push(<em key={i}>{kids}</em>)
-    else if (tag === 'BR') out.push(<br key={i} />)
-    else if (tag === 'DIV' || tag === 'P') out.push(<div key={i} style={sizeStyle}>{kids}</div>)
-    else if (isGold(el) || size)
-      out.push(
-        <span key={i} className={isGold(el) ? styles.gold : undefined} style={sizeStyle}>
-          {kids}
-        </span>,
+    if (tag === 'DIV' || tag === 'P') {
+      out.push(<div key={i} style={size ? { fontSize: size } : undefined}>{kids}</div>)
+      return
+    }
+
+    // Inline formatting — recognised from semantic tags OR the editor's inline
+    // CSS (execCommand emits font-weight/font-style/color spans when styleWithCSS
+    // is on), so bold/italic render whichever way they were saved. Composable.
+    const bold = tag === 'B' || tag === 'STRONG' || isBoldWeight(el.style.fontWeight)
+    const italic = tag === 'I' || tag === 'EM' || el.style.fontStyle === 'italic'
+    const gold = isGold(el)
+
+    let node: ReactNode = kids
+    if (gold || size)
+      node = (
+        <span className={gold ? styles.gold : undefined} style={size ? { fontSize: size } : undefined}>
+          {node}
+        </span>
       )
-    else out.push(<span key={i}>{kids}</span>) // strip any other styling, keep text
+    if (italic) node = <em>{node}</em>
+    if (bold) node = <strong>{node}</strong>
+    if (!gold && !size && !bold && !italic) node = <span>{node}</span> // strip other styling, keep text
+    out.push(<Fragment key={i}>{node}</Fragment>)
   })
   return out
+}
+
+/** Bold from CSS font-weight (execCommand emits this when styleWithCSS is on). */
+function isBoldWeight(weight: string): boolean {
+  const w = weight.trim().toLowerCase()
+  return w === 'bold' || w === 'bolder' || parseInt(w, 10) >= 600
 }
 
 /** Allow only known-safe font-size values (keywords or a number + unit). */
