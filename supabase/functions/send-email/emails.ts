@@ -6,10 +6,9 @@ const SITE = 'https://sacredlightsymphony.org'
 const FORM_URL = `${SITE}/gratitude`
 const NEWSLETTER_URL = `${SITE}/gratitude#newsletter`
 
-// The Living Constellation is not public yet. While false, the approval email
-// confirms the message WITHOUT the personal constellation link (the page is
-// unlisted / not launched). Flip to true at launch and redeploy this function.
-const CONSTELLATION_LIVE = false
+// The Living Constellation is live. When true, the approval email includes the
+// contributor's personal link + "Visit My Light" button. (Set false to hold it.)
+const CONSTELLATION_LIVE = true
 
 const C = {
   stone: '#eae4da',
