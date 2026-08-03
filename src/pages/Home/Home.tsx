@@ -270,9 +270,11 @@ export default function Home() {
             <p className="stanza gold">Every trace becomes a light.</p>
           </div>
 
-          <div className={`${styles.imageFull} reveal`}>
-            <span className={styles.imageLabel}>The Living Constellation</span>
-          </div>
+          <Link to="/constellation" className={styles.imageFullLink}>
+            <div className={`${styles.imageFull} reveal`}>
+              <span className={styles.imageLabel}>The Living Constellation</span>
+            </div>
+          </Link>
 
           <div className={`${styles.paraGroup} reveal`}>
             <p className="poetic">
@@ -291,6 +293,9 @@ export default function Home() {
             </p>
             <Link to="/gratitude" className="sls-cta">
               Become a Messenger of Gratitude
+            </Link>
+            <Link to="/constellation" className={styles.enterConstellation}>
+              Enter the Living Constellation →
             </Link>
           </div>
         </div>

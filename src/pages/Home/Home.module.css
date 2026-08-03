@@ -245,6 +245,39 @@ section.heroSection {
   color: var(--w-ivory-mute);
 }
 
+/* The preview image links into the live constellation. */
+.imageFullLink {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.imageFullLink .imageLabel {
+  transition: color 0.3s ease;
+}
+.imageFullLink:hover .imageLabel,
+.imageFullLink:focus-visible .imageLabel {
+  color: var(--w-gold);
+}
+
+/* Quiet secondary link to enter the constellation, under the main CTA. */
+.enterConstellation {
+  display: inline-block;
+  margin-top: 20px;
+  font-family: var(--w-sans);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--w-gold);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s ease;
+}
+.enterConstellation:hover,
+.enterConstellation:focus-visible {
+  border-bottom-color: var(--w-gold);
+  outline: none;
+}
+
 .learnMore {
   display: inline-block;
   margin-top: 12px;

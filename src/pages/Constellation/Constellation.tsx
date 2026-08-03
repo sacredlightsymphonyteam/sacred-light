@@ -124,7 +124,6 @@ export default function Constellation() {
         description="A growing field of light — one point for every message of gratitude in the Book of Gratitude."
         path="/constellation"
         image={`${SITE_URL}/hero-poster.jpg`}
-        noindex
       />
 
       <TopBanner />
