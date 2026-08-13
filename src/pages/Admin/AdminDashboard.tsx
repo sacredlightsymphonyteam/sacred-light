@@ -296,9 +296,13 @@ export default function AdminDashboard() {
       return
     }
     const today = new Date().toISOString().slice(0, 10)
+    // Keep the original featured date when re-editing a message that is already
+    // featured; only stamp today when featuring it for the first time.
+    const row = rows.find((r) => r.id === id)
+    const featuredDate = row?.is_featured && row.featured_date ? row.featured_date : today
     const { error: err } = await supabase
       .from(CONTRIBUTIONS_TABLE)
-      .update({ featured_html: html, is_featured: true, featured_date: today })
+      .update({ featured_html: html, is_featured: true, featured_date: featuredDate })
       .eq('id', id)
     setBusyId(null)
     if (err) {
