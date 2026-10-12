@@ -455,3 +455,139 @@
 .textBtn:hover {
   color: var(--h-gold);
 }
+
+/* ── Mock signing window (local preview only) ──
+   Deliberately neutral grey-and-white, not ivory-and-gold: the real frame is
+   the signing provider's, and will not take the site's styling. */
+.sign {
+  margin-top: 4px;
+}
+.signNote {
+  margin-bottom: 14px;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--h-gold);
+}
+.signFrame {
+  border: 1px solid #c9ccd1;
+  border-radius: 6px;
+  background: #eef0f2;
+  overflow: hidden;
+  font-family: var(--font-body);
+}
+.signBar,
+.signFoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  background: #ffffff;
+  font-size: 12px;
+  color: #5b6168;
+}
+.signBar {
+  border-bottom: 1px solid #c9ccd1;
+}
+.signFoot {
+  justify-content: flex-end;
+  border-top: 1px solid #c9ccd1;
+}
+.signDoc {
+  max-height: min(62vh, 520px);
+  overflow-y: auto;
+  padding: clamp(10px, 3vw, 20px);
+}
+.signPage {
+  padding: clamp(20px, 5vw, 40px);
+  background: #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.14);
+  color: #22262b;
+}
+.signDocBrand {
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #7a8087;
+}
+.signDocTitle {
+  margin: 14px 0 8px;
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: var(--w-regular);
+  font-size: clamp(19px, 3.4vw, 24px);
+  line-height: 1.3;
+}
+.signDocMeta {
+  margin-bottom: 26px;
+  text-align: center;
+  font-size: 13px;
+  color: #5b6168;
+}
+.signClause {
+  margin-bottom: 18px;
+}
+.signClause h4 {
+  font-size: 13px;
+  font-weight: 500;
+}
+.signClause p {
+  margin-top: 4px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #7a8087;
+}
+.signFields {
+  display: grid;
+  gap: 18px;
+  margin-top: 32px;
+  padding-top: 22px;
+  border-top: 1px solid #dfe2e6;
+}
+.signFieldLabel {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #7a8087;
+}
+.signFieldValue {
+  font-size: 14px;
+}
+.signTap {
+  width: 100%;
+  max-width: 280px;
+  padding: 16px;
+  border: 2px solid #e0a800;
+  border-radius: 4px;
+  background: #fff6d6;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: #6b5200;
+}
+.signature {
+  display: block;
+  max-width: 280px;
+  padding: 6px 4px 8px;
+  border-bottom: 1px solid #22262b;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 28px;
+  line-height: 1.2;
+}
+.signFinish {
+  padding: 10px 26px;
+  border-radius: 4px;
+  background: #2a5bd7;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: #ffffff;
+}
+.signFinish:disabled {
+  background: #aab4c8;
+  cursor: default;
+}

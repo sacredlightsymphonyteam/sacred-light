@@ -112,7 +112,7 @@ const extOf = (fileName: string) => (fileName.includes('.') ? fileName.split('.'
 
 /** "Tina Turner" → "TinaTurner" — the ArtistName part of a stored file name. */
 function safeName(name: string): string {
-  const words = name.normalize('NFKD').replace(/[̀-ͯ]/g, '').replace(/[^A-Za-z0-9]+/g, ' ').trim().split(' ')
+  const words = name.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[^A-Za-z0-9]+/g, ' ').trim().split(' ')
   const joined = words.map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join('')
   return joined.slice(0, 60) || 'Contributor'
 }

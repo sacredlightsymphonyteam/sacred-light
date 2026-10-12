@@ -28,6 +28,8 @@ import styles from './Homage.module.css'
 const CONTACT = 'alliances@sacredlightsymphony.org'
 const MB = (bytes: number) => `${(bytes / (1024 * 1024)).toFixed(1)} MB`
 const isEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)
+const formatToday = () =>
+  new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
 
 /** Returns true when the error was an expired session (and has been handled). */
 type OnExpire = (e: unknown) => boolean
@@ -315,8 +317,22 @@ function ReleaseStep({
   const [agreed, setAgreed] = useState(false)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
+  // Local preview only: the mock signing window is open.
+  const [signing, setSigning] = useState(false)
 
   if (released) {
+    if (HOMAGE_PREVIEW) {
+      return (
+        <>
+          <p className={styles.body}>
+            Release signed on <strong className={styles.strong}>{formatToday()}</strong> for{' '}
+            <strong className={styles.strong}>{state.artistName}</strong> — a copy has been sent to
+            your email. The steps below are now open.
+          </p>
+          <p className={styles.hint}>Mock — nothing was signed or sent.</p>
+        </>
+      )
+    }
     return (
       <p className={styles.body}>
         Details received for <strong className={styles.strong}>{state.artistName}</strong>. The steps
@@ -330,16 +346,11 @@ function ReleaseStep({
     return <p className={styles.body}>The release will open here for your signature.</p>
   }
 
-  const submit = async (e: FormEvent) => {
-    e.preventDefault()
-    if (!signerName.trim() || !artistName.trim() || !isEmail(email.trim()) || !agreed) {
-      setError('Please complete the required fields.')
-      return
-    }
+  const complete = async () => {
     setBusy(true)
     setError('')
     try {
-      onState(await confirmDetails({ signerName, artistName, email, onBehalfOf, agreed }))
+      onState(await confirmDetails({ signerName, artistName, email, onBehalfOf, agreed: true }))
     } catch (err) {
       if (!onExpire(err)) setError(homageMessage(err))
     } finally {
@@ -347,11 +358,43 @@ function ReleaseStep({
     }
   }
 
+  const submit = (e: FormEvent) => {
+    e.preventDefault()
+    // The preview has no checkbox — the mock signing window stands in for it.
+    if (!signerName.trim() || !artistName.trim() || !isEmail(email.trim()) || !(agreed || HOMAGE_PREVIEW)) {
+      setError('Please complete the required fields.')
+      return
+    }
+    setError('')
+    if (HOMAGE_PREVIEW) setSigning(true)
+    else void complete()
+  }
+
+  if (signing) {
+    return (
+      <>
+        <MockSigning
+          signerName={signerName.trim()}
+          artistName={artistName.trim()}
+          busy={busy}
+          onFinish={complete}
+          onBack={() => setSigning(false)}
+        />
+        {error && (
+          <p className={styles.error} role="alert">
+            {error}
+          </p>
+        )}
+      </>
+    )
+  }
+
   return (
     <form onSubmit={submit} noValidate>
       <p className={styles.body}>
-        The Talent & Media Release will be presented here for electronic signature. Until that is
-        connected, please confirm who is contributing so the steps below can open.
+        {HOMAGE_PREVIEW
+          ? 'Please tell us who is contributing. The Talent & Media Release will then open here for your signature.'
+          : 'The Talent & Media Release will be presented here for electronic signature. Until that is connected, please confirm who is contributing so the steps below can open.'}
       </p>
 
       <div className={styles.row}>
@@ -411,13 +454,15 @@ function ReleaseStep({
         />
       </div>
 
-      <label className={styles.check}>
-        <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} />
-        <span>
-          I confirm these details are correct and that I am authorised to make this contribution.
-          <span className={styles.req}> *</span>
-        </span>
-      </label>
+      {!HOMAGE_PREVIEW && (
+        <label className={styles.check}>
+          <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} />
+          <span>
+            I confirm these details are correct and that I am authorised to make this contribution.
+            <span className={styles.req}> *</span>
+          </span>
+        </label>
+      )}
 
       {error && (
         <p className={styles.error} role="alert">
@@ -426,10 +471,109 @@ function ReleaseStep({
       )}
       <div className={styles.actions}>
         <button type="submit" className="sls-cta" disabled={busy}>
-          {busy ? 'One moment…' : 'Continue'}
+          {busy ? 'One moment…' : HOMAGE_PREVIEW ? 'Continue to the release' : 'Continue'}
         </button>
       </div>
     </form>
+  )
+}
+
+// Section headings only — the release's own text is still with the lawyers.
+const MOCK_CLAUSES = [
+  'Grant of Rights',
+  'Scope of Use',
+  'Waiver of Compensation',
+  'Moral Rights',
+  'Representations',
+  'Governing Law',
+]
+
+/**
+ * MOCK of the embedded e-signature window — local preview only, to show the
+ * client how Step 1 will look once a provider (DocuSign / Dropbox Sign /
+ * PandaDoc) is connected. It signs nothing and stores nothing. The real frame
+ * is the provider's own, so its toolbar, buttons and branding will differ.
+ */
+function MockSigning({
+  signerName,
+  artistName,
+  busy,
+  onFinish,
+  onBack,
+}: {
+  signerName: string
+  artistName: string
+  busy: boolean
+  onFinish: () => void
+  onBack: () => void
+}) {
+  const [signed, setSigned] = useState(false)
+
+  return (
+    <div className={styles.sign}>
+      <p className={styles.signNote} role="note">
+        Mock signing window — illustration only. Nothing is signed.
+      </p>
+
+      <div className={styles.signFrame}>
+        <div className={styles.signBar}>
+          <span>Signing service</span>
+          <span>{signed ? 'All fields complete' : '1 field remaining'}</span>
+        </div>
+
+        <div className={styles.signDoc} tabIndex={0} aria-label="Release document (sample layout)">
+          <div className={styles.signPage}>
+            <p className={styles.signDocBrand}>Sacred · Light · Symphony</p>
+            <h3 className={styles.signDocTitle}>Talent &amp; Media Release Agreement</h3>
+            <p className={styles.signDocMeta}>
+              Between Sacred Light Symphony and <strong>{artistName}</strong>
+            </p>
+
+            {MOCK_CLAUSES.map((clause, i) => (
+              <div key={clause} className={styles.signClause}>
+                <h4>
+                  {i + 1}. {clause}
+                </h4>
+                <p>[Sample layout — the final wording of this clause will appear here.]</p>
+              </div>
+            ))}
+
+            <div className={styles.signFields}>
+              <div>
+                <span className={styles.signFieldLabel}>Signature</span>
+                {signed ? (
+                  <span className={styles.signature}>{signerName}</span>
+                ) : (
+                  <button type="button" className={styles.signTap} onClick={() => setSigned(true)}>
+                    Tap to sign
+                  </button>
+                )}
+              </div>
+              <div>
+                <span className={styles.signFieldLabel}>Name</span>
+                <span className={styles.signFieldValue}>{signerName}</span>
+              </div>
+              <div>
+                <span className={styles.signFieldLabel}>Date</span>
+                <span className={styles.signFieldValue}>{formatToday()}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className={styles.signFoot}>
+          <button type="button" className={styles.signFinish} disabled={!signed || busy} onClick={onFinish}>
+            {busy ? 'One moment…' : 'Finish'}
+          </button>
+        </div>
+      </div>
+
+      <p className={styles.leave}>
+        <button type="button" className={styles.textBtn} onClick={onBack}>
+          Back to my details
+        </button>
+      </p>
+    </div>
   )
 }
 
