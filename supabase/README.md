@@ -118,3 +118,79 @@ curl -X POST https://YOUR-PROJECT-REF.supabase.co/functions/v1/send-email \
 > The unveiling template links to `/book` as a placeholder — swap it for the real
 > personal Book page (`bookUrl` in [`emails.ts`](./functions/send-email/emails.ts))
 > before the batch goes out.
+
+---
+
+# The Homage Portal (`/homage`)
+
+A private, invitation-only page: password gate → release → guide track → upload →
+confirmation, plus an optional note for the Living Book of Gratitude. The page is
+static and this repo is public, so every lock is enforced by one Edge Function,
+[`functions/homage`](./functions/homage/). Its tables and its storage bucket have
+**no** public access — only that function (service role) and the Supabase
+dashboard can reach them.
+
+> **Skeleton status.** The e-signature step is a placeholder (`HOMAGE_SIGNING_MODE`
+> defaults to `stub`): it records who is contributing and unlocks the steps below,
+> but it is **not** a signed release. The page shows a "Preview build" strip while
+> in this mode. Do not send invitations until a provider is wired in.
+
+Without a `.env` (local dev), the page runs as a local preview: any password
+opens it and uploads are simulated, so the whole flow can be walked through.
+
+## 1. Create the tables and bucket
+Run [`schema.sql`](./schema.sql) §13 in the **SQL Editor**. It adds
+`homage_submissions`, `homage_uploads`, `homage_attempts` and the private bucket
+`homage-private`.
+
+## 2. Set the function secrets
+
+```bash
+supabase secrets set HOMAGE_SESSION_SECRET=a-long-random-string
+supabase secrets set HOMAGE_PASSWORDS=the-invitation-password
+```
+
+- **Rotating the password** is just setting `HOMAGE_PASSWORDS` again — no deploy.
+- **One password per invitee group:** set it to JSON instead, e.g.
+  `{"circle":"…","invitees":"…"}`. The group used is stored with each submission
+  as `access_tier`. (Easiest to paste in Dashboard → Edge Functions → Secrets.)
+- Optional: `HOMAGE_MAX_UPLOAD_MB` (default `50`, the free-plan per-file limit —
+  raise it only after upgrading the plan **and** the project's upload limit in
+  Storage settings), `HOMAGE_ALLOWED_ORIGINS` (comma list, e.g. a Netlify deploy
+  preview URL; production and `localhost:5173` are always allowed).
+
+## 3. Deploy the function
+
+```bash
+supabase functions deploy homage
+```
+
+The page calls it with the anon key, so JWT verification can stay **on**.
+
+## 4. Add the guide track
+Dashboard → **Storage → homage-private** → create a `guide` folder and upload:
+- one audio file to stream (`.mp3`, `.m4a`, `.wav` or `.ogg`)
+- one `.zip` — the click-track package to download
+
+The function hands out one-hour links to these, and only after Step 1 is done.
+
+## 5. Where contributions land
+- Files: `homage-private/submissions/ArtistName_Submission_YYYY-MM-DD.ext`
+  (a second file the same day gets `_2`), and Living Book notes under
+  `gratitude/Name_Gratitude_YYYY-MM-DD.ext`.
+- Records: **Table Editor →** `homage_submissions` (who, release status) and
+  `homage_uploads` (each file or written message).
+
+## 6. Verify end to end
+1. Open `/homage`, enter a wrong password → refused; nine wrong tries from one
+   address → locked out for fifteen minutes.
+2. Enter the right one → Steps 2–3 are greyed out until Step 1 is completed.
+3. Complete Step 1 → the guide track plays and the package downloads.
+4. Upload a small file → progress reaches 100%, Step 4 confirms, the file
+   appears in the bucket under its new name, and a row appears in `homage_uploads`.
+5. Leave a written Living Book message → a `gratitude_message` row appears.
+
+## Not built yet
+- E-signature (DocuSign / Dropbox Sign / PandaDoc) and its webhook.
+- Resumable uploads for multi-gigabyte video (needs the paid plan).
+- An admin page for the named staff, deletion requests and the retention job.

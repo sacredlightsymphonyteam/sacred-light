@@ -358,3 +358,82 @@ create view public.constellation_lights as
 grant select on public.constellation_lights to anon, authenticated;
 
 notify pgrst, 'reload schema';
+
+-- 13) Homage Portal (/homage — private, invitation-only) ---------------------
+-- Invited artists sign a release, collect the guide track and upload a short
+-- contribution to the Global Moment of Humming, with an optional note for the
+-- Living Book of Gratitude. These are named public figures' voices and faces
+-- before any announcement, so NOTHING here is reachable with the anon key or by
+-- an ordinary logged-in admin: RLS is on with no policies, and every read and
+-- write goes through the `homage` Edge Function using the service role.
+
+-- One row per contributor who has reached the release step.
+create table if not exists public.homage_submissions (
+  id                  uuid primary key default gen_random_uuid(),
+  created_at          timestamptz not null default now(),
+  access_tier         text,            -- which invitation password was used
+  signer_name         text not null,   -- the person completing the page
+  artist_name         text not null,   -- the name the contribution is filed under
+  email               text not null,
+  on_behalf_of        text,            -- role / organisation, when a team signs
+  -- 'stub' = the placeholder step used until an e-signature provider is wired
+  -- in. It is NOT a signed release; only 'completed' (set by the provider's
+  -- webhook) means one exists.
+  release_status      text not null default 'pending'
+                      check (release_status in ('pending', 'stub', 'completed', 'declined')),
+  release_provider    text,
+  release_envelope_id text,
+  release_signed_at   timestamptz
+);
+
+-- Everything a contributor sends: the humming file, or a Living Book entry
+-- (a written message, or a short recorded note). submission_id is null for a
+-- Living Book entry left without a humming contribution.
+create table if not exists public.homage_uploads (
+  id                uuid primary key default gen_random_uuid(),
+  created_at        timestamptz not null default now(),
+  submission_id     uuid references public.homage_submissions (id) on delete cascade,
+  access_tier       text,
+  kind              text not null
+                    check (kind in ('humming', 'gratitude_note', 'gratitude_message')),
+  contributor_name  text not null,
+  contributor_email text,
+  media_type        text check (media_type in ('audio', 'video')),
+  file_path         text,            -- object key in the homage-private bucket
+  original_name     text,            -- the sender's own file name, before renaming
+  file_size         bigint,
+  message           text             -- written Living Book message
+);
+
+create index if not exists homage_uploads_submission_idx on public.homage_uploads (submission_id);
+
+-- Failed password attempts, for rate limiting. ip_hash is a keyed hash — the
+-- raw address is never stored.
+create table if not exists public.homage_attempts (
+  id         uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  ip_hash    text not null
+);
+
+create index if not exists homage_attempts_recent_idx on public.homage_attempts (ip_hash, created_at);
+
+alter table public.homage_submissions enable row level security;
+alter table public.homage_uploads     enable row level security;
+alter table public.homage_attempts    enable row level security;
+
+-- No policies on purpose. Strip any default grants, then grant the service role
+-- explicitly ("expose new tables" is OFF, so it has none by default).
+revoke all on public.homage_submissions, public.homage_uploads, public.homage_attempts
+  from anon, authenticated;
+grant all on public.homage_submissions, public.homage_uploads, public.homage_attempts
+  to service_role;
+
+-- Private bucket: guide/ holds the guide track, submissions/ and gratitude/ the
+-- incoming files. No storage policies — reachable only through the signed URLs
+-- the Edge Function issues, and through the Supabase dashboard.
+insert into storage.buckets (id, name, public)
+values ('homage-private', 'homage-private', false)
+on conflict (id) do nothing;
+update storage.buckets set public = false where id = 'homage-private';
+
+notify pgrst, 'reload schema';

@@ -22,3 +22,18 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+# The Homage Portal is private: never indexed, and never leaks its address to
+# other sites through the Referer header. (Deliberately NOT listed in robots.txt,
+# which would advertise the path.)
+[[headers]]
+  for = "/homage"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+    Referrer-Policy = "no-referrer"
+
+[[headers]]
+  for = "/homage/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+    Referrer-Policy = "no-referrer"

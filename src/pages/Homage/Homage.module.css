@@ -1,0 +1,457 @@
+/* ============================================================
+   The Homage Portal — private, invitation-only.
+   Ivory ground, a single gold accent, serif headings, generous
+   whitespace. Built phone-first: most first visits are mobile.
+   ============================================================ */
+
+.page {
+  /* Local palette — one gold, three inks. --gold (not the lighter --w-gold)
+     so small labels stay legible on ivory. */
+  --h-ink: var(--w-graphite);
+  --h-soft: rgba(27, 24, 21, 0.68);
+  --h-mute: rgba(27, 24, 21, 0.5);
+  --h-line: rgba(27, 24, 21, 0.16);
+  --h-gold: var(--gold);
+
+  background: var(--w-ivory);
+  color: var(--h-ink);
+  min-height: 100dvh;
+  padding-bottom: 120px;
+}
+
+.wrap {
+  max-width: 660px;
+  margin: 0 auto;
+  padding: clamp(48px, 8vw, 96px) clamp(20px, 6vw, 40px) 0;
+}
+
+/* ── Page head ── */
+.head {
+  text-align: center;
+  margin-bottom: clamp(40px, 7vw, 64px);
+}
+.eyebrow {
+  margin-bottom: 18px;
+  font-family: var(--font-body);
+  font-weight: var(--w-light);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--h-gold);
+}
+.heading {
+  margin-bottom: 18px;
+  font-family: var(--font-display);
+  font-weight: var(--w-regular);
+  font-size: clamp(34px, 6vw, 50px);
+  line-height: 1.12;
+}
+.lead {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(17px, 2.4vw, 20px);
+  line-height: 1.5;
+  color: var(--h-soft);
+}
+
+/* ── Shared text ── */
+.body {
+  margin-bottom: 22px;
+  font-family: var(--font-display);
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--h-soft);
+}
+.strong {
+  font-weight: 600;
+  color: var(--h-ink);
+}
+.link {
+  color: var(--h-gold);
+  border-bottom: 1px solid var(--gold-line);
+}
+.hint {
+  margin-top: 8px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--h-mute);
+}
+.placeholder {
+  margin-bottom: 22px;
+  padding: 22px;
+  border: 1px dashed var(--h-line);
+  border-radius: 6px;
+  text-align: center;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 15px;
+  color: var(--h-mute);
+}
+/* A gentle alert that stays within the warm palette (no harsh red). */
+.error {
+  margin-top: 16px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 16px;
+  color: #a8553f;
+}
+.sent {
+  margin-top: 16px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--h-gold);
+}
+.actions {
+  margin-top: 26px;
+  text-align: center;
+}
+
+/* ── Entry: privacy notice + password gate ── */
+.privacy {
+  margin-bottom: 36px;
+  padding: clamp(22px, 5vw, 32px);
+  border: 1px solid var(--h-line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.45);
+}
+.privacyTitle {
+  margin-bottom: 18px;
+  font-family: var(--font-display);
+  font-weight: var(--w-regular);
+  font-size: 21px;
+  line-height: 1.3;
+}
+.privacyList dt {
+  margin-top: 16px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--h-gold);
+}
+.privacyList dt:first-child {
+  margin-top: 0;
+}
+.privacyList dd {
+  margin-top: 6px;
+  font-family: var(--font-display);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--h-soft);
+}
+.gate {
+  max-width: 420px;
+  margin: 0 auto;
+  text-align: center;
+}
+.gate .label {
+  text-align: center;
+}
+.gate .input {
+  text-align: center;
+  letter-spacing: 0.12em;
+}
+
+/* ── Steps ── */
+.step {
+  margin-bottom: 20px;
+  padding: clamp(22px, 5vw, 36px);
+  border: 1px solid var(--h-line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.45);
+  transition: opacity 0.5s var(--ease);
+}
+/* Locked: greyed out and non-interactive (the element is also `inert`). */
+.locked {
+  opacity: 0.42;
+  filter: grayscale(1);
+  pointer-events: none;
+  user-select: none;
+}
+.stepNum {
+  margin-bottom: 10px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--h-gold);
+}
+.stepState {
+  color: var(--h-mute);
+}
+.stepTitle {
+  margin-bottom: 18px;
+  font-family: var(--font-display);
+  font-weight: var(--w-regular);
+  font-size: clamp(23px, 3.6vw, 28px);
+  line-height: 1.25;
+}
+.previewStrip {
+  margin-bottom: 20px;
+  padding: 10px 16px;
+  border: 1px solid var(--gold-line);
+  border-radius: 6px;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+  color: var(--h-gold);
+}
+
+/* ── Fields ── */
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 18px;
+}
+@media (max-width: 560px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+}
+.field {
+  margin-bottom: 24px;
+}
+.label {
+  display: block;
+  margin-bottom: 10px;
+  font-family: var(--font-body);
+  font-weight: var(--w-light);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  line-height: 1.6;
+  text-transform: uppercase;
+  color: var(--h-soft);
+}
+.req {
+  color: var(--h-gold);
+}
+.optional {
+  font-style: italic;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--h-mute);
+}
+.input,
+.textarea {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid var(--h-line);
+  border-radius: 6px;
+  padding: 14px 16px;
+  font-family: var(--font-display);
+  font-size: 18px; /* ≥16px so iOS does not zoom on focus */
+  line-height: 1.5;
+  color: var(--h-ink);
+  transition:
+    border-color 0.3s var(--ease),
+    background 0.3s var(--ease);
+}
+.textarea {
+  min-height: 150px;
+  margin-top: 12px;
+  resize: vertical;
+}
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: var(--h-gold);
+  background: #ffffff;
+}
+.counter {
+  margin-top: 6px;
+  text-align: right;
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--h-mute);
+}
+.choice {
+  margin-bottom: 22px;
+  border: none;
+}
+.check {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 8px 0;
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--h-soft);
+}
+.check input {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  margin-top: 3px;
+  accent-color: var(--h-gold);
+  cursor: pointer;
+}
+
+/* ── Step 2: guide track ── */
+.player {
+  display: block;
+  width: 100%;
+  margin-bottom: 22px;
+}
+.downloadRow {
+  margin-bottom: 26px;
+  text-align: center;
+}
+.specs {
+  list-style: none;
+  padding-top: 20px;
+  border-top: 1px solid var(--h-line);
+  font-family: var(--font-display);
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+/* ── Upload ── */
+.uploader {
+  margin-top: 6px;
+}
+.drop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 28px 18px;
+  border: 1px dashed var(--gold-line);
+  border-radius: 6px;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    border-color 0.3s var(--ease),
+    background 0.3s var(--ease);
+}
+.drop:hover,
+.dropActive {
+  border-color: var(--h-gold);
+  background: rgba(255, 255, 255, 0.7);
+}
+.dropText {
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--h-soft);
+}
+.dropSub {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--h-mute);
+}
+.fileName {
+  font-family: var(--font-display);
+  font-size: 16px;
+  word-break: break-word;
+}
+.progress {
+  margin-top: 18px;
+}
+.progressTrack {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--h-line);
+  overflow: hidden;
+}
+.progressFill {
+  height: 100%;
+  background: var(--h-gold);
+  transition: width 0.2s linear;
+}
+.progressText {
+  margin-top: 10px;
+  text-align: center;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 15px;
+  color: var(--h-soft);
+}
+
+/* ── Step 4: confirmation ── */
+.thanks {
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--h-soft);
+}
+.thanks > p + p {
+  margin-top: 1em;
+}
+.thanksLead {
+  font-style: italic;
+  font-size: clamp(20px, 3vw, 24px);
+  line-height: 1.4;
+  color: var(--h-gold);
+}
+
+/* ── Optional: the Living Book of Gratitude ── */
+.book {
+  margin-top: clamp(56px, 10vw, 88px);
+  padding-top: clamp(40px, 7vw, 56px);
+  border-top: 1px solid var(--gold-line);
+  text-align: center;
+}
+.book .row,
+.book form,
+.book .uploader {
+  text-align: left;
+}
+.bookTitle {
+  margin-bottom: 20px;
+  font-family: var(--font-display);
+  font-weight: var(--w-regular);
+  font-size: clamp(27px, 4.4vw, 36px);
+  line-height: 1.2;
+}
+.optionTitle {
+  margin-top: 12px;
+  text-align: center;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: var(--w-regular);
+  font-size: 20px;
+  color: var(--h-ink);
+}
+.book .hint,
+.book .sent,
+.book .error {
+  text-align: center;
+}
+.or {
+  margin: 36px 0 24px;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--h-mute);
+}
+
+/* ── Leave ── */
+.leave {
+  margin-top: 56px;
+  text-align: center;
+}
+.textBtn {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--h-mute);
+  border-bottom: 1px solid var(--h-line);
+  padding-bottom: 3px;
+}
+.textBtn:hover {
+  color: var(--h-gold);
+}

@@ -43,3 +43,6 @@ seo-update-email-draft.md
 credentials.xlsx
 *credentials*.xlsx
 ~$*
+
+# Client requirement documents — confidential, never commit (public repo).
+/Requirements/
