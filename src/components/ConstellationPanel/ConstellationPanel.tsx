@@ -4,7 +4,7 @@ import type { ConstellationLight } from '../../lib/supabase'
 import styles from './ConstellationPanel.module.css'
 
 /** When the full messages are unveiled (Movement 4). */
-const REVEAL_DATE = '26 November 2026'
+const REVEAL_DATE = 'November 2027'
 
 const SHARE_TEXT = 'A light of gratitude shines in the Living Constellation. Come and see it.'
 
@@ -84,7 +84,7 @@ export default function ConstellationPanel({
 
         {light.message_fragment && <p className={styles.fragment}>{light.message_fragment}</p>}
 
-        <p className={styles.holding}>Their full message will be revealed on {REVEAL_DATE}.</p>
+        <p className={styles.holding}>Their full message will be revealed in {REVEAL_DATE}.</p>
 
         {personal && (
           <div className={styles.personal}>

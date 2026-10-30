@@ -86,10 +86,9 @@ export default function BookOfGratitude() {
             and generations.
           </p>
           <p className={styles.para}>
-            The first edition of the Book of Gratitude will be gracefully designed
-            and unveiled to the world on 26 November 2026, Tina Turner’s birthday,
-            as the ceremonial opening of the Book of Gratitude takes place in
-            Küsnacht, Switzerland.
+            The first edition of the Living Book of Gratitude will be gracefully
+            designed and unveiled to the world in November 2027, at the first full
+            celebration of Sacred · Light · Symphony in Switzerland.
           </p>
         </div>
 

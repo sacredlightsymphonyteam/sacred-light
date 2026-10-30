@@ -9,7 +9,7 @@ import { supabase, isSupabaseConfigured, UPLOADS_BUCKET, CONTRIBUTIONS_TABLE } f
  *   backend is connected. The form code never changes either way.
  *
  * Still TODO once the emails are finalised: the transactional emails (receipt,
- * approved, declined, Nov 26) sent from a Supabase Edge Function so the Brevo
+ * approved, declined, Nov 2027 unveiling) sent from a Supabase Edge Function so the Brevo
  * key never reaches the browser.
  */
 

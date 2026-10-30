@@ -41,7 +41,7 @@ Contributors receive branded emails at three moments, plus one manual batch:
 | Form submission (`INSERT`)                | Message received (+ newsletter opt-in) | Webhook |
 | Admin approves (`status → approved`)      | Light confirmed | Webhook         |
 | Admin rejects (`status → rejected`)       | Gentle decline  | Webhook         |
-| 26 Nov 2026 unveiling                     | Book unveiled   | Manual batch    |
+| Nov 2027 unveiling                        | Book unveiled   | Manual batch    |
 
 The Brevo API key lives only in the Edge Function (never in the browser). The
 function ([`functions/send-email`](./functions/send-email/)) protects itself with
@@ -103,7 +103,7 @@ other change (e.g. editing a message, featuring it).
 4. Logs: Dashboard → **Edge Functions → send-email → Logs**. Brevo send failures
    are logged there (`Brevo send error …`).
 
-## 6. The unveiling batch (26 Nov 2026)
+## 6. The unveiling batch (Nov 2027)
 Email 4 is not webhook-driven — invoke the function once per recipient with a
 `manual` field. Loop over approved contributors and POST:
 

@@ -134,7 +134,7 @@ export function buildEmail(which: string, r: Rec): { subject: string; html: stri
           stanza('No two lights are the same.<br>Each one carries a unique expression of gratitude.')) +
       h2('What Happens Next') +
       p('Your message is now safely preserved within the Book of Gratitude, which is being lovingly curated for its ceremonial unveiling.') +
-      p('On 26 November 2026 — Thanksgiving and Tina Turner’s birthday — the first edition of the Book of Gratitude will be ceremonially unveiled during the inaugural Sacred Light Symphony celebration beside Lake Zurich in Switzerland.') +
+      p('In November 2027, the first edition of the Living Book of Gratitude will be ceremonially unveiled at the first full celebration of Sacred · Light · Symphony in Switzerland.') +
       p('Following the celebration, you will receive a personal invitation to discover your message within the interactive edition of the Book of Gratitude, alongside the lights entrusted by Messengers of Gratitude from around the world.') +
       h2('Pass the Light On') +
       p('Every new message becomes another point of light within the Living Constellation. If Tina Turner touched the life of someone you love, we would be honoured if you invited them to become a Messenger of Gratitude.') +
@@ -168,8 +168,8 @@ export function buildEmail(which: string, r: Rec): { subject: string; html: stri
     }
   }
 
-  // which === 'unveiling' (Email 4 — sent as a batch on 26 Nov 2026)
-  const bookUrl = `${SITE}/book` // TODO: real personal Book page (Nov 26 interactive edition)
+  // which === 'unveiling' (Email 4 — sent as a batch in Nov 2027)
+  const bookUrl = `${SITE}/book` // TODO: real personal Book page (Nov 2027 interactive edition)
   const inner =
     h1('Today, the Book of Gratitude is unveiled') +
     p(`Dear ${name},`) +

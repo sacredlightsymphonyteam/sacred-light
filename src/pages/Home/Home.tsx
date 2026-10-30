@@ -59,7 +59,7 @@ export default function Home() {
 
         {/* Three words — stacked, widely spaced, timeless. On load they breathe
             in one at a time (soft fade, no movement) — a revelation, not motion. */}
-        <div className={styles.words} aria-label="Presence, Power, Light">
+        <div className={styles.words} aria-label="Presence, Power within, Light">
           <span className={`${styles.word} ${styles.appear}`} style={{ animationDelay: '0.4s' }}>
             Presence
           </span>
@@ -69,7 +69,7 @@ export default function Home() {
             aria-hidden="true"
           />
           <span className={`${styles.word} ${styles.appear}`} style={{ animationDelay: '1.1s' }}>
-            Power
+            Power within
           </span>
           <span
             className={`${styles.wordRule} ${styles.appear}`}
@@ -101,7 +101,7 @@ export default function Home() {
         <div className="inner">
           <h2 className="section-h reveal">A Space for Gratitude</h2>
           <p className={`poetic-sub gold ${styles.heroSub} reveal`}>
-            A Swiss Cultural Philanthropy Initiative
+            A Swiss-born, Cultural Philanthropy Initiative
           </p>
           <p className={`poetic-sub ${styles.heroSub} reveal`}>
             inspired by Tina Turner’s enduring Light,
@@ -195,10 +195,11 @@ export default function Home() {
               cultures, and generations.
             </p>
             <p className={`poetic ${styles.goldNote}`}>
-              The first edition of the Book of Gratitude will be ceremonially unveiled on 26 November
-              2026, Thanksgiving and Tina Turner’s birthday, following the ceremonial opening of the
-              Book of Gratitude beside Lake Zurich in Küsnacht, Switzerland, the place Tina called home
-              for more than two decades.
+              The first edition of the Living Book of Gratitude will be ceremonially unveiled in
+              November 2027, at the first full celebration of Sacred · Light · Symphony in Switzerland,
+              the country Tina Turner called home for more than two decades. This year, around
+              Thanksgiving and Tina’s birthday on 26 November, its first chapter begins quietly in
+              Küsnacht, beside Lake Zurich.
             </p>
           </div>
 
@@ -314,13 +315,16 @@ export default function Home() {
 
           <div className={`${styles.paraGroup} reveal`}>
             <p className="poetic">
-              The first edition of the Book of Gratitude will be ceremonially opened in Switzerland, in
-              Küsnacht, where Tina Turner chose to make her home.
+              The first edition of the Living Book of Gratitude will be ceremonially opened in
+              Switzerland in November 2027, following a first homage this November in Küsnacht,
+              honouring Tina Turner’s enduring Light through Swiss musical traditions and artistic
+              expressions of gratitude.
             </p>
             <p className="poetic">
-              Under the artistic stewardship of Sharon Davson, Guardian of the Book of
-              Gratitude, this inaugural celebration will bridge the physical landscape of Küsnacht with
-              a growing global network of shared human gratitude and resonance.
+              Under the artistic stewardship of Sharon Davson, Guardian of the Book of Gratitude, this
+              evolving work will connect the physical landscape of Küsnacht with a growing global
+              community united by gratitude, creative expression and the enduring human connections
+              that Tina Turner continues to inspire.
             </p>
             <p className="poetic">
               Conceived as a meeting place for those who believe that beauty, gratitude and human

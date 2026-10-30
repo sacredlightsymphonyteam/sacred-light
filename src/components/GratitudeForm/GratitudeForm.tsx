@@ -795,13 +795,12 @@ function ConfirmModal({ onClose }: { onClose: () => void }) {
           <p className={styles.modalSub}>What happens next?</p>
           <p>
             To preserve the beauty and anticipation of this collective creation, the complete Book of
-            Gratitude will remain gently held until its ceremonial unveiling on 26 November 2026,
-            Thanksgiving and Tina Turner’s birthday.
+            Gratitude will remain gently held until its ceremonial unveiling in November 2027.
           </p>
           <p>
-            On that day, your words will become part of the first edition of the Book of Gratitude and
-            the Living Constellation of Light, unveiled during the inaugural Sacred Light Symphony
-            celebration beside Lake Zurich in Switzerland.
+            At that time, your words will become part of the first edition of the Living Book of
+            Gratitude and the Living Constellation of Light, unveiled at the first full celebration of
+            Sacred · Light · Symphony in Switzerland.
           </p>
 
           <p className={styles.modalSub}>Until then…</p>
@@ -890,9 +889,8 @@ function ThankYou({ copied, setCopied }: { copied: boolean; setCopied: (v: boole
         <p className={styles.thanksEm}>Until then… you are already part of something beautiful.</p>
         <p>
           The first Book of Gratitude is being lovingly curated and will remain gently held until its
-          ceremonial unveiling on 26 November 2026, Tina Turner’s birthday, during the inaugural Sacred
-          Light Symphony celebration beside Lake Zurich in Küsnacht, Switzerland. Following the
-          celebration, every Messenger of Gratitude will receive a direct link to their message within
+          ceremonial unveiling in November 2027, at the first full celebration of Sacred · Light ·
+          Symphony in Switzerland. Following the celebration, every Messenger of Gratitude will receive a direct link to their message within
           the Book of Gratitude.
         </p>
       </div>

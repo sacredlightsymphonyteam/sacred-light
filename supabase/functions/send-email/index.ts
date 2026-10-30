@@ -4,7 +4,7 @@
 //   - INSERT                         → Email 1 (message received) + newsletter opt-in
 //   - UPDATE status → 'approved'     → Email 2 (light confirmed)
 //   - UPDATE status → 'rejected'     → Email 3 (gentle decline)
-// Email 4 (Nov 26 unveiling) is a batch — invoke this function with
+// Email 4 (Nov 2027 unveiling) is a batch — invoke this function with
 //   { "manual": "unveiling", "record": { ...contribution row... } } per recipient.
 //
 // Secrets (set with `supabase secrets set`):
