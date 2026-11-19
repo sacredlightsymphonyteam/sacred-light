@@ -51,7 +51,7 @@ export default function Home() {
       <h1 className="sr-only">Sacred Light Symphony</h1>
 
       {/* Top banner — a thin dark frame (site wordmark), not a nav bar */}
-      <TopBanner />
+      <TopBanner invitation />
 
       {/* ── Movement 1 — Ivory Arrival (Hero) ── */}
       <section className={`section light ${styles.heroSection}`}>

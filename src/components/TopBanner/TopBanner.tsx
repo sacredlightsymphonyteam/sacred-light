@@ -4,14 +4,38 @@ import styles from './TopBanner.module.css'
 /**
  * The threshold strip — a very thin dark banner across the full width.
  * A whisper that you are entering a space. The wordmark quietly links home.
+ *
+ * `invitation` (homepage only) replaces the tagline with the invitation to the
+ * public Moment of Gratitude for Tina — 26 Nov 2026, The Horn, Küsnacht. Copy
+ * verbatim from the client (20 Nov 2026). Remove it after the event.
  */
-export default function TopBanner() {
+export default function TopBanner({ invitation = false }: { invitation?: boolean }) {
   return (
-    <header className={styles.banner}>
+    <header className={`${styles.banner} ${invitation ? styles.inviting : ''}`}>
       <Link to="/" className={styles.title} aria-label="Sacred Light Symphony — home">
         Sacred&nbsp;&nbsp;·&nbsp;&nbsp;Light&nbsp;&nbsp;·&nbsp;&nbsp;Symphony
       </Link>
-      <p className={styles.sub}>Where light, sound and stillness meet.</p>
+
+      {invitation ? (
+        <div className={styles.invitation}>
+          <p className={styles.welcome}>You are welcome</p>
+          <p className={styles.moment}>A Moment of Gratitude for Tina</p>
+          <span className={styles.rule} aria-hidden="true" />
+          <p className={styles.sub}>Where Sound, Stillness, Light Meet</p>
+          {/* One line on wide screens; on a phone, the place above date · time. */}
+          <p className={styles.details}>
+            <span>The Horn, Küsnacht</span>
+            <span className={`${styles.dot} ${styles.placeDot}`} aria-hidden="true">·</span>
+            <span className={styles.when}>
+              <time dateTime="2026-11-26">26.11.2026</time>
+              <span className={styles.dot} aria-hidden="true">·</span>
+              <span>16.16 – 16.40</span>
+            </span>
+          </p>
+        </div>
+      ) : (
+        <p className={styles.sub}>Where light, sound and stillness meet.</p>
+      )}
     </header>
   )
 }

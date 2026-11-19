@@ -45,3 +45,93 @@
     margin-bottom: 6px;
   }
 }
+
+/* ── Invitation (homepage only) — the Moment of Gratitude for Tina ──
+   Same dark strip, a little taller. Hierarchy: wordmark → "You are welcome"
+   (quiet caps) → the moment itself (the one larger serif line) → a short
+   golden hairline → the tagline → place · date · time in small gold caps. */
+.inviting {
+  padding: 34px 24px 32px;
+}
+.inviting .title {
+  margin-bottom: 18px;
+}
+.invitation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.welcome {
+  font-family: var(--font-body);
+  font-size: clamp(11px, 1.1vw, 12px);
+  font-weight: 400;
+  letter-spacing: 0.32em;
+  text-indent: 0.32em; /* offset the trailing tracking so it reads centred */
+  text-transform: uppercase;
+  color: var(--quote-light);
+  opacity: 0.8;
+}
+.moment {
+  margin-top: 10px;
+  font-family: var(--font-display);
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--quote-light);
+}
+.rule {
+  display: block;
+  width: 56px;
+  height: 0.5px;
+  margin: 16px 0 14px;
+  background: var(--gold-bright);
+  opacity: 0.7;
+}
+.details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 14px;
+  margin-top: 12px;
+  font-family: var(--font-body);
+  font-size: clamp(11px, 1.1vw, 12px);
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-variant-numeric: lining-nums tabular-nums;
+  color: var(--gold-bright);
+}
+.details > * {
+  white-space: nowrap;
+}
+.when {
+  display: inline-flex;
+  gap: 14px;
+}
+.dot {
+  color: var(--gold-60);
+}
+
+@media (max-width: 520px) {
+  .inviting {
+    padding: 26px 20px 24px;
+  }
+  .inviting .title {
+    margin-bottom: 14px;
+  }
+  .rule {
+    margin: 13px 0 11px;
+  }
+  .details {
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    letter-spacing: 0.14em;
+  }
+  .placeDot {
+    display: none;
+  }
+  .when {
+    gap: 10px;
+  }
+}
