@@ -22,15 +22,13 @@ export default function TopBanner({ invitation = false }: { invitation?: boolean
           <p className={styles.moment}>A Moment of Gratitude for Tina</p>
           <span className={styles.rule} aria-hidden="true" />
           <p className={styles.sub}>Where Sound, Stillness, Light Meet</p>
-          {/* One line on wide screens; on a phone, the place above date · time. */}
+          {/* One line on wide screens; stacked place / date / time on narrower ones. */}
           <p className={styles.details}>
             <span>The Horn, Küsnacht</span>
-            <span className={`${styles.dot} ${styles.placeDot}`} aria-hidden="true">·</span>
-            <span className={styles.when}>
-              <time dateTime="2026-11-26">26.11.2026</time>
-              <span className={styles.dot} aria-hidden="true">·</span>
-              <span>16.16 – 16.40</span>
-            </span>
+            <span className={styles.dot} aria-hidden="true">·</span>
+            <time dateTime="2026-11-26">26.11.2026</time>
+            <span className={styles.dot} aria-hidden="true">·</span>
+            <span>From 16.16 until the sun sets</span>
           </p>
         </div>
       ) : (
